@@ -40,7 +40,7 @@ SaxTutorComponent::SaxTutorComponent ()
     //Add a portrait page to the score.
     myScore.Canvases.Add() = new Score::Page;
     myScore.Canvases.z()->Dimensions = bbs::Paper::Portrait(bbs::Paper::Letter);
-
+  
     /*Add some rectangles for the score to paint. Note this is just a custom
     member that was created to demonstrate how to pass information to the painter.
     There is nothing intrinsic to the Score about painting rectangles.*/

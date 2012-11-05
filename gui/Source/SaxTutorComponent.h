@@ -118,6 +118,7 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     Score myScore;
+		bbs::JUCE bbsJuce;
 		//[/UserVariables]
 
     //==============================================================================
