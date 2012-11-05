@@ -69,8 +69,17 @@ void SaxTutorComponent::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
-
+    
+    bbsJuceProperties.PageArea = bbs::RectangleInt(0,0,600,800);
+    bbsJuceProperties.PageVisibility = bbs::RectangleInt(0,0,600,800);
+    bbsJuceProperties.PageDimensions = myScore.Canvases.z()->Dimensions;
+    bbsJuceProperties.IndexOfCanvas = 0;
+    bbsJuceProperties.ComponentContext = this;
+    bbsJuceProperties.GraphicsContext = &g;
     g.fillAll (Colours::white);
+
+    //bbsJuce.paint(&myScore, &bbsJuceProperties);
+    myScore.Create<bbs::JUCE>(bbsJuceProperties);
 
     //[UserPaint] Add your own custom painting code here..
     //[/UserPaint]
