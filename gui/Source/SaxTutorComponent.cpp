@@ -44,9 +44,9 @@ SaxTutorComponent::SaxTutorComponent ()
     /*Add some rectangles for the score to paint. Note this is just a custom
     member that was created to demonstrate how to pass information to the painter.
     There is nothing intrinsic to the Score about painting rectangles.*/
-    const bbs::number GeometricConstant = 1.2;
-    for(bbs::number i = 0.01; i < 8.0; i *= GeometricConstant)
-      myScore.RectanglesToPaint.Add() = bbs::Rectangle(bbs::Vector(i, i), bbs::Vector(i, i) *
+    const bbs::number GeometricConstant = 1.15;
+    for(bbs::number i = 0.01; i < 12.0; i *= GeometricConstant)
+      myScore.RectanglesToPaint.Add() = bbs::Rectangle(bbs::Vector(i, 0.75*i), bbs::Vector(i, 0.75*i) *
 	GeometricConstant);
 
     //[Constructor] You can add your own custom stuff here..
