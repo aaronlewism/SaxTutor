@@ -39,8 +39,9 @@ SaxTutorComponent::SaxTutorComponent ()
 
     //Add a portrait page to the score.
     myScore.Canvases.Add() = new Score::Page;
-    myScore.Canvases.z()->Dimensions = bbs::Paper::Portrait(bbs::Paper::Letter);
-  
+    myScore.Canvases.z()->Dimensions = bbs::Measurement<bbs::Units::Point>(getWidth(), getHeight());
+
+
     /*Add some rectangles for the score to paint. Note this is just a custom
     member that was created to demonstrate how to pass information to the painter.
     There is nothing intrinsic to the Score about painting rectangles.*/
@@ -70,8 +71,8 @@ void SaxTutorComponent::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
     
-    bbsJuceProperties.PageArea = bbs::RectangleInt(0,0,600,800);
-    bbsJuceProperties.PageVisibility = bbs::RectangleInt(0,0,600,800);
+    bbsJuceProperties.PageArea = bbs::RectangleInt(0,0,getWidth(),getHeight());
+    bbsJuceProperties.PageVisibility = bbs::RectangleInt(0,0,getWidth(), getHeight());
     bbsJuceProperties.PageDimensions = myScore.Canvases.z()->Dimensions;
     bbsJuceProperties.IndexOfCanvas = 0;
     bbsJuceProperties.ComponentContext = this;
