@@ -60,7 +60,7 @@ struct Score : public bbs::Portfolio
     void Paint(bbs::Painter& Painter, Score& Score)
     {
       //Print-out which page is being painted.
-      bbs::c >> "Painting page: " << Painter.GetPageNumber();
+      //bbs::c >> "Painting page: " << Painter.GetPageNumber();
       
       //Paint each rectangle in the rectangle array.
       for(bbs::count i = 0; i < Score.RectanglesToPaint.n(); i++)
