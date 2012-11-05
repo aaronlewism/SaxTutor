@@ -9,7 +9,7 @@
 */
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "MainComponent.h"
+#include "SaxTutorComponent.h"
 
 class SaxTutorWindow : public DocumentWindow
 {
@@ -22,7 +22,7 @@ public:
                           true)
     {
         // Create an instance of our main content component, and add it to our window..
-        setContentOwned (new MainComponent(), true);
+        setContentOwned (new SaxTutorComponent(), true);
 
         // Centre the window on the screen
         centreWithSize (getWidth(), getHeight());
@@ -61,29 +61,9 @@ public:
     //==============================================================================
     void initialise (const String& commandLine)
     {
-/*
     	// Do your application's initialisation code here..
-			//Step 1: Create a score, add some pages, and give it some information.
-			saxTutorWindow = new SaxTutorWindow();
-  
-  		//Instantiate a score.
-  		Score MyScore;
-
- 			//Add a portrait page to the score.
-  		MyScore.Canvases.Add() = new Score::Page;
-  		MyScore.Canvases.z()->Dimensions = bbs::Paper::Portrait(bbs::Paper::Letter);
-  
-			//Add a landscape page to the score.
-  		MyScore.Canvases.Add() = new Score::Page;
-  		MyScore.Canvases.z()->Dimensions = bbs::Paper::Portrait(bbs::Paper::Letter);
-  */
-  		/*Add some rectangles for the score to paint. Note this is just a custom
-  		member that was created to demonstrate how to pass information to the painter.
-  		There is nothing intrinsic to the Score about painting rectangles.*/
-  		/*const bbs::number GeometricConstant = 1.2;
-  		for(bbs::number i = 0.01; i < 8.0; i *= GeometricConstant)
-    		MyScore.RectanglesToPaint.Add() = bbs::Rectangle(bbs::Vector(i, i), bbs::Vector(i, i) *
-      		GeometricConstant);    */
+	//Step 1: Create a score, add some pages, and give it some information.
+	saxTutorWindow = new SaxTutorWindow();
     }
 
     void shutdown()

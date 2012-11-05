@@ -22,8 +22,8 @@
 //[Headers] You can add your own extra header files here...
 //[/Headers]
 
+#define BELLEBONNESAGE_COMPILE_INLINE
 #include "SaxTutorComponent.h"
-
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 //[/MiscUserDefs]
@@ -37,6 +37,17 @@ SaxTutorComponent::SaxTutorComponent ()
 
     setSize (800, 600);
 
+    //Add a portrait page to the score.
+    myScore.Canvases.Add() = new Score::Page;
+    myScore.Canvases.z()->Dimensions = bbs::Paper::Portrait(bbs::Paper::Letter);
+
+    /*Add some rectangles for the score to paint. Note this is just a custom
+    member that was created to demonstrate how to pass information to the painter.
+    There is nothing intrinsic to the Score about painting rectangles.*/
+    const bbs::number GeometricConstant = 1.2;
+    for(bbs::number i = 0.01; i < 8.0; i *= GeometricConstant)
+      myScore.RectanglesToPaint.Add() = bbs::Rectangle(bbs::Vector(i, i), bbs::Vector(i, i) *
+	GeometricConstant);
 
     //[Constructor] You can add your own custom stuff here..
     //[/Constructor]
