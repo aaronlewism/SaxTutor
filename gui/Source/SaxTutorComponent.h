@@ -36,10 +36,13 @@ namespace bbs {
 //Subclass Score from bellebonnesage::Portfolio
 struct Score : public bbs::Portfolio
 {
-  //An array of rectangles to paint.
-  bbs::Array<bbs::Rectangle> rectanglesToPaint;
 	bbs::graph::MusicGraph* g;
 	bbs::Font myFont;
+
+	~Score() {
+		delete g;
+		Canvases.RemoveAndDeleteAll();
+	}
 
 	void SerializeGraph() {
 		bbs::UUID Version(1, 0);
@@ -52,6 +55,14 @@ struct Score : public bbs::Portfolio
   which it pertains.*/
   struct Page : public bbs::Canvas
   {
+		bbs::modern::House h;
+    bbs::modern::Cache c;
+		const bbs::Typeface* t;
+
+		Page() {
+			t = NULL;
+		}
+
     //This method gets called once per canvas.
     void Paint(bbs::Painter& Painter, bbs::Portfolio& Portfolio)
     {
@@ -64,21 +75,22 @@ struct Score : public bbs::Portfolio
     //Custom paint method with score.
     void Paint(bbs::Painter& Painter, Score& score)
     {
-			bbs::graph::MusicSerial s;
-			s.CopyFrom(score.s);
+			if (t == NULL) {
+				t = score.myFont.GetTypeface(bbs::Font::Special1);
+				c.Create(h, *t);
+			}
+
+
+			bbs::graph::MusicSerial s2;
+			s2.CopyMemoryFrom(score.s);
 			bbs::UUID Version(1,0);
 			bbs::graph::MusicGraph* graph = new bbs::graph::MusicGraph;
-			graph->Serialize(s, bbs::Serial::Reading, Version);
+			graph->Serialize(s2, bbs::Serial::Reading, Version);
 
 			//bbs::c >> "Outputting 1\n";
-      bbs::modern::House h;
-      bbs::modern::Cache c;
-      const bbs::Typeface& t = *(score.myFont.GetTypeface(bbs::Font::Special1));
-      c.Create(h, t);
-      bbs::modern::Piece p(graph, h, c, t, score.myFont);
+      bbs::modern::Piece p(graph, h, c, *t, score.myFont);
       bbs::Array<bbs::modern::Piece::System> Systems;
       p.Prepare(Systems, Dimensions.x*0.85, Dimensions.x*0.85);
-      //p.Parse();
       for(bbs::count i = 0; i < Systems.n(); i++)
       {
         Painter.Translate(bbs::Vector(Dimensions.x*0.075, 
@@ -86,6 +98,10 @@ struct Score : public bbs::Portfolio
         p.Paint(&Painter, Systems[i]);
         Painter.Revert();
       }
+		
+			p.ClearTypesetting();
+			Systems.Clear();
+			s2.Clear();
     }
   };
 
