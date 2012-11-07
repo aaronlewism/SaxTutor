@@ -26,6 +26,9 @@
 #include "SaxTutorComponent.h"
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
+bbs::String DetermineResourcePath();
+void LoadResources(Score*);
+
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -37,20 +40,13 @@ SaxTutorComponent::SaxTutorComponent ()
 
     setSize (800, 600);
 
-    //Add a portrait page to the score.
-    myScore.Canvases.Add() = new Score::Page;
+    //[Constructor] You can add your own custom stuff here..
+		//Add a page to the score
+		myScore.Canvases.Add() = new Score::Page;
     myScore.Canvases.z()->Dimensions = bbs::Measurement<bbs::Units::Point>(getWidth(), getHeight());
 
-
-    /*Add some rectangles for the score to paint. Note this is just a custom
-    member that was created to demonstrate how to pass information to the painter.
-    There is nothing intrinsic to the Score about painting rectangles.*/
-    const bbs::number GeometricConstant = 1.15;
-    for(bbs::number i = 0.01; i < 12.0; i *= GeometricConstant)
-      myScore.RectanglesToPaint.Add() = bbs::Rectangle(bbs::Vector(i, 0.75*i), bbs::Vector(i, 0.75*i) *
-	GeometricConstant);
-
-    //[Constructor] You can add your own custom stuff here..
+		//Load fonts and graphs
+		LoadResources(&myScore);
     //[/Constructor]
 }
 
@@ -71,18 +67,19 @@ void SaxTutorComponent::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
     
-    bbsJuceProperties.PageArea = bbs::RectangleInt(0,0,getWidth(),getHeight());
+    g.fillAll (Colours::white);
+
+    //bbsJuce.paint(&myScore, &bbsJuceProperties);
+    
+    //[UserPaint] Add your own custom painting code here..
+		bbsJuceProperties.PageArea = bbs::RectangleInt(0,0,getWidth(),getHeight());
     bbsJuceProperties.PageVisibility = bbs::RectangleInt(0,0,getWidth(), getHeight());
     bbsJuceProperties.PageDimensions = myScore.Canvases.z()->Dimensions;
     bbsJuceProperties.IndexOfCanvas = 0;
     bbsJuceProperties.ComponentContext = this;
     bbsJuceProperties.GraphicsContext = &g;
-    g.fillAll (Colours::white);
 
-    //bbsJuce.paint(&myScore, &bbsJuceProperties);
-    myScore.Create<bbs::JUCE>(bbsJuceProperties);
-
-    //[UserPaint] Add your own custom painting code here..
+		myScore.Create<bbs::JUCE>(bbsJuceProperties);
     //[/UserPaint]
 }
 
@@ -95,6 +92,39 @@ void SaxTutorComponent::resized()
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
+bbs::String DetermineResourcePath()
+{
+  bbs::String dummy;
+  if(bbs::File::Read("./GentiumBasicRegular.bellefont", dummy))
+    return "./";
+  else if(bbs::File::Read("../Resources/GentiumBasicRegular.bellefont", dummy))
+    return "../Resources/";
+  else if(bbs::File::Read("./Resources/GentiumBasicRegular.bellefont", dummy))
+    return "./Resources/";
+	else if(bbs::File::Read("/home/amlewis/SaxTutor/gui/Resources/GentiumBasicRegular.bellefont", dummy))
+		return "/home/amlewis/SaxTutor/gui/Resources/";
+  else
+    prim::c >> "Path to resources could not be determined. (SaxTutorComponent.cpp::DetermineResourcePath()";
+  return "";
+}
+
+void LoadResources(Score* myScore)
+{
+  //Find the font path.
+  bbs::String Path = DetermineResourcePath();
+  if(!Path)
+    return;
+    
+  //Load some typefaces into the font.
+  bbs::String Joie = Path; Joie << "Joie.bellefont";
+  bbs::Array<bbs::byte> a;
+  if(bbs::File::Read(Joie, a))
+    myScore->myFont.Add(bbs::Font::Special1)->ImportFromArray(&a.a());
+
+  //Load a graph.
+  bbs::String Doc = Path; Doc << "ChopinPreludeOp28No20.mgf";
+  bbs::File::Read(Doc, myScore->s);
+}
 //[/MiscUserCode]
 
 

@@ -24,8 +24,6 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
-//[/Headers]
-
 #include "../bbs/BelleBonneSage.h"
 
 namespace bbs {
@@ -39,7 +37,10 @@ namespace bbs {
 struct Score : public bbs::Portfolio
 {
   //An array of rectangles to paint.
-  bbs::Array<bbs::Rectangle> RectanglesToPaint;
+  bbs::Array<bbs::Rectangle> rectanglesToPaint;
+	bbs::graph::MusicSerial s;
+	bbs::graph::MusicGraph* g;
+	bbs::Font myFont;
 
   /*Subclass Page from bellebonnesage::Canvas. Note that Page is a class inside
   a class, so it is really a Score::Page; however, this it is not necessary to
@@ -57,39 +58,36 @@ struct Score : public bbs::Portfolio
     }
     
     //Custom paint method with score.
-    void Paint(bbs::Painter& Painter, Score& Score)
+    void Paint(bbs::Painter& Painter, Score& score)
     {
-      //Print-out which page is being painted.
-      //bbs::c >> "Painting page: " << Painter.GetPageNumber();
-      
-      //Paint each rectangle in the rectangle array.
-      for(bbs::count i = 0; i < Score.RectanglesToPaint.n(); i++)
+			bbs::graph::MusicSerial s;
+			s.CopyFrom(score.s);
+			bbs::UUID Version(1,0);
+			score.g = new bbs::graph::MusicGraph;
+			score.g->Serialize(s, bbs::Serial::Reading, Version);
+
+			//bbs::c >> "Outputting 1\n";
+      bbs::modern::House h;
+      bbs::modern::Cache c;
+      const bbs::Typeface& t = *(score.myFont.GetTypeface(bbs::Font::Special1));
+      c.Create(h, t);
+      bbs::modern::Piece p(score.g, h, c, t, score.myFont);
+      bbs::Array<bbs::modern::Piece::System> Systems;
+      p.Prepare(Systems, Dimensions.x*0.85, Dimensions.x*0.85);
+      //p.Parse();
+      for(bbs::count i = 0; i < Systems.n(); i++)
       {
-        /*Create an empty path. A path is a vector graphics object containing
-        a list of core instructions: move-to (start new path), line-to,
-        cubic-to (Bezier curve), and close-path. Generally, multiple subpaths
-        are interpreted by the rendering targets according to the zero-winding
-        rule.*/
-        bbs::Path p;
-        
-        /*Add the rectangle shape to the path. The Shapes class contains several
-        primitive building methods.*/
-        bbs::Shapes::AddRectangle(p, Score.RectanglesToPaint[i]);
-        
-        //Alternate green fill with blue stroke.
-        if(i % 2 == 0)
-          Painter.SetFill(bbs::Colors::green);
-        else
-          Painter.SetStroke(bbs::Colors::blue, 0.01);
-        
-        //Draw the path, separating the fills and strokes by page.
-        if(i % 2 == Painter.GetPageNumber())
-          Painter.Draw(p);
+        Painter.Translate(bbs::Vector(Dimensions.x*0.075, 
+																			Dimensions.y - (bbs::number)(i + 2) * 1.5)); //TODO(alewis): Assumes 8.5 x 11?
+        p.Paint(&Painter, Systems[i]);
+        Painter.Revert();
       }
     }
   };
 };
 
+
+//[/Headers]
 
 //==============================================================================
 /**
