@@ -38,9 +38,13 @@ struct Score : public bbs::Portfolio
 {
   //An array of rectangles to paint.
   bbs::Array<bbs::Rectangle> rectanglesToPaint;
-	bbs::graph::MusicSerial s;
 	bbs::graph::MusicGraph* g;
 	bbs::Font myFont;
+
+	void SerializeGraph() {
+		bbs::UUID Version(1, 0);
+		g->Serialize(s, bbs::Serial::Writing, Version);
+	}
 
   /*Subclass Page from bellebonnesage::Canvas. Note that Page is a class inside
   a class, so it is really a Score::Page; however, this it is not necessary to
@@ -63,15 +67,15 @@ struct Score : public bbs::Portfolio
 			bbs::graph::MusicSerial s;
 			s.CopyFrom(score.s);
 			bbs::UUID Version(1,0);
-			score.g = new bbs::graph::MusicGraph;
-			score.g->Serialize(s, bbs::Serial::Reading, Version);
+			bbs::graph::MusicGraph* graph = new bbs::graph::MusicGraph;
+			graph->Serialize(s, bbs::Serial::Reading, Version);
 
 			//bbs::c >> "Outputting 1\n";
       bbs::modern::House h;
       bbs::modern::Cache c;
       const bbs::Typeface& t = *(score.myFont.GetTypeface(bbs::Font::Special1));
       c.Create(h, t);
-      bbs::modern::Piece p(score.g, h, c, t, score.myFont);
+      bbs::modern::Piece p(graph, h, c, t, score.myFont);
       bbs::Array<bbs::modern::Piece::System> Systems;
       p.Prepare(Systems, Dimensions.x*0.85, Dimensions.x*0.85);
       //p.Parse();
@@ -84,6 +88,9 @@ struct Score : public bbs::Portfolio
       }
     }
   };
+
+	private:
+		bbs::graph::MusicSerial s;
 };
 
 

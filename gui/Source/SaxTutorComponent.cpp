@@ -123,7 +123,15 @@ void LoadResources(Score* myScore)
 
   //Load a graph.
   bbs::String Doc = Path; Doc << "ChopinPreludeOp28No20.mgf";
-  bbs::File::Read(Doc, myScore->s);
+  bbs::graph::MusicSerial s;
+  bbs::File::Read(Doc, s);
+  bbs::UUID Version(1, 0);
+  if(!s.ChecksumValid()) return;
+  bbs::c >> "Loaded graph\n";
+  myScore->g = new bbs::graph::MusicGraph;
+  myScore->g->Serialize(s, bbs::Serial::Reading, Version);
+	myScore->SerializeGraph();
+  bbs::c >> "Serialized graph\n";
 }
 //[/MiscUserCode]
 
