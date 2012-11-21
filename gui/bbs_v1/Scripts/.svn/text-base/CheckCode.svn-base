@@ -1,0 +1,105 @@
+#Move to the scripts directory no matter where it is called from.
+_my_name=`basename $0`
+if [ "`echo $0 | cut -c1`" = "/" ]; then
+  _my_path=`dirname $0`
+else
+  _my_path=`pwd`/`echo $0 | sed -e s/$_my_name//`
+fi
+processed=`echo $_my_path | sed -e s/Scripts.*$/Scripts/g`
+cd $processed
+
+cd ..
+echo "-=======================Checking code style========================"
+
+echo "=|=|=Checking: if( for( while( or switch( with space before paren"
+grep -r -n "if [(]" Source/*.h Modules/*.h *.h
+grep -r -n "switch [(]" Source/*.h Modules/*.h *.h
+grep -r -n "for [(]" Source/*.h Modules/*.h *.h
+grep -r -n "while [(]" Source/*.h Modules/*.h *.h
+
+echo "=|=|=Checking: Comments beginning with a space (use #if 0 for code)"
+grep -r -n "\/\/ " Source/*.h Modules/*.h *.h | grep -v "\/\/ License"
+grep -r -n "\/\/\/ " Source/*.h Modules/*.h *.h
+grep -r -n "\/\* " Source/*.h Modules/*.h *.h
+grep -r -n "\/\*\* " Source/*.h Modules/*.h *.h
+
+echo "=|=|=Checking: Operators without space around them"
+grep -r -n "\=" Source/*.h Modules/*.h *.h | grep -v " \=" | grep -v " .\= " | grep -v " [+]\=" | grep -v '\=\"' | grep -v "\=\'"
+grep -r -n "\=\=" Source/*.h Modules/*.h *.h | grep -v " \=\="
+grep -r -n "\!\=" Source/*.h Modules/*.h *.h | grep -v " \!\="
+grep -r -n "[+]" Source/*.h Modules/*.h *.h | grep -v " [+]" | grep -v "[+][+]" | grep -v " [+]\="
+#grep -r -n "\-" Source/*.h Modules/*.h *.h | grep -v " \-"
+#grep -r -n "\*" Source/*.h Modules/*.h *.h | grep -v " \*"
+#grep -r -n "\/" Source/*.h Modules/*.h *.h | grep -v " \/"
+#grep -r -n "[+]\=" Source/*.h Modules/*.h *.h | grep -v " [+]\="
+grep -r -n "\-\=" Source/*.h Modules/*.h *.h | grep -v " \-\="
+grep -r -n "\*\=" Source/*.h Modules/*.h *.h | grep -v " \*\="
+grep -r -n "\/\=" Source/*.h Modules/*.h *.h | grep -v " \/\="
+grep -r -n '\,[^ "]' Source/*.h Modules/*.h *.h
+
+echo "=|=|=Checking: Comments beginning in lowercase"
+grep -r -n "\/\/[a-z]" Source/*.h Modules/*.h *.h | grep -v "http"
+
+echo "=|=|=Checking: Brace at end of line"
+grep -r -n "[{]$" Source/*.h Modules/*.h *.h | grep -v "^.*[.].*[:] *[{]"
+
+#echo "=|=|=Checking: Tab used instead of two spaces"
+#grep -r -n -P "\t" Source/*.h Modules/*.h *.h
+
+echo "=|=|=Checking: Comment ending in unecessary **/ (just use */)"
+grep -r -n "[*][*][/]" Source/*.h Modules/*.h *.h
+
+echo "=|=|=Checking: Comment ending in space"
+grep -r -n " [*][/]" Source/*.h Modules/*.h *.h
+grep -r -n " [*][*][/]" Source/*.h Modules/*.h *.h
+
+echo "=|=|=Checking: Multiletter variables beginning in lowercase"
+grep -r -n "^ *count [a-z][a-zA-Z]" Source/*.h Modules/*.h *.h
+grep -r -n "^ *number [a-z][a-zA-Z]" Source/*.h Modules/*.h *.h
+grep -r -n "^ *Vector [a-z][a-zA-Z]" Source/*.h Modules/*.h *.h
+grep -r -n "^ *Rectangle [a-z][a-zA-Z]" Source/*.h Modules/*.h *.h
+grep -r -n "^ *VectorInt [a-z][a-zA-Z]" Source/*.h Modules/*.h *.h
+grep -r -n "^ *Array [a-z][a-zA-Z]" Source/*.h Modules/*.h *.h
+grep -r -n "^ *List [a-z][a-zA-Z]" Source/*.h Modules/*.h *.h
+grep -r -n "^ *String [a-z][a-zA-Z]" Source/*.h Modules/*.h *.h
+
+#echo "=|=|=Checking: Lower camelCase"
+#grep -r -n "[[:punct:]][a-z]\+[A-Z]" Source/*.h Modules/*.h *.h
+
+echo "=|=|=Checking: Using int instead of prim::count"
+grep -r -n "[ ][ ]int " Source/*.h Modules/*.h *.h
+grep -r -n "[(]int " Source/*.h Modules/*.h *.h
+
+echo "=|=|=Checking: Using std::cout instead of c >> ... << ..."
+grep -r -n "std[:][:]cout" Source/*.h Modules/*.h *.h
+
+echo "=|=|=Checking: Using if(StringVar == "") instead of if(!StringVar)"
+grep -r -n '[=][=] *["]["]' Source/*.h Modules/*.h *.h
+
+echo "=|=|=Checking: Using if(StringVar != "") instead of if(StringVar)"
+grep -r -n '[!][=] *["]["]' Source/*.h Modules/*.h *.h
+
+echo "=|=|=Checking: Using if(Pointer == 0) instead of if(!Pointer)"
+grep -r -n '[=][=] *[0]' Source/*.h Modules/*.h *.h
+
+echo "=|=|=Checking: Using if(Pointer != 0) instead of if(Pointer)"
+grep -r -n '[!][=] *[0]' Source/*.h Modules/*.h *.h
+
+echo "=|=|=Checking: Using personal pronouns instead of neutral language"
+grep -r -n '[wW]e ' Source/*.h Modules/*.h *.h
+grep -r -n '[yY]ou ' Source/*.h Modules/*.h *.h | grep -v "GNU"
+
+echo "=|=|=Checking: Unnecessary multiline comment (change to //)"
+grep -r -n '\/\*.*\*\/' Source/*.h Modules/*.h *.h
+
+echo "=|=|=Checking: Lines longer than 80 characters"
+awk 'length > 80 {print FILENAME, ":", NR, ":", $0}' Source/*.h Modules/*.h Source/Contexts/*.h Source/Modern/*.h *.h | sed 's/ \:/\:/g' | sed 's/\: /\:/g'
+
+echo "=|=|=Checking: Space before #include, #ifdef, #etc. (should be flush)"
+grep -r -n ' \+[#]if' Source/*.h Modules/*.h *.h
+grep -r -n ' \+[#]endif' Source/*.h Modules/*.h *.h
+grep -r -n ' \+[#]else' Source/*.h Modules/*.h *.h
+grep -r -n ' \+[#]elif' Source/*.h Modules/*.h *.h
+
+echo "======================Ending code style check======================"
+cd ..

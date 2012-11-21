@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svnroot/bellebonnesage/!svn/ver/515/trunk/Scripts
+END
+Clean
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/bellebonnesage/!svn/ver/427/trunk/Scripts/Clean
+END
+MakeDebug
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/bellebonnesage/!svn/ver/427/trunk/Scripts/MakeDebug
+END
+GenerateDocumentation
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/bellebonnesage/!svn/ver/427/trunk/Scripts/GenerateDocumentation
+END
+MakeAndRun
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/bellebonnesage/!svn/ver/427/trunk/Scripts/MakeAndRun
+END
+MakeAndValgrind
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/bellebonnesage/!svn/ver/427/trunk/Scripts/MakeAndValgrind
+END
+MakeAllTest
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/bellebonnesage/!svn/ver/427/trunk/Scripts/MakeAllTest
+END
+MakeAll
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/bellebonnesage/!svn/ver/515/trunk/Scripts/MakeAll
+END
+CodeReport
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/bellebonnesage/!svn/ver/427/trunk/Scripts/CodeReport
+END
+MakeAndDebug
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/bellebonnesage/!svn/ver/427/trunk/Scripts/MakeAndDebug
+END
+CheckCode
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/bellebonnesage/!svn/ver/427/trunk/Scripts/CheckCode
+END
+GetFreeTypeArguments
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/bellebonnesage/!svn/ver/427/trunk/Scripts/GetFreeTypeArguments
+END
+MakeTest
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/bellebonnesage/!svn/ver/427/trunk/Scripts/MakeTest
+END
+MakeAndValgrindVerbose
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/bellebonnesage/!svn/ver/427/trunk/Scripts/MakeAndValgrindVerbose
+END
+Make
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/bellebonnesage/!svn/ver/427/trunk/Scripts/Make
+END
+GetDefines
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/bellebonnesage/!svn/ver/427/trunk/Scripts/GetDefines
+END

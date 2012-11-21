@@ -1,0 +1,1072 @@
+<score>
+  <island id='island:0,0' across='island:0,1' down='island:1,0'>
+    <barline id='barline:6' value='StandardBarline'/>
+  </island>
+  <island id='island:0,1' across='island:0,2' down='island:1,1'>
+    <clef id='clef:9' value='TrebleClef'/>
+  </island>
+  <island id='island:0,2' across='island:0,3' down='island:1,2'>
+    <key id='key:19' key='CMinor'/>
+  </island>
+  <island id='island:0,3' across='island:0,4' down='island:1,3'>
+    <meter id='meter:20' value='FourFour'/>
+  </island>
+  <island id='island:0,4' across='island:0,5' down='island:1,4'>
+    <clef id='clef:28' value='BassClef'/>
+  </island>
+  <island id='island:0,5' across='island:0,6' down='island:1,5'>
+    <chord id='chord:29' next='chord:34' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:30' position='LS3' modifier='Natural'/>
+      <note id='note:31' position='LS6' modifier='Natural'/>
+      <note id='note:32' position='LS8' modifier='Flat'/>
+      <note id='note:33' position='LS10' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,6' across='island:0,7' down='island:1,6'>
+    <chord id='chord:34' next='chord:45' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:35' position='LS4' modifier='Flat'/>
+      <note id='note:47' position='LS6' modifier='Natural'/>
+      <note id='note:48' position='LS8' modifier='Flat'/>
+      <note id='note:49' position='LS11' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,7' across='island:0,8' down='island:1,7'>
+    <chord id='chord:45' next-in-voice='chord:51' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:46' position='LS3' modifier='Natural'/>
+      <note id='note:50' position='LS5' modifier='Natural'/>
+    </chord>
+    <chord id='chord:55' next='chord:58' duration='3/16' beat='1/2' instant='3/16'>
+      <note id='note:56' position='LS8' modifier='Flat'/>
+      <note id='note:57' position='LS10' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,8' across='island:0,9' down='island:1,8'>
+    <chord id='chord:58' next-in-voice='chord:114' duration='1/16' beat='11/16' instant='1/16'>
+      <note id='note:59' position='LS7' modifier='Natural'/>
+      <note id='note:116' position='LS9' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,9' across='island:0,10' down='island:1,9'>
+    <chord id='chord:51' next='chord:82' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:52' position='LS1' modifier='Flat'/>
+      <note id='note:84' position='LS3' modifier='Natural'/>
+      <note id='note:85' position='LS6' modifier='Natural'/>
+      <note id='note:86' position='LS8' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,10' across='island:0,11' down='island:1,10'>
+    <barline id='barline:81' value='StandardBarline'/>
+  </island>
+  <island id='island:0,11' across='island:0,12' down='island:1,11'>
+    <chord id='chord:82' next='chord:90' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:83' position='LS1' modifier='Flat'/>
+      <note id='note:87' position='LS4' modifier='Flat'/>
+      <note id='note:88' position='LS6' modifier='Natural'/>
+      <note id='note:89' position='LS8' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,12' across='island:0,13' down='island:1,12'>
+    <chord id='chord:90' next='chord:103' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:91' position='LS2' modifier='Natural'/>
+      <note id='note:105' position='LS4' modifier='Flat'/>
+      <note id='note:106' position='LS7' modifier='Flat'/>
+      <note id='note:107' position='LS9' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,13' across='island:0,14' down='island:1,13'>
+    <chord id='chord:103' next-in-voice='chord:110' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:104' position='LS0' modifier='Flat'/>
+      <note id='note:108' position='LS1' modifier='Flat'/>
+      <note id='note:109' position='LS3' modifier='Natural'/>
+    </chord>
+    <chord id='chord:114' next='chord:118' duration='3/16' beat='1/2' instant='3/16'>
+      <note id='note:115' position='LS6' modifier='Natural'/>
+      <note id='note:117' position='LS8' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,14' across='island:0,15' down='island:1,14'>
+    <chord id='chord:118' next-in-voice='chord:175' duration='1/16' beat='11/16' instant='1/16'>
+      <note id='note:119' position='LS5' modifier='Flat'/>
+      <note id='note:177' position='LS7' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,15' across='island:0,16' down='island:1,15'>
+    <chord id='chord:110' next='chord:144' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:111' position='LS-1' modifier='Natural'/>
+      <note id='note:146' position='LS1' modifier='Flat'/>
+      <note id='note:147' position='LS4' modifier='Flat'/>
+      <note id='note:148' position='LS6' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,16' across='island:0,17' down='island:1,16'>
+    <barline id='barline:143' value='StandardBarline'/>
+  </island>
+  <island id='island:0,17' across='island:0,18' down='island:1,17'>
+    <chord id='chord:144' next='chord:152' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:145' position='LS0' modifier='Natural'/>
+      <note id='note:149' position='LS2' modifier='Natural'/>
+      <note id='note:150' position='LS5' modifier='Natural'/>
+      <note id='note:151' position='LS7' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,18' across='island:0,19' down='island:1,18'>
+    <chord id='chord:152' next='chord:164' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:153' position='LS1' modifier='Natural'/>
+      <note id='note:166' position='LS3' modifier='Natural'/>
+      <note id='note:167' position='LS5' modifier='Flat'/>
+      <note id='note:168' position='LS6' modifier='Natural'/>
+      <note id='note:169' position='LS8' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,19' across='island:0,20' down='island:1,19'>
+    <chord id='chord:164' next-in-voice='chord:171' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:165' position='LS4' modifier='Flat'/>
+      <note id='note:170' position='LS6' modifier='Natural'/>
+    </chord>
+    <chord id='chord:175' next='chord:178' duration='3/16' beat='1/2' instant='3/16'>
+      <note id='note:176' position='LS10' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,20' across='island:0,21' down='island:1,20'>
+    <chord id='chord:178' next-in-voice='chord:255' duration='1/16' beat='11/16' instant='1/16'>
+      <note id='note:179' position='LS9' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,21' across='island:0,22' down='island:1,21'>
+    <chord id='chord:171' next='chord:204' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:172' position='LS3' modifier='Natural'/>
+      <note id='note:206' position='LS6' modifier='Natural'/>
+      <note id='note:207' position='LS8' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,22' across='island:0,23' down='island:1,22'>
+    <barline id='barline:203' value='StandardBarline'/>
+  </island>
+  <island id='island:0,23' across='island:0,24' down='island:1,23'>
+    <chord id='chord:204' next='chord:210' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:205' position='LS2' modifier='Sharp'/>
+      <note id='note:208' position='LS6' modifier='Natural'/>
+      <note id='note:209' position='LS7' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,24' across='island:0,25' down='island:1,24'>
+    <chord id='chord:210' next='chord:243' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:211' position='LS3' modifier='Natural'/>
+      <note id='note:245' position='LS5' modifier='Natural'/>
+      <note id='note:246' position='LS7' modifier='Natural'/>
+      <note id='note:247' position='LS10' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,25' across='island:0,26' down='island:1,25'>
+    <clef id='clef:223' value='TrebleClef'/>
+  </island>
+  <island id='island:0,26' across='island:0,27' down='island:1,26'>
+    <chord id='chord:243' next-in-voice='chord:250' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:244' position='LS-6' modifier='Natural'/>
+      <note id='note:248' position='LS-5' modifier='Natural'/>
+      <note id='note:249' position='LS-3' modifier='Sharp'/>
+    </chord>
+    <chord id='chord:255' next='chord:253' duration='3/16' beat='1/2' instant='3/16'>
+      <note id='note:256' position='LS0' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,27' across='island:0,28' down='island:1,27'>
+    <chord id='chord:253' next-in-voice='chord:257' duration='1/16' beat='11/16' instant='1/16'>
+      <note id='note:254' position='LS-1' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,28' across='island:0,29' down='island:1,28'>
+    <chord id='chord:250' next='chord:267' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:251' position='LS-7' modifier='Natural'/>
+      <note id='note:269' position='LS-5' modifier='Natural'/>
+      <note id='note:270' position='LS-2' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,29' across='island:0,30' down='island:1,29'>
+    <barline id='barline:264' value='StandardBarline'/>
+  </island>
+  <island id='island:0,30' across='island:0,31' down='island:1,30'>
+    <chord id='chord:267' next='chord:273' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:268' position='LS-4' modifier='Flat'/>
+      <note id='note:271' position='LS-2' modifier='Natural'/>
+      <note id='note:272' position='LS3' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,31' across='island:0,32' down='island:1,31'>
+    <chord id='chord:273' next='chord:283' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:274' position='LS-4' modifier='Flat'/>
+      <note id='note:285' position='LS-1' modifier='Flat'/>
+      <note id='note:286' position='LS3' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,32' across='island:0,33' down='island:1,32'>
+    <chord id='chord:283' next-in-voice='chord:288' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:284' position='LS-5' modifier='Natural'/>
+      <note id='note:287' position='LS2' modifier='Natural'/>
+    </chord>
+    <chord id='chord:257' next='chord:399' duration='3/16' beat='1/2' instant='3/16'>
+      <note id='note:258' position='LS-1' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,33' across='island:0,34' down='island:1,33'>
+    <chord id='chord:399' next-in-voice='chord:397' duration='1/16' beat='11/16' instant='1/16'>
+      <note id='note:400' position='LS-3' modifier='Sharp'/>
+    </chord>
+  </island>
+  <island id='island:0,34' across='island:0,35' down='island:1,34'>
+    <chord id='chord:288' next='chord:320' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:289' position='LS-5' modifier='Natural'/>
+      <note id='note:322' position='LS-2' modifier='Natural'/>
+      <note id='note:323' position='LS2' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,35' across='island:0,36' down='island:1,35'>
+    <barline id='barline:319' value='StandardBarline'/>
+  </island>
+  <island id='island:0,36' across='island:0,37' down='island:1,36'>
+    <chord id='chord:320' next='chord:326' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:321' position='LS-6' modifier='Natural'/>
+      <note id='note:324' position='LS-2' modifier='Natural'/>
+      <note id='note:325' position='LS1' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,37' across='island:0,38' down='island:1,37'>
+    <chord id='chord:326' next='chord:338' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:327' position='LS-6' modifier='Natural'/>
+      <note id='note:340' position='LS-5' modifier='Natural'/>
+      <note id='note:341' position='LS-3' modifier='Sharp'/>
+      <note id='note:342' position='LS2' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,38' across='island:0,39' down='island:1,38'>
+    <chord id='chord:338' next='chord:345' duration='3/16' beat='1/2' instant='3/16'>
+      <note id='note:339' position='LS-5' modifier='Natural'/>
+      <note id='note:343' position='LS-2' modifier='Natural'/>
+      <note id='note:344' position='LS0' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,39' across='island:0,40' down='island:1,39'>
+    <chord id='chord:345' next='chord:367' duration='1/16' beat='11/16' instant='1/16'>
+      <note id='note:346' position='LS-6' modifier='Natural'/>
+      <note id='note:369' position='LS-1' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,40' across='island:0,41' down='island:1,40'>
+    <chord id='chord:367' next='chord:372' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:368' position='LS-7' modifier='Natural'/>
+      <note id='note:370' position='LS-5' modifier='Natural'/>
+      <note id='note:371' position='LS-2' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,41' across='island:0,42' down='island:1,41'>
+    <barline id='barline:756' value='StandardBarline'/>
+  </island>
+  <island id='island:0,42' across='island:0,43' down='island:1,42'>
+    <chord id='chord:372' next='chord:389' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:373' position='LS-6' modifier='Natural'/>
+      <note id='note:391' position='LS-2' modifier='Natural'/>
+      <note id='note:392' position='LS1' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,43' across='island:0,44' down='island:1,43'>
+    <chord id='chord:389' next='chord:395' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:390' position='LS-8' modifier='Flat'/>
+      <note id='note:393' position='LS-6' modifier='Natural'/>
+      <note id='note:394' position='LS-1' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,44' across='island:0,45' down='island:1,44'>
+    <chord id='chord:395' next-in-voice='chord:423' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:396' position='LS-9' modifier='Natural'/>
+      <note id='note:425' position='LS-5' modifier='Natural'/>
+    </chord>
+    <chord id='chord:397' next='chord:401' duration='3/16' beat='1/2' instant='3/16'>
+      <note id='note:398' position='LS-2' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,45' across='island:0,46' down='island:1,45'>
+    <chord id='chord:401' next-in-voice='chord:458' duration='1/16' beat='11/16' instant='1/16'>
+      <note id='note:402' position='LS-3' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,46' across='island:0,47' down='island:1,46'>
+    <chord id='chord:423' next='chord:428' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:424' position='LS-9' modifier='Natural'/>
+      <note id='note:426' position='LS-6' modifier='Natural'/>
+      <note id='note:427' position='LS-4' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,47' across='island:0,48' down='island:1,47'>
+    <clef id='clef:754' value='BassClef'/>
+  </island>
+  <island id='island:0,48' across='island:0,49' down='island:1,48'>
+    <barline id='barline:435' value='StandardBarline'/>
+  </island>
+  <island id='island:0,49' across='island:0,50' down='island:1,49'>
+    <chord id='chord:428' next='chord:448' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:429' position='LS1' modifier='Flat'/>
+      <note id='note:450' position='LS4' modifier='Flat'/>
+      <note id='note:451' position='LS6' modifier='Natural'/>
+      <note id='note:452' position='LS8' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,50' across='island:0,51' down='island:1,50'>
+    <chord id='chord:448' next='chord:456' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:449' position='LS2' modifier='Natural'/>
+      <note id='note:453' position='LS4' modifier='Flat'/>
+      <note id='note:454' position='LS7' modifier='Flat'/>
+      <note id='note:455' position='LS9' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,51' across='island:0,52' down='island:1,51'>
+    <chord id='chord:456' next-in-voice='chord:483' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:457' position='LS2' modifier='Natural'/>
+      <note id='note:485' position='LS3' modifier='Natural'/>
+      <note id='note:486' position='LS5' modifier='Natural'/>
+    </chord>
+    <chord id='chord:458' next='chord:460' duration='3/16' beat='1/2' instant='3/16'>
+      <note id='note:459' position='LS8' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,52' across='island:0,53' down='island:1,52'>
+    <chord id='chord:460' next-in-voice='chord:517' duration='1/16' beat='11/16' instant='1/16'>
+      <note id='note:461' position='LS7' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,53' across='island:0,54' down='island:1,53'>
+    <chord id='chord:483' next='chord:489' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:484' position='LS1' modifier='Flat'/>
+      <note id='note:487' position='LS3' modifier='Natural'/>
+      <note id='note:488' position='LS6' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,54' across='island:0,55' down='island:1,54'>
+    <clef id='clef:752' value='TrebleClef'/>
+  </island>
+  <island id='island:0,55' across='island:0,56' down='island:1,55'>
+    <barline id='barline:496' value='StandardBarline'/>
+  </island>
+  <island id='island:0,56' across='island:0,57' down='island:1,56'>
+    <chord id='chord:489' next='chord:509' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:490' position='LS-4' modifier='Flat'/>
+      <note id='note:511' position='LS-2' modifier='Natural'/>
+      <note id='note:512' position='LS3' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,57' across='island:0,58' down='island:1,57'>
+    <chord id='chord:509' next='chord:515' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:510' position='LS-4' modifier='Flat'/>
+      <note id='note:513' position='LS-1' modifier='Flat'/>
+      <note id='note:514' position='LS3' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,58' across='island:0,59' down='island:1,58'>
+    <chord id='chord:515' next-in-voice='chord:542' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:516' position='LS-5' modifier='Natural'/>
+      <note id='note:544' position='LS2' modifier='Natural'/>
+    </chord>
+    <chord id='chord:517' next='chord:519' duration='3/16' beat='1/2' instant='3/16'>
+      <note id='note:518' position='LS-1' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,59' across='island:0,60' down='island:1,59'>
+    <chord id='chord:519' next-in-voice='chord:633' duration='1/16' beat='11/16' instant='1/16'>
+      <note id='note:520' position='LS-3' modifier='Sharp'/>
+    </chord>
+  </island>
+  <island id='island:0,60' across='island:0,61' down='island:1,60'>
+    <chord id='chord:542' next='chord:547' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:543' position='LS-5' modifier='Natural'/>
+      <note id='note:545' position='LS-2' modifier='Natural'/>
+      <note id='note:546' position='LS2' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,61' across='island:0,62' down='island:1,61'>
+    <barline id='barline:750' value='StandardBarline'/>
+  </island>
+  <island id='island:0,62' across='island:0,63' down='island:1,62'>
+    <chord id='chord:547' next='chord:564' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:548' position='LS-6' modifier='Natural'/>
+      <note id='note:566' position='LS-2' modifier='Natural'/>
+      <note id='note:567' position='LS1' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,63' across='island:0,64' down='island:1,63'>
+    <chord id='chord:564' next='chord:571' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:565' position='LS-6' modifier='Natural'/>
+      <note id='note:568' position='LS-5' modifier='Natural'/>
+      <note id='note:569' position='LS-3' modifier='Sharp'/>
+      <note id='note:570' position='LS2' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,64' across='island:0,65' down='island:1,64'>
+    <chord id='chord:571' next='chord:593' duration='3/16' beat='1/2' instant='3/16'>
+      <note id='note:572' position='LS-5' modifier='Natural'/>
+      <note id='note:595' position='LS-2' modifier='Natural'/>
+      <note id='note:596' position='LS0' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,65' across='island:0,66' down='island:1,65'>
+    <chord id='chord:593' next='chord:598' duration='1/16' beat='11/16' instant='1/16'>
+      <note id='note:594' position='LS-6' modifier='Natural'/>
+      <note id='note:597' position='LS-1' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,66' across='island:0,67' down='island:1,66'>
+    <chord id='chord:598' next='chord:606' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:599' position='LS-7' modifier='Natural'/>
+      <note id='note:608' position='LS-5' modifier='Natural'/>
+      <note id='note:609' position='LS-2' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,67' across='island:0,68' down='island:1,67'>
+    <barline id='barline:605' value='StandardBarline'/>
+  </island>
+  <island id='island:0,68' across='island:0,69' down='island:1,68'>
+    <chord id='chord:606' next='chord:612' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:607' position='LS-6' modifier='Natural'/>
+      <note id='note:610' position='LS-2' modifier='Natural'/>
+      <note id='note:611' position='LS1' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,69' across='island:0,70' down='island:1,69'>
+    <chord id='chord:612' next='chord:624' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:613' position='LS-8' modifier='Flat'/>
+      <note id='note:626' position='LS-6' modifier='Natural'/>
+      <note id='note:627' position='LS-1' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,70' across='island:0,71' down='island:1,70'>
+    <chord id='chord:624' next-in-voice='chord:629' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:625' position='LS-9' modifier='Natural'/>
+      <note id='note:628' position='LS-5' modifier='Natural'/>
+    </chord>
+    <chord id='chord:633' next='chord:635' duration='3/16' beat='1/2' instant='3/16'>
+      <note id='note:634' position='LS-2' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,71' across='island:0,72' down='island:1,71'>
+    <chord id='chord:635' next-in-voice='chord:711' duration='1/16' beat='11/16' instant='1/16'>
+      <note id='note:636' position='LS-3' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,72' across='island:0,73' down='island:1,72'>
+    <chord id='chord:629' next='chord:676' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:630' position='LS-9' modifier='Natural'/>
+      <note id='note:678' position='LS-6' modifier='Natural'/>
+      <note id='note:679' position='LS-4' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,73' across='island:0,74' down='island:1,73'>
+    <clef id='clef:659' value='BassClef'/>
+  </island>
+  <island id='island:0,74' across='island:0,75' down='island:1,74'>
+    <barline id='barline:660' value='StandardBarline'/>
+  </island>
+  <island id='island:0,75' across='island:0,76' down='island:1,75'>
+    <chord id='chord:676' next='chord:683' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:677' position='LS1' modifier='Flat'/>
+      <note id='note:680' position='LS4' modifier='Flat'/>
+      <note id='note:681' position='LS6' modifier='Natural'/>
+      <note id='note:682' position='LS8' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,76' across='island:0,77' down='island:1,76'>
+    <chord id='chord:683' next='chord:699' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:684' position='LS2' modifier='Natural'/>
+      <note id='note:701' position='LS4' modifier='Flat'/>
+      <note id='note:702' position='LS7' modifier='Flat'/>
+      <note id='note:703' position='LS9' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,77' across='island:0,78' down='island:1,77'>
+    <chord id='chord:699' next-in-voice='chord:706' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:700' position='LS2' modifier='Natural'/>
+      <note id='note:704' position='LS3' modifier='Natural'/>
+      <note id='note:705' position='LS5' modifier='Natural'/>
+    </chord>
+    <chord id='chord:711' next='chord:709' duration='3/16' beat='1/2' instant='3/16'>
+      <note id='note:712' position='LS8' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:0,78' across='island:0,79' down='island:1,78'>
+    <chord id='chord:709' duration='1/16' beat='11/16' instant='1/16'>
+      <note id='note:710' position='LS7' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,79' across='island:0,80' down='island:1,79'>
+    <chord id='chord:706' next='chord:729' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:707' position='LS1' modifier='Flat'/>
+      <note id='note:731' position='LS3' modifier='Natural'/>
+      <note id='note:732' position='LS6' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,80' across='island:0,81' down='island:1,80'>
+    <clef id='clef:715' value='TrebleClef'/>
+  </island>
+  <island id='island:0,81' across='island:0,82' down='island:1,81'>
+    <barline id='barline:728' value='StandardBarline'/>
+  </island>
+  <island id='island:0,82' across='island:0,83' down='island:1,82'>
+    <chord id='chord:729' duration='1' beat='0' instant='1'>
+      <note id='note:730' position='LS-6' modifier='Natural'/>
+      <note id='note:733' position='LS-4' modifier='Flat'/>
+      <note id='note:734' position='LS-2' modifier='Natural'/>
+      <note id='note:735' position='LS1' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:0,83' down='island:1,83'>
+    <barline id='barline:746' value='FinalDoubleBarline'/>
+  </island>
+  <island id='island:1,0' across='island:1,1' down='island:2,0'>
+    <barline id='barline:2' value='StandardBarline'/>
+  </island>
+  <island id='island:1,1' across='island:1,2' down='island:2,1'>
+    <clef id='clef:12' value='BassClef'/>
+  </island>
+  <island id='island:1,2' across='island:1,3' down='island:2,2'>
+    <key id='key:16' key='CMinor'/>
+  </island>
+  <island id='island:1,3' across='island:1,4' down='island:2,3'>
+    <meter id='meter:23' value='FourFour'/>
+  </island>
+  <island id='island:1,4' across='island:1,5' down='island:2,4'>
+  </island>
+  <island id='island:1,5' across='island:1,6' down='island:2,5'>
+    <chord id='chord:38' next='chord:41' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:39' position='LS-8' modifier='Natural'/>
+      <note id='note:40' position='LS-1' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,6' across='island:1,7' down='island:2,6'>
+    <chord id='chord:41' next='chord:61' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:42' position='LS-12' modifier='Natural'/>
+      <note id='note:63' position='LS-5' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,7' across='island:1,8' down='island:2,7'>
+    <chord id='chord:61' next-in-voice='chord:65' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:62' position='LS-11' modifier='Natural'/>
+      <note id='note:64' position='LS-4' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,8' across='island:1,9' down='island:2,8'>
+  </island>
+  <island id='island:1,9' across='island:1,10' down='island:2,9'>
+    <chord id='chord:65' next='chord:94' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:66' position='LS-8' modifier='Natural'/>
+      <note id='note:96' position='LS-4' modifier='Natural'/>
+      <note id='note:97' position='LS-1' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,10' across='island:1,11' down='island:2,10'>
+    <barline id='barline:78' value='StandardBarline'/>
+  </island>
+  <island id='island:1,11' across='island:1,12' down='island:2,11'>
+    <chord id='chord:94' next='chord:99' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:95' position='LS-10' modifier='Flat'/>
+      <note id='note:98' position='LS-3' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:1,12' across='island:1,13' down='island:2,12'>
+    <chord id='chord:99' next='chord:121' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:100' position='LS-14' modifier='Flat'/>
+      <note id='note:123' position='LS-7' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:1,13' across='island:1,14' down='island:2,13'>
+    <chord id='chord:121' next-in-voice='chord:125' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:122' position='LS-13' modifier='Flat'/>
+      <note id='note:124' position='LS-6' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:1,14' across='island:1,15' down='island:2,14'>
+  </island>
+  <island id='island:1,15' across='island:1,16' down='island:2,15'>
+    <chord id='chord:125' next='chord:156' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:126' position='LS-10' modifier='Flat'/>
+      <note id='note:158' position='LS-3' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:1,16' across='island:1,17' down='island:2,16'>
+    <barline id='barline:140' value='StandardBarline'/>
+  </island>
+  <island id='island:1,17' across='island:1,18' down='island:2,17'>
+    <chord id='chord:156' next='chord:160' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:157' position='LS-11' modifier='Natural'/>
+      <note id='note:159' position='LS-4' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,18' across='island:1,19' down='island:2,18'>
+    <chord id='chord:160' next='chord:181' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:161' position='LS-15' modifier='Natural'/>
+      <note id='note:183' position='LS-8' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,19' across='island:1,20' down='island:2,19'>
+    <chord id='chord:181' next-in-voice='chord:185' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:182' position='LS-12' modifier='Natural'/>
+      <note id='note:184' position='LS-5' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,20' across='island:1,21' down='island:2,20'>
+  </island>
+  <island id='island:1,21' across='island:1,22' down='island:2,21'>
+    <chord id='chord:185' next='chord:214' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:186' position='LS-8' modifier='Natural'/>
+      <note id='note:216' position='LS-1' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,22' across='island:1,23' down='island:2,22'>
+    <barline id='barline:200' value='StandardBarline'/>
+  </island>
+  <island id='island:1,23' across='island:1,24' down='island:2,23'>
+    <chord id='chord:214' next='chord:219' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:215' position='LS-7' modifier='Natural'/>
+      <note id='note:217' position='LS-3' modifier='Natural'/>
+      <note id='note:218' position='LS0' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,24' across='island:1,25' down='island:2,24'>
+    <chord id='chord:219' next='chord:234' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:220' position='LS-11' modifier='Natural'/>
+      <note id='note:236' position='LS-4' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,25' across='island:1,26' down='island:2,25'>
+  </island>
+  <island id='island:1,26' across='island:1,27' down='island:2,26'>
+    <chord id='chord:234' next-in-voice='chord:238' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:235' position='LS-14' modifier='Natural'/>
+      <note id='note:237' position='LS-7' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,27' across='island:1,28' down='island:2,27'>
+  </island>
+  <island id='island:1,28' across='island:1,29' down='island:2,28'>
+    <chord id='chord:238' next='chord:276' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:239' position='LS-11' modifier='Natural'/>
+      <note id='note:278' position='LS-4' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,29' across='island:1,30' down='island:2,29'>
+    <barline id='barline:265' value='StandardBarline'/>
+  </island>
+  <island id='island:1,30' across='island:1,31' down='island:2,30'>
+    <chord id='chord:276' next='chord:280' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:277' position='LS-8' modifier='Natural'/>
+      <note id='note:279' position='LS-1' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,31' across='island:1,32' down='island:2,31'>
+    <chord id='chord:280' next='chord:293' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:281' position='LS-1' modifier='Natural'/>
+      <note id='note:295' position='LS6' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,32' across='island:1,33' down='island:2,32'>
+    <chord id='chord:293' next-in-voice='chord:297' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:294' position='LS-2' modifier='Natural'/>
+      <note id='note:296' position='LS5' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,33' across='island:1,34' down='island:2,33'>
+  </island>
+  <island id='island:1,34' across='island:1,35' down='island:2,34'>
+    <chord id='chord:297' next='chord:330' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:298' position='LS-2' modifier='Flat'/>
+      <note id='note:332' position='LS5' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:1,35' across='island:1,36' down='island:2,35'>
+    <barline id='barline:316' value='StandardBarline'/>
+  </island>
+  <island id='island:1,36' across='island:1,37' down='island:2,36'>
+    <chord id='chord:330' next='chord:334' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:331' position='LS-3' modifier='Natural'/>
+      <note id='note:333' position='LS4' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,37' across='island:1,38' down='island:2,37'>
+    <chord id='chord:334' next='chord:349' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:335' position='LS-3' modifier='Flat'/>
+      <note id='note:351' position='LS4' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:1,38' across='island:1,39' down='island:2,38'>
+    <chord id='chord:349' next-in-voice='chord:353' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:350' position='LS-4' modifier='Natural'/>
+      <note id='note:352' position='LS3' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,39' across='island:1,40' down='island:2,39'>
+  </island>
+  <island id='island:1,40' across='island:1,41' down='island:2,40'>
+    <chord id='chord:353' next='chord:381' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:354' position='LS-5' modifier='Natural'/>
+      <note id='note:383' position='LS2' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,41' across='island:1,42' down='island:2,41'>
+    <barline id='barline:377' value='StandardBarline'/>
+  </island>
+  <island id='island:1,42' across='island:1,43' down='island:2,42'>
+    <chord id='chord:381' next='chord:385' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:382' position='LS-6' modifier='Flat'/>
+      <note id='note:384' position='LS1' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:1,43' across='island:1,44' down='island:2,43'>
+    <chord id='chord:385' next='chord:405' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:386' position='LS-5' modifier='Natural'/>
+      <note id='note:407' position='LS2' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,44' across='island:1,45' down='island:2,44'>
+    <chord id='chord:405' next-in-voice='chord:409' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:406' position='LS-9' modifier='Natural'/>
+      <note id='note:408' position='LS-2' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,45' across='island:1,46' down='island:2,45'>
+  </island>
+  <island id='island:1,46' across='island:1,47' down='island:2,46'>
+    <chord id='chord:409' next='chord:440' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:410' position='LS-8' modifier='Natural'/>
+      <note id='note:442' position='LS-1' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,47' across='island:1,48' down='island:2,47'>
+  </island>
+  <island id='island:1,48' across='island:1,49' down='island:2,48'>
+    <barline id='barline:436' value='StandardBarline'/>
+  </island>
+  <island id='island:1,49' across='island:1,50' down='island:2,49'>
+    <chord id='chord:440' next='chord:444' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:441' position='LS-10' modifier='Flat'/>
+      <note id='note:443' position='LS-3' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:1,50' across='island:1,51' down='island:2,50'>
+    <chord id='chord:444' next='chord:464' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:445' position='LS-14' modifier='Flat'/>
+      <note id='note:466' position='LS-7' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:1,51' across='island:1,52' down='island:2,51'>
+    <chord id='chord:464' next-in-voice='chord:468' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:465' position='LS-11' modifier='Natural'/>
+      <note id='note:467' position='LS-4' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,52' across='island:1,53' down='island:2,52'>
+  </island>
+  <island id='island:1,53' across='island:1,54' down='island:2,53'>
+    <chord id='chord:468' next='chord:501' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:469' position='LS-15' modifier='Natural'/>
+      <note id='note:503' position='LS-8' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,54' across='island:1,55' down='island:2,54'>
+  </island>
+  <island id='island:1,55' across='island:1,56' down='island:2,55'>
+    <barline id='barline:497' value='StandardBarline'/>
+  </island>
+  <island id='island:1,56' across='island:1,57' down='island:2,56'>
+    <chord id='chord:501' next='chord:505' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:502' position='LS-8' modifier='Natural'/>
+      <note id='note:504' position='LS-1' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,57' across='island:1,58' down='island:2,57'>
+    <chord id='chord:505' next='chord:523' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:506' position='LS-1' modifier='Natural'/>
+      <note id='note:525' position='LS6' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,58' across='island:1,59' down='island:2,58'>
+    <chord id='chord:523' next-in-voice='chord:527' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:524' position='LS-2' modifier='Natural'/>
+      <note id='note:526' position='LS5' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,59' across='island:1,60' down='island:2,59'>
+  </island>
+  <island id='island:1,60' across='island:1,61' down='island:2,60'>
+    <chord id='chord:527' next='chord:556' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:528' position='LS-2' modifier='Flat'/>
+      <note id='note:558' position='LS5' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:1,61' across='island:1,62' down='island:2,61'>
+    <barline id='barline:552' value='StandardBarline'/>
+  </island>
+  <island id='island:1,62' across='island:1,63' down='island:2,62'>
+    <chord id='chord:556' next='chord:560' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:557' position='LS-3' modifier='Natural'/>
+      <note id='note:559' position='LS4' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,63' across='island:1,64' down='island:2,63'>
+    <chord id='chord:560' next='chord:575' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:561' position='LS-3' modifier='Flat'/>
+      <note id='note:577' position='LS4' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:1,64' across='island:1,65' down='island:2,64'>
+    <chord id='chord:575' next-in-voice='chord:579' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:576' position='LS-4' modifier='Natural'/>
+      <note id='note:578' position='LS3' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,65' across='island:1,66' down='island:2,65'>
+  </island>
+  <island id='island:1,66' across='island:1,67' down='island:2,66'>
+    <chord id='chord:579' next='chord:616' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:580' position='LS-5' modifier='Natural'/>
+      <note id='note:618' position='LS2' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,67' across='island:1,68' down='island:2,67'>
+    <barline id='barline:602' value='StandardBarline'/>
+  </island>
+  <island id='island:1,68' across='island:1,69' down='island:2,68'>
+    <chord id='chord:616' next='chord:620' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:617' position='LS-6' modifier='Flat'/>
+      <note id='note:619' position='LS1' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:1,69' across='island:1,70' down='island:2,69'>
+    <chord id='chord:620' next='chord:638' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:621' position='LS-5' modifier='Natural'/>
+      <note id='note:640' position='LS2' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,70' across='island:1,71' down='island:2,70'>
+    <chord id='chord:638' next-in-voice='chord:642' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:639' position='LS-9' modifier='Natural'/>
+      <note id='note:641' position='LS-2' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,71' across='island:1,72' down='island:2,71'>
+  </island>
+  <island id='island:1,72' across='island:1,73' down='island:2,72'>
+    <chord id='chord:642' next='chord:668' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:643' position='LS-8' modifier='Natural'/>
+      <note id='note:670' position='LS-1' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,73' across='island:1,74' down='island:2,73'>
+  </island>
+  <island id='island:1,74' across='island:1,75' down='island:2,74'>
+    <barline id='barline:663' value='StandardBarline'/>
+  </island>
+  <island id='island:1,75' across='island:1,76' down='island:2,75'>
+    <chord id='chord:668' next='chord:672' duration='1/4' beat='0' instant='1/4'>
+      <note id='note:669' position='LS-10' modifier='Flat'/>
+      <note id='note:671' position='LS-3' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:1,76' across='island:1,77' down='island:2,76'>
+    <chord id='chord:672' next='chord:690' duration='1/4' beat='1/4' instant='1/4'>
+      <note id='note:673' position='LS-14' modifier='Flat'/>
+      <note id='note:692' position='LS-7' modifier='Flat'/>
+    </chord>
+  </island>
+  <island id='island:1,77' across='island:1,78' down='island:2,77'>
+    <chord id='chord:690' next-in-voice='chord:694' duration='1/4' beat='1/2' instant='3/16'>
+      <note id='note:691' position='LS-11' modifier='Natural'/>
+      <note id='note:693' position='LS-4' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,78' across='island:1,79' down='island:2,78'>
+  </island>
+  <island id='island:1,79' across='island:1,80' down='island:2,79'>
+    <chord id='chord:694' next='chord:738' duration='1/4' beat='3/4' instant='1/4'>
+      <note id='note:695' position='LS-15' modifier='Natural'/>
+      <note id='note:740' position='LS-8' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,80' across='island:1,81' down='island:2,80'>
+  </island>
+  <island id='island:1,81' across='island:1,82' down='island:2,81'>
+    <barline id='barline:725' value='StandardBarline'/>
+  </island>
+  <island id='island:1,82' across='island:1,83' down='island:2,82'>
+    <chord id='chord:738' duration='1' beat='0' instant='1'>
+      <note id='note:739' position='LS-1' modifier='Natural'/>
+      <note id='note:741' position='LS3' modifier='Natural'/>
+    </chord>
+  </island>
+  <island id='island:1,83' down='island:2,83'>
+    <barline id='barline:744' value='FinalDoubleBarline'/>
+  </island>
+  <island id='island:2,0' across='island:2,1'>
+  </island>
+  <island id='island:2,1' across='island:2,2'>
+  </island>
+  <island id='island:2,2' across='island:2,3'>
+  </island>
+  <island id='island:2,3' across='island:2,4'>
+  </island>
+  <island id='island:2,4' across='island:2,5'>
+  </island>
+  <island id='island:2,5' across='island:2,6'>
+  </island>
+  <island id='island:2,6' across='island:2,7'>
+  </island>
+  <island id='island:2,7' across='island:2,8'>
+  </island>
+  <island id='island:2,8' across='island:2,9'>
+  </island>
+  <island id='island:2,9' across='island:2,10'>
+  </island>
+  <island id='island:2,10' across='island:2,11'>
+  </island>
+  <island id='island:2,11' across='island:2,12'>
+  </island>
+  <island id='island:2,12' across='island:2,13'>
+  </island>
+  <island id='island:2,13' across='island:2,14'>
+  </island>
+  <island id='island:2,14' across='island:2,15'>
+  </island>
+  <island id='island:2,15' across='island:2,16'>
+  </island>
+  <island id='island:2,16' across='island:2,17'>
+  </island>
+  <island id='island:2,17' across='island:2,18'>
+  </island>
+  <island id='island:2,18' across='island:2,19'>
+  </island>
+  <island id='island:2,19' across='island:2,20'>
+  </island>
+  <island id='island:2,20' across='island:2,21'>
+  </island>
+  <island id='island:2,21' across='island:2,22'>
+  </island>
+  <island id='island:2,22' across='island:2,23'>
+  </island>
+  <island id='island:2,23' across='island:2,24'>
+  </island>
+  <island id='island:2,24' across='island:2,25'>
+  </island>
+  <island id='island:2,25' across='island:2,26'>
+  </island>
+  <island id='island:2,26' across='island:2,27'>
+  </island>
+  <island id='island:2,27' across='island:2,28'>
+  </island>
+  <island id='island:2,28' across='island:2,29'>
+  </island>
+  <island id='island:2,29' across='island:2,30'>
+  </island>
+  <island id='island:2,30' across='island:2,31'>
+  </island>
+  <island id='island:2,31' across='island:2,32'>
+  </island>
+  <island id='island:2,32' across='island:2,33'>
+  </island>
+  <island id='island:2,33' across='island:2,34'>
+  </island>
+  <island id='island:2,34' across='island:2,35'>
+  </island>
+  <island id='island:2,35' across='island:2,36'>
+  </island>
+  <island id='island:2,36' across='island:2,37'>
+  </island>
+  <island id='island:2,37' across='island:2,38'>
+  </island>
+  <island id='island:2,38' across='island:2,39'>
+  </island>
+  <island id='island:2,39' across='island:2,40'>
+  </island>
+  <island id='island:2,40' across='island:2,41'>
+  </island>
+  <island id='island:2,41' across='island:2,42'>
+  </island>
+  <island id='island:2,42' across='island:2,43'>
+  </island>
+  <island id='island:2,43' across='island:2,44'>
+  </island>
+  <island id='island:2,44' across='island:2,45'>
+  </island>
+  <island id='island:2,45' across='island:2,46'>
+  </island>
+  <island id='island:2,46' across='island:2,47'>
+  </island>
+  <island id='island:2,47' across='island:2,48'>
+  </island>
+  <island id='island:2,48' across='island:2,49'>
+  </island>
+  <island id='island:2,49' across='island:2,50'>
+  </island>
+  <island id='island:2,50' across='island:2,51'>
+  </island>
+  <island id='island:2,51' across='island:2,52'>
+  </island>
+  <island id='island:2,52' across='island:2,53'>
+  </island>
+  <island id='island:2,53' across='island:2,54'>
+  </island>
+  <island id='island:2,54' across='island:2,55'>
+  </island>
+  <island id='island:2,55' across='island:2,56'>
+  </island>
+  <island id='island:2,56' across='island:2,57'>
+  </island>
+  <island id='island:2,57' across='island:2,58'>
+  </island>
+  <island id='island:2,58' across='island:2,59'>
+  </island>
+  <island id='island:2,59' across='island:2,60'>
+  </island>
+  <island id='island:2,60' across='island:2,61'>
+  </island>
+  <island id='island:2,61' across='island:2,62'>
+  </island>
+  <island id='island:2,62' across='island:2,63'>
+  </island>
+  <island id='island:2,63' across='island:2,64'>
+  </island>
+  <island id='island:2,64' across='island:2,65'>
+  </island>
+  <island id='island:2,65' across='island:2,66'>
+  </island>
+  <island id='island:2,66' across='island:2,67'>
+  </island>
+  <island id='island:2,67' across='island:2,68'>
+  </island>
+  <island id='island:2,68' across='island:2,69'>
+  </island>
+  <island id='island:2,69' across='island:2,70'>
+  </island>
+  <island id='island:2,70' across='island:2,71'>
+  </island>
+  <island id='island:2,71' across='island:2,72'>
+  </island>
+  <island id='island:2,72' across='island:2,73'>
+  </island>
+  <island id='island:2,73' across='island:2,74'>
+  </island>
+  <island id='island:2,74' across='island:2,75'>
+  </island>
+  <island id='island:2,75' across='island:2,76'>
+  </island>
+  <island id='island:2,76' across='island:2,77'>
+  </island>
+  <island id='island:2,77' across='island:2,78'>
+  </island>
+  <island id='island:2,78' across='island:2,79'>
+  </island>
+  <island id='island:2,79' across='island:2,80'>
+  </island>
+  <island id='island:2,80' across='island:2,81'>
+  </island>
+  <island id='island:2,81' across='island:2,82'>
+  </island>
+  <island id='island:2,82' across='island:2,83'>
+  </island>
+  <island id='island:2,83'>
+  </island>
+</score>
