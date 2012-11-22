@@ -138,9 +138,11 @@ namespace bellebonnesage { namespace graph
         VersionOrID = ID(mica::Note);
         return;
       }
+      SerializeProperties(s, Mode);
       MusicSerial::DoMICA(s, Position, Mode);
       MusicSerial::DoMICA(s, Modifier, Mode);
       s.Do(Locked,Mode);
+      prim::Debug >> ToString();
     }
   };
   
@@ -180,7 +182,9 @@ namespace bellebonnesage { namespace graph
         VersionOrID = ID(mica::Property);
         return;
       }
+      SerializeProperties(s, Mode);
       MusicSerial::DoMICA(s, Value, Mode);
+      prim::Debug >> ToString();
     }
   };
   
@@ -216,6 +220,8 @@ namespace bellebonnesage { namespace graph
         VersionOrID = ID(mica::Token);
         return;
       }
+      SerializeProperties(s, Mode);
+      prim::Debug >> ToString();
     }
   };
 
@@ -250,7 +256,9 @@ namespace bellebonnesage { namespace graph
         VersionOrID = ID(mica::BarlineToken);
         return;
       }
+      SerializeProperties(s, Mode);
       MusicSerial::DoMICA(s, Value, Mode);
+      prim::Debug >> ToString();
     }
   };
 
@@ -304,9 +312,11 @@ namespace bellebonnesage { namespace graph
         VersionOrID = ID(mica::ChordToken);
         return;
       }
+      SerializeProperties(s, Mode);
       s.Do(Duration, Mode);
       s.Do(Beat, Mode);
       s.Do(InstantDuration, Mode);
+      prim::Debug >> ToString();
     }
   };
 
@@ -338,7 +348,9 @@ namespace bellebonnesage { namespace graph
         VersionOrID = ID(mica::ClefToken);
         return;
       }
+      SerializeProperties(s, Mode);
       MusicSerial::DoMICA(s, Value, Mode);
+      prim::Debug >> ToString();      
     }
   };
 
@@ -418,8 +430,10 @@ namespace bellebonnesage { namespace graph
         VersionOrID = ID(mica::KeySignatureToken);
         return;
       }
+      SerializeProperties(s, Mode);
       MusicSerial::DoMICA(s, Key, Mode);
       MusicSerial::DoMICA(s, KeySignature, Mode);
+      prim::Debug >> ToString();      
     }
   };
 
@@ -451,7 +465,9 @@ namespace bellebonnesage { namespace graph
         VersionOrID = ID(mica::MeterToken);
         return;
       }
+      SerializeProperties(s, Mode);
       MusicSerial::DoMICA(s, Value, Mode);
+      prim::Debug >> ToString();      
     }
   };
 
@@ -483,6 +499,8 @@ namespace bellebonnesage { namespace graph
         VersionOrID = ID(mica::Float);
         return;
       }
+      SerializeProperties(s, Mode);
+      prim::Debug >> ToString();
     }
   };
 
@@ -575,6 +593,8 @@ namespace bellebonnesage { namespace graph
         VersionOrID = ID(mica::TieSpan);
         return;
       }
+      SerializeProperties(s, Mode);
+      prim::Debug >> ToString();
     }
   };
 
@@ -606,7 +626,9 @@ namespace bellebonnesage { namespace graph
         VersionOrID = ID(mica::MarkFloat);
         return;
       }
+      SerializeProperties(s, Mode);
       MusicSerial::DoMICA(s, Value, Mode);
+      prim::Debug >> ToString();
     }
   };
 
@@ -638,6 +660,8 @@ namespace bellebonnesage { namespace graph
         VersionOrID = ID(mica::Marking);
         return;
       }
+      SerializeProperties(s, Mode);
+      prim::Debug >> ToString();
     }
   };
 
@@ -663,7 +687,9 @@ namespace bellebonnesage { namespace graph
         VersionOrID = ID(mica::ArticulationMarking);
         return;
       }
+      SerializeProperties(s, Mode);
       MusicSerial::DoMICA(s, Value, Mode);
+      prim::Debug >> ToString();
     }
   };
 
@@ -722,7 +748,9 @@ namespace bellebonnesage { namespace graph
         VersionOrID = ID(mica::Metadata);
         return;
       }
+      SerializeProperties(s, Mode);
       s.Do(Key, Mode);
+      prim::Debug >> ToString();
     }
   };
 
@@ -778,9 +806,10 @@ namespace bellebonnesage { namespace graph
         VersionOrID = ID(mica::Metadata);
         return;
       }
-      
+      SerializeProperties(s, Mode);
       s.Do(Key, Mode);
       s.Do(Value, Mode);
+      prim::Debug >> ToString();
     }
   };
 }}
@@ -903,6 +932,15 @@ namespace bellebonnesage { namespace graph
       return new ArticulationMarking;
     else if(T == mica::Metadata)
       return new KeyedPairMetadata<prim::String>;
+    else if(T == mica::Property)
+      return new Property;
+    else if(T == mica::AnalysisToken)
+    {
+      //Do nothing about the analysis token for now.
+    }
+    else
+      prim::c >> "Error: unknown music object '" << T <<
+        "' encountered during serialization";
     return 0;
   }
 }}

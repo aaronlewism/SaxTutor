@@ -3,6 +3,24 @@ svn:wc:ra_dav:version-url
 V 52
 /svnroot/bellebonnesage/!svn/ver/589/trunk/Resources
 END
+ChopinPreludeOp28No20.xml
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/bellebonnesage/!svn/ver/589/trunk/Resources/ChopinPreludeOp28No20.xml
+END
+GentiumBasicItalic.bellefont
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/bellebonnesage/!svn/ver/427/trunk/Resources/GentiumBasicItalic.bellefont
+END
+GentiumBasicBoldItalic.bellefont
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/bellebonnesage/!svn/ver/427/trunk/Resources/GentiumBasicBoldItalic.bellefont
+END
 Test.jpg
 K 25
 svn:wc:ra_dav:version-url
@@ -50,22 +68,4 @@ K 25
 svn:wc:ra_dav:version-url
 V 82
 /svnroot/bellebonnesage/!svn/ver/427/trunk/Resources/GentiumBasicRegular.bellefont
-END
-ChopinPreludeOp28No20.xml
-K 25
-svn:wc:ra_dav:version-url
-V 78
-/svnroot/bellebonnesage/!svn/ver/589/trunk/Resources/ChopinPreludeOp28No20.xml
-END
-GentiumBasicItalic.bellefont
-K 25
-svn:wc:ra_dav:version-url
-V 81
-/svnroot/bellebonnesage/!svn/ver/427/trunk/Resources/GentiumBasicItalic.bellefont
-END
-GentiumBasicBoldItalic.bellefont
-K 25
-svn:wc:ra_dav:version-url
-V 85
-/svnroot/bellebonnesage/!svn/ver/427/trunk/Resources/GentiumBasicBoldItalic.bellefont
 END

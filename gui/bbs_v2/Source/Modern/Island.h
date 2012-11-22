@@ -201,7 +201,7 @@ namespace bellebonnesage { namespace modern
         }
         
         //Engrave the chord.
-        ChordInfo.Engrave(s, d.h, d.c, d.t);
+        ChordInfo.Engrave(s, d.h, d.c, d.t, d.f);
       }
       else if(graph::ClefToken* ct = dynamic_cast<graph::ClefToken*>(Token))
       {

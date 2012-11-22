@@ -46,6 +46,12 @@ using namespace bellebonnesage;
 using namespace bellebonnesage::painters;
 using namespace prim::planar;
 
+//Some constants used for the manual layout.
+prim::number SpaceHeight = 0.05;
+prim::number StaffDistance = 10.0;
+prim::number SystemWidth = 6.5;
+prim::number SystemWidthSpaces = SystemWidth / SpaceHeight;
+
 //An example of deriving a Portfolio and Canvas.
 struct Score : public Portfolio
 {
@@ -65,7 +71,7 @@ struct Score : public Portfolio
   modern::Piece Piece;
   
   //Array of systems produced by the piece
-  Array<modern::Piece::System> Systems;
+  List<modern::System> Systems;
 
   ///Default constructor
   Score() : Music(new graph::MusicGraph)
@@ -87,8 +93,14 @@ struct Score : public Portfolio
     //Initialize the piece.
     Piece.Initialize(Music, HouseStyle, Cache, NotationTypeface, ScoreFont);
     
-    //Prepare the systems.
-    Piece.Prepare(Systems, 6.5, 6.5);
+    //Typeset the islands.
+    Piece.Typeset(true);
+    
+    //Create the systems.
+    Piece.CreateSystems(Systems, SystemWidthSpaces, SystemWidthSpaces);
+    for(count i = 0; i < Systems.n(); i++)
+      Systems[i].CalculateSpacing(StaffDistance,
+        (i < Systems.n() - 1 ? SystemWidthSpaces : 0.0));
   }
   
   //Page of the score
@@ -97,20 +109,14 @@ struct Score : public Portfolio
     //Page paint method
     virtual void Paint(Painter& Painter, Portfolio& Portfolio)
     {
-      //Get the subclassed score.
       Score& s = dynamic_cast<Score&>(Portfolio);
-      
-      //Paint each system with descending y-position.
+      prim::planar::Vector BottomLeft = prim::planar::Vector(1.0,
+        Dimensions.y - 1.0);
       for(count i = 0; i < s.Systems.n(); i++)
       {
-        //Translate the system.
-        Painter.Translate(Vector(1.0, 8.0 - (number)i * 1.5));
-        
-        //Paint the system.
-        s.Piece.Paint(&Painter, s.Systems[i]);
-        
-        //Undo the translation.
-        Painter.Revert();
+        BottomLeft -= prim::planar::Vector(0.0, s.Systems[i].Bounds.Height() *
+          SpaceHeight);
+        s.Systems[i].Paint(Painter, BottomLeft, SpaceHeight);
       }
     }
   };

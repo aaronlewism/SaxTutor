@@ -52,7 +52,8 @@ namespace bellebonnesage { namespace modern
       if(!bt) return;
       
       //Distance to the next staff in spaces (should perhaps be passed in).
-      prim::number StaffInteriorDistance = Connects(bt) ? 6.0 : 0.0;
+      prim::number StaffInteriorDistance = Connects(bt) ?
+        (d.h.StaffDistance - 4.0) : 0.0;
       
       if(bt->Value == mica::StandardBarline)
       {

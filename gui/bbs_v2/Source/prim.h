@@ -31,8 +31,8 @@
   ------------------------------------------------------------------------------
 
   This file is part of prim.cc -- the one file C++ library with serious style.
-  Generated on:  2012-11-03 at 18:42 -0500
-  Permalink:     http://prim.cc/old/prim20121103.h
+  Generated on:  2012-11-12 at 19:46 -0600
+  Permalink:     http://prim.cc/old/prim20121112.h
   Documentation: http://prim.cc/doc
 
   To use:
@@ -85,7 +85,7 @@ in modules instead.*/
 //Settings:
 
 //Enables the "what's up" service. See WhatsUp, NoWhatsUp, and Debug.
-//#define PRIM_WHATS_UP
+#define PRIM_WHATS_UP
 
 //............................................................................//
 
@@ -6755,7 +6755,10 @@ namespace prim
     String& operator << (const Complex<T>& v)
     {
       String s;
-      s >> "(" << v.x << ", " << v.y << ")";
+      if(v.IsEmpty())
+        s >> "(Empty)";
+      else
+        s >> "(" << v.x << ", " << v.y << ")";
       Append(s.Merge());
       return *this;
     }
@@ -9469,7 +9472,10 @@ namespace prim { namespace planar
     operator String () const
     {
       String s;
-      s << "(" << a << ", " << b << ")";
+      if(IsEmpty())
+        s << "(Empty)";
+      else
+        s << "(" << a << ", " << b << ")";
       return s;
     }
 

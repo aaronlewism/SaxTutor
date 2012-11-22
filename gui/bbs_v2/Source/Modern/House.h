@@ -112,7 +112,7 @@ namespace bellebonnesage { namespace modern
     void Default()
     {
       SpaceHeight = 0.05;
-      StaffDistance = 10.0;
+      StaffDistance = 12.0;
       DefaultStemHeight = 7.5;//3.5;
       MaxDotsToConsider = 4;
       StaffLineThickness = 0.14;
@@ -130,7 +130,7 @@ namespace bellebonnesage { namespace modern
       LedgerLineGap = 0.1;
       AccidentalExtraSpacing = 0.1;
       RhythmicDotSize = 0.4;
-      RhythmicDotNoteheadDistance = 1.2;
+      RhythmicDotNoteheadDistance = 1.1;
       RhythmicDotSpacing = 1.0;
       NonInitialClefSize = 0.8;
     }

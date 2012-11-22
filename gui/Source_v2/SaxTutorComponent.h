@@ -94,7 +94,7 @@ struct Score : public bbs::Portfolio
       for(bbs::count i = 0; i < Systems.n(); i++)
       {
         Painter.Translate(bbs::Vector(Dimensions.x*0.075, 
-																			Dimensions.y - (bbs::number)(i + 2) * 1.5)); //TODO(alewis): Assumes 8.5 x 11?
+																			Dimensions.y - (bbs::number)(i + 2) * 1.5)); 
         p.Paint(&Painter, Systems[i]);
         Painter.Revert();
       }

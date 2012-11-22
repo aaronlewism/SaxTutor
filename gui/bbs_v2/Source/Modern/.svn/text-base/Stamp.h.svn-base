@@ -107,7 +107,8 @@ namespace bellebonnesage { namespace modern
     
     ///Applies a selection coloring if the selection matches the click index.
     void ApplySelectionColoring(prim::count SelectionIndex,
-      bellebonnesage::Color SelectionColor = bellebonnesage::Colors::royalblue)
+      bellebonnesage::Color SelectionColor =
+        bellebonnesage::Colors::mediumseagreen)
     {
       if(SelectionIndex == ClickIndex && SelectionIndex)
         c = SelectionColor;
@@ -118,12 +119,7 @@ namespace bellebonnesage { namespace modern
     ///Applies the coloring from the node.
     void ApplyNodeColoring()
     {
-      if(!n)
-      {
-        c = Colors::black;
-        return;
-      }
-
+      if(!n) return;
       c = n->IntendedColor;
     }
     
@@ -227,6 +223,14 @@ namespace bellebonnesage { namespace modern
       
       //Reset the color and undo the transformation.
       Painter->Revert();
+      
+#if 0 //Draw stamp bounding box.
+      {
+        Path p;
+        Shapes::AddRectangleFromLines(p, Bounds(Context), 0.1);
+        Painter->Draw(p);
+      }
+#endif
     }
   
     ///Gets the bounds of the stamp.

@@ -1,49 +1,13 @@
 K 25
 svn:wc:ra_dav:version-url
 V 49
-/svnroot/bellebonnesage/!svn/ver/595/trunk/Source
-END
-Manual.h
-K 25
-svn:wc:ra_dav:version-url
-V 58
-/svnroot/bellebonnesage/!svn/ver/427/trunk/Source/Manual.h
-END
-SVG.h
-K 25
-svn:wc:ra_dav:version-url
-V 55
-/svnroot/bellebonnesage/!svn/ver/559/trunk/Source/SVG.h
-END
-Colors.h
-K 25
-svn:wc:ra_dav:version-url
-V 58
-/svnroot/bellebonnesage/!svn/ver/559/trunk/Source/Colors.h
-END
-Optics.h
-K 25
-svn:wc:ra_dav:version-url
-V 58
-/svnroot/bellebonnesage/!svn/ver/455/trunk/Source/Optics.h
-END
-Units.h
-K 25
-svn:wc:ra_dav:version-url
-V 57
-/svnroot/bellebonnesage/!svn/ver/471/trunk/Source/Units.h
-END
-Shapes.h
-K 25
-svn:wc:ra_dav:version-url
-V 58
-/svnroot/bellebonnesage/!svn/ver/561/trunk/Source/Shapes.h
+/svnroot/bellebonnesage/!svn/ver/610/trunk/Source
 END
 Text.h
 K 25
 svn:wc:ra_dav:version-url
 V 56
-/svnroot/bellebonnesage/!svn/ver/564/trunk/Source/Text.h
+/svnroot/bellebonnesage/!svn/ver/600/trunk/Source/Text.h
 END
 Font.h
 K 25
@@ -55,13 +19,13 @@ Abstracts.h
 K 25
 svn:wc:ra_dav:version-url
 V 61
-/svnroot/bellebonnesage/!svn/ver/558/trunk/Source/Abstracts.h
+/svnroot/bellebonnesage/!svn/ver/596/trunk/Source/Abstracts.h
 END
 prim.h
 K 25
 svn:wc:ra_dav:version-url
 V 56
-/svnroot/bellebonnesage/!svn/ver/588/trunk/Source/prim.h
+/svnroot/bellebonnesage/!svn/ver/601/trunk/Source/prim.h
 END
 mica.h
 K 25
@@ -80,4 +44,40 @@ K 25
 svn:wc:ra_dav:version-url
 V 56
 /svnroot/bellebonnesage/!svn/ver/482/trunk/Source/Path.h
+END
+Manual.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/bellebonnesage/!svn/ver/427/trunk/Source/Manual.h
+END
+SVG.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/bellebonnesage/!svn/ver/559/trunk/Source/SVG.h
+END
+Colors.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/bellebonnesage/!svn/ver/596/trunk/Source/Colors.h
+END
+Optics.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/bellebonnesage/!svn/ver/455/trunk/Source/Optics.h
+END
+Units.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/bellebonnesage/!svn/ver/471/trunk/Source/Units.h
+END
+Shapes.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/bellebonnesage/!svn/ver/608/trunk/Source/Shapes.h
 END

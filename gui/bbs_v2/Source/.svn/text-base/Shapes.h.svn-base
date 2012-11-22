@@ -1317,7 +1317,7 @@ namespace bellebonnesage
         }
 
         //Create the curve.
-        p.Add(Instruction(v[0]));
+        p.Add(Instruction(v[0], true));
         for(prim::count i = 0; i <= 42; i+= 2)
         {
           prim::planar::Bezier b;

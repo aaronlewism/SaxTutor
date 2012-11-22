@@ -36,7 +36,7 @@
   ==============================================================================
 */
 
-#ifdef BELLEBONNESAGE_MODULES_FREETYPE_H
+#ifndef BELLEBONNESAGE_MODULES_FREETYPE_H
 #define BELLEBONNESAGE_MODULES_FREETYPE_H
 
 #ifdef BELLEBONNESAGE_COMPILE_INLINE

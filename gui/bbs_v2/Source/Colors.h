@@ -43,48 +43,100 @@ namespace bellebonnesage {
 
   //Forward declarations
   struct Color;
-  struct RGB;
-  struct CMYK;
-  struct sRGB;
-  struct AdobeRGB;
-  struct CIEXYZ;
-  struct CIExyY;
-  
-  ///Represents an exact color in the sRGB profile.
-  struct sRGB
+
+  struct ColorModels
   {
-    prim::float32 R, G, B;
+    struct sRGB;
+    struct AdobeRGB;
+    struct CIEXYZ;
+    struct CIExyY;
     
-    sRGB(prim::float32 R = 0.5f, prim::float32 G = 0.5f,
-      prim::float32 B = 0.5f) : R(R), G(G), B(B) {}
-      
-    ///Searches the system for the sRGB profile and returns it if possible.
-    static prim::String LookForProfile()
+    ///Represents an exact color in the AdobeRGB color profile.
+    struct AdobeRGB
     {
-      prim::String ICC;
-#if defined(PRIM_ENVIRONMENT_APPLE)
-      prim::File::Read("/System/Library/ColorSync/Profiles/sRGB Profile.icc",
-        ICC);
-#elif defined(PRIM_ENVIRONMENT_POSIX)
-      prim::File::Read("/usr/share/color/icc/sRGB.icc", ICC);
-#elif defined(PRIM_ENVIRONMENT_WINDOWS)
-      prim::File::Read("\\Windows\\System32\\Spool\\Drivers\\Color\\sRGB Color "
-        "Space Profile.icc", ICC);
-#endif
-      return ICC;
-    }
-    
-    operator CIEXYZ ();
-    operator CIExyY ();
-    operator AdobeRGB ();
-  };
+      prim::float32 R, G, B;
+      
+      AdobeRGB(prim::float32 R = 0.5f, prim::float32 G = 0.5f,
+        prim::float32 B = 0.5f) : R(R), G(G), B(B) {}
+      
+      operator ColorModels::CIEXYZ ();
+      operator ColorModels::CIExyY ();
+      operator ColorModels::sRGB ();
+      operator Color ();
+    };
   
-  ///Represents a device-dependent RGB color.
-  struct RGB
-  {
-    prim::float32 R, G, B;
-    RGB(prim::float32 R = 0.5f, prim::float32 G = 0.5f,
-      prim::float32 B = 0.5f) : R(R), G(G), B(B) {}
+    ///Represents an exact color in the CIE xyY color space.
+    struct CIExyY
+    {
+      prim::float32 x, y, Y;
+      
+      CIExyY(prim::float32 x = 0.3f, prim::float32 y = 0.3f,
+        prim::float32 Y = 0.3f) : x(x), y(y), Y(Y) {}
+  
+      operator ColorModels::CIEXYZ ();
+      operator ColorModels::sRGB ();
+      operator ColorModels::AdobeRGB ();
+      operator Color ();
+    };
+  
+    ///Represents an exact color in the CIE XYZ color space.
+    struct CIEXYZ
+    {
+      prim::float32 X, Y, Z;
+      
+      CIEXYZ(prim::float32 X = 0.3f, prim::float32 Y = 0.3f,
+        prim::float32 Z = 0.3f) : X(X), Y(Y), Z(Z) {}
+      
+      operator ColorModels::CIExyY ();
+      operator ColorModels::sRGB ();
+      operator ColorModels::AdobeRGB ();
+      operator Color ();
+    };
+    
+    ///Represents an exact color in the sRGB profile.
+    struct sRGB
+    {
+      prim::float32 R, G, B;
+      
+      sRGB(prim::float32 R = 0.5f, prim::float32 G = 0.5f,
+        prim::float32 B = 0.5f) : R(R), G(G), B(B) {}
+        
+      ///Searches the system for the sRGB profile and returns it if possible.
+      static prim::String LookForProfile()
+      {
+        prim::String ICC;
+        if(prim::Environment::Apple())
+          prim::File::Read("/System/Library/ColorSync/Profiles/sRGB Profile.icc",
+            ICC);
+        else if(prim::Environment::POSIX())
+          prim::File::Read("/usr/share/color/icc/sRGB.icc", ICC);
+        else if(prim::Environment::Windows())
+          prim::File::Read("\\Windows\\System32\\Spool\\Drivers\\Color\\"
+            "sRGB Color Space Profile.icc", ICC);
+        return ICC;
+      }
+      
+      operator ColorModels::CIEXYZ ();
+      operator ColorModels::CIExyY ();
+      operator ColorModels::AdobeRGB ();
+    };
+    
+    ///Represents a device-dependent CMYK color.
+    struct CMYK
+    {
+      prim::float32 C, M, Y, K;
+      CMYK(prim::float32 C = 0.5f, prim::float32 M = 0.5f,
+        prim::float32 Y = 0.5f, prim::float32 K = 0.5f) : C(C), M(M), Y(Y), K(K)
+        {}
+    };
+    
+    ///Represents a device-dependent RGB color.
+    struct RGB
+    {
+      prim::float32 R, G, B;
+      RGB(prim::float32 R = 0.5f, prim::float32 G = 0.5f,
+        prim::float32 B = 0.5f) : R(R), G(G), B(B) {}
+    };
   };
 
   /**An exact color. This class is an attempt to incorporate color management in
@@ -172,69 +224,69 @@ namespace bellebonnesage {
   Color class is simply a wrapper for sRGB (since that is the closest to most
   displays), though it can also represent colors outside of its gamut (which
   will simply be out of the normal bounds of 0 to 1).*/
-  struct Color : public sRGB
+  struct Color : public ColorModels::sRGB
   {
     ///Alpha value for transparency when this information is used.
     prim::float32 A;
     
     ///Default constructor creates the color black.
-    Color() : sRGB(0.f, 0.f, 0.f), A(1.f) {}
+    Color() : ColorModels::sRGB(0.f, 0.f, 0.f), A(1.f) {}
     
     ///Constructor to supply sRGB normalized values.
     Color(prim::float32 sRGBRed, prim::float32 sRGBGreen,
-      prim::float32 sRGBBlue) : sRGB(sRGBRed, sRGBGreen, sRGBBlue), A(1.f) {}
+      prim::float32 sRGBBlue) : ColorModels::sRGB(sRGBRed, sRGBGreen, sRGBBlue), A(1.f) {}
       
     ///Constructor to supply sRGB normalized values with alpha.
     Color(prim::float32 sRGBRed, prim::float32 sRGBGreen,
-      prim::float32 sRGBBlue, prim::float32 Alpha) : sRGB(sRGBRed, sRGBGreen,
+      prim::float32 sRGBBlue, prim::float32 Alpha) : ColorModels::sRGB(sRGBRed, sRGBGreen,
       sRGBBlue), A(Alpha) {}
       
     ///Constructor to supply sRGB normalized values.
     Color(prim::float64 sRGBRed, prim::float64 sRGBGreen,
-      prim::float64 sRGBBlue) : sRGB((prim::float32)sRGBRed,
+      prim::float64 sRGBBlue) : ColorModels::sRGB((prim::float32)sRGBRed,
       (prim::float32)sRGBGreen, (prim::float32)sRGBBlue), A(1.f) {}
       
     ///Constructor to supply sRGB normalized values with alpha.
     Color(prim::float64 sRGBRed, prim::float64 sRGBGreen,
       prim::float64 sRGBBlue, prim::float64 Alpha) :
-      sRGB((prim::float32)sRGBRed, (prim::float32)sRGBGreen,
+      ColorModels::sRGB((prim::float32)sRGBRed, (prim::float32)sRGBGreen,
       (prim::float32)sRGBBlue), A((prim::float32)Alpha) {}
     
     ///Constructor to supply sRGB byte values.
     Color(prim::uint8 sRGBRed, prim::uint8 sRGBGreen, prim::uint8 sRGBBlue) :
-      sRGB((prim::float32)sRGBRed / 255.f, (prim::float32)sRGBGreen / 255.f,
+      ColorModels::sRGB((prim::float32)sRGBRed / 255.f, (prim::float32)sRGBGreen / 255.f,
       (prim::float32)sRGBBlue / 255.f), A(1.f) {}
       
     ///Constructor to supply sRGB byte values.
     Color(prim::int16 sRGBRed, prim::int16 sRGBGreen, prim::int16 sRGBBlue) :
-      sRGB((prim::float32)sRGBRed / 255.f,
+      ColorModels::sRGB((prim::float32)sRGBRed / 255.f,
       (prim::float32)sRGBGreen / 255.f, (prim::float32)sRGBBlue / 255.f), A(1.f)
       {}
     
     ///Constructor to supply sRGB byte values.
     Color(prim::int32 sRGBRed, prim::int32 sRGBGreen, prim::int32 sRGBBlue) :
-      sRGB((prim::float32)sRGBRed / 255.f, (prim::float32)sRGBGreen / 255.f,
+      ColorModels::sRGB((prim::float32)sRGBRed / 255.f, (prim::float32)sRGBGreen / 255.f,
       (prim::float32)sRGBBlue / 255.f), A(1.f) {}
       
     ///Constructor to supply sRGB byte values.
     Color(prim::int64 sRGBRed, prim::int64 sRGBGreen, prim::int64 sRGBBlue) :
-      sRGB((prim::float32)sRGBRed / 255.f, (prim::float32)sRGBGreen / 255.f,
+      ColorModels::sRGB((prim::float32)sRGBRed / 255.f, (prim::float32)sRGBGreen / 255.f,
       (prim::float32)sRGBBlue / 255.f), A(1.f) {}
       
     /**Constructor to supply sRGB 2-byte values. Note this will only be called
     if uint16 values are explicitly given.*/
     Color(prim::uint16 sRGBRed, prim::uint16 sRGBGreen, prim::uint16 sRGBBlue) :
-      sRGB((prim::float32)sRGBRed / 65535.f,
+      ColorModels::sRGB((prim::float32)sRGBRed / 65535.f,
       (prim::float32)sRGBGreen / 65535.f, (prim::float32)sRGBBlue / 65535.f),
       A(1.f) {}
 
     ///Constructor from sRGB color
-    Color(const sRGB& sRGBColor) : sRGB(sRGBColor), A(1.f) {}
+    Color(const sRGB& sRGBColor) : ColorModels::sRGB(sRGBColor), A(1.f) {}
     
     /*Interprets color as a raw device-dependent RGB color. Note that by doing
     this the only way to recover the exact colors is to apply the sRGB profile
     to the output.*/
-    operator RGB ();
+    operator ColorModels::RGB ();
     
     ///Operator equals
     bool operator == (const Color& Other)
@@ -247,53 +299,6 @@ namespace bellebonnesage {
     {
       return !(*this == Other);
     }
-  };
-
-  struct CMYK
-  {
-    prim::float32 C, M, Y, K;
-    CMYK(prim::float32 C = 0.5f, prim::float32 M = 0.5f,
-      prim::float32 Y = 0.5f, prim::float32 K = 0.5f) : C(C), M(M), Y(Y), K(K)
-      {}
-  };
-  
-  struct AdobeRGB
-  {
-    prim::float32 R, G, B;
-    
-    AdobeRGB(prim::float32 R = 0.5f, prim::float32 G = 0.5f,
-      prim::float32 B = 0.5f) : R(R), G(G), B(B) {}
-    
-    operator CIEXYZ ();
-    operator CIExyY ();
-    operator sRGB ();
-    operator Color ();
-  };
-
-  struct CIExyY
-  {
-    prim::float32 x, y, Y;
-    
-    CIExyY(prim::float32 x = 0.3f, prim::float32 y = 0.3f,
-      prim::float32 Y = 0.3f) : x(x), y(y), Y(Y) {}
-
-    operator CIEXYZ ();
-    operator sRGB ();
-    operator AdobeRGB ();
-    operator Color ();
-  };
-
-  struct CIEXYZ
-  {
-    prim::float32 X, Y, Z;
-    
-    CIEXYZ(prim::float32 X = 0.3f, prim::float32 Y = 0.3f,
-      prim::float32 Z = 0.3f) : X(X), Y(Y), Z(Z) {}
-    
-    operator CIExyY ();
-    operator sRGB ();
-    operator AdobeRGB ();
-    operator Color();
   };
   
   /**A listing of SVG and web colors from. The source of the data is from:
@@ -454,123 +459,123 @@ namespace bellebonnesage {
   };
   
 #ifdef BELLEBONNESAGE_COMPILE_INLINE
-  Color::operator RGB ()
+  Color::operator ColorModels::RGB ()
   {
     //sRGB --> raw RGB//
-    return RGB(R, G, B);
+    return ColorModels::RGB(R, G, B);
   }
 
-  AdobeRGB::operator CIEXYZ ()
+  ColorModels::AdobeRGB::operator ColorModels::CIEXYZ ()
   {
     //AdobeRGB --> CIEXYZ//
-    return CIEXYZ(
+    return ColorModels::CIEXYZ(
       0.57667f * R + 0.18556f * G + 0.18823f * B,
       0.29734f * R + 0.62736f * G + 0.07529f * B,
       0.02703f * R + 0.07069f * G + 0.99134f * B);
   };
 
-  AdobeRGB::operator sRGB ()
+  ColorModels::AdobeRGB::operator ColorModels::sRGB ()
   {
     //AdobeRGB --> CIEXYZ --> sRGB//
-    return (sRGB)(CIEXYZ)(*this);
+    return (ColorModels::sRGB)(ColorModels::CIEXYZ)(*this);
   }
 
-  AdobeRGB::operator CIExyY ()
+  ColorModels::AdobeRGB::operator ColorModels::CIExyY ()
   {
     //AdobeRGB --> CIEXYZ --> CIExyY//
-    return (CIExyY)(CIEXYZ)(*this);
+    return (ColorModels::CIExyY)(ColorModels::CIEXYZ)(*this);
   }
   
-  AdobeRGB::operator Color ()
+  ColorModels::AdobeRGB::operator Color ()
   {
     //AdobeRGB --> sRGB --> Color (sRGB)//
-    return Color((sRGB)(*this));
+    return Color((ColorModels::sRGB)(*this));
   }
 
-  sRGB::operator CIEXYZ ()
+  ColorModels::sRGB::operator ColorModels::CIEXYZ ()
   {
     //sRGB --> CIEXYZ//
     
     //From: http://en.wikipedia.org/wiki/SRGB_color_space (reverse transform)
-    return CIEXYZ(
+    return ColorModels::CIEXYZ(
       0.4124f * R + 0.3576f * G + 0.1805f * B,
       0.2126f * R + 0.7152f * G + 0.0722f * B,
       0.0193f * R + 0.1192f * G + 0.9505f * B);
   }
 
-  sRGB::operator CIExyY ()
+  ColorModels::sRGB::operator ColorModels::CIExyY ()
   {
     //sRGB --> CIEXYZ --> CIExyY//
-    return (CIExyY)(CIEXYZ)(*this);
+    return (ColorModels::CIExyY)(ColorModels::CIEXYZ)(*this);
   }
 
-  sRGB::operator AdobeRGB ()
+  ColorModels::sRGB::operator ColorModels::AdobeRGB ()
   {
     //sRGB --> CIEXYZ --> AdobeRGB//
     return (AdobeRGB)(CIEXYZ)(*this);
   }
 
-  CIEXYZ::operator CIExyY ()
+  ColorModels::CIEXYZ::operator ColorModels::CIExyY ()
   {
     //CIEXYZ --> CIExyY//
     
     //From: http://en.wikipedia.org/wiki/CIE_xyY (CIE xyY color space)
-    return CIExyY(X / (X + Y + Z + 0.000001f), Y / (X + Y + Z + 0.000001f), Y);
+    return ColorModels::CIExyY(X / (X + Y + Z + 0.000001f), Y / (X + Y + Z + 0.000001f), Y);
   }
 
-  CIEXYZ::operator sRGB ()
+  ColorModels::CIEXYZ::operator ColorModels::sRGB ()
   {
     //CIEXYZ --> sRGB//
     
     //From: http://en.wikipedia.org/wiki/SRGB_color_space (forward transform)
-    return sRGB(
+    return ColorModels::sRGB(
       3.2406f * X - 1.5372f * Y - 0.4986f * Z,
      -0.9689f * X + 1.8758f * Y + 0.0415f * Z,
       0.0557f * X - 0.2040f * Y + 1.0570f * Z);
   }
 
-  CIEXYZ::operator AdobeRGB ()
+  ColorModels::CIEXYZ::operator ColorModels::AdobeRGB ()
   {
     //CIEXYZ --> AdobeRGB//
     
     //From: http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
-    return AdobeRGB(
+    return ColorModels::AdobeRGB(
       2.04159f * X - 0.56501f * Y - 0.34473f * Z,
      -0.96924f * X + 1.87597f * Y + 0.04156f * Z,
       0.01344f * X - 0.11836f * Y + 1.01517f * Z);
   }
   
-  CIEXYZ::operator Color ()
+  ColorModels::CIEXYZ::operator Color ()
   {
     //CIEXYZ --> sRGB --> Color (sRGB)//
-    return Color((sRGB)(*this));
+    return Color((ColorModels::sRGB)(*this));
   }
 
-  CIExyY::operator CIEXYZ ()
+  ColorModels::CIExyY::operator ColorModels::CIEXYZ ()
   {
     //CIExyY --> CIEXYZ//
     
     //From: http://en.wikipedia.org/wiki/CIE_xyY (CIE xyY color space)
-    return CIEXYZ(Y * x / (y + 0.000001f), Y, Y * (1 - x - y) /
+    return ColorModels::CIEXYZ(Y * x / (y + 0.000001f), Y, Y * (1 - x - y) /
       (y + 0.000001f));
   }
 
-  CIExyY::operator sRGB ()
+  ColorModels::CIExyY::operator ColorModels::sRGB ()
   {
     //CIExyY --> CIEXYZ --> sRGB//
-    return (sRGB)(CIEXYZ)(*this);
+    return (ColorModels::sRGB)(ColorModels::CIEXYZ)(*this);
   }
 
-  CIExyY::operator AdobeRGB ()
+  ColorModels::CIExyY::operator ColorModels::AdobeRGB ()
   {
     //CIExyY --> CIEXYZ --> AdobeRGB//
-    return (AdobeRGB)(CIEXYZ)(*this);
+    return (ColorModels::AdobeRGB)(ColorModels::CIEXYZ)(*this);
   }
   
-  CIExyY::operator Color ()
+  ColorModels::CIExyY::operator Color ()
   {
     //CIExyY --> sRGB --> Color (sRGB)//
-    return Color((sRGB)(*this));
+    return Color((ColorModels::sRGB)(*this));
   }
   
   const Color Colors::Empty(0.f, 0.f, 0.f, 0.f);
@@ -721,7 +726,6 @@ namespace bellebonnesage {
   const Color Colors::whitesmoke(245, 245, 245);
   const Color Colors::yellow(255, 255, 0);
   const Color Colors::yellowgreen(154, 205, 50);
-  
 #endif
 }
 #endif

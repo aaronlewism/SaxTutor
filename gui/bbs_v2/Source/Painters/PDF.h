@@ -105,6 +105,9 @@ namespace bellebonnesage { namespace painters
       {
         Load(Data, Bytes);
       }
+      
+      ///Virtual destructor.
+      virtual ~JPEGImage() {}
 
       ///Returns the image size.
       prim::planar::VectorInt GetSize() const
@@ -768,9 +771,10 @@ namespace bellebonnesage { namespace painters
           PageContent->Content >> "/DeviceRGB CS";
         }
         
-        /*Metadata is saved on the first page as a no-op text string with a
-        special GUID tag.*/
-        if(p->ExtraData.n() && i == 0)
+        /*Metadata is saved on the last page as a no-op text string with a
+        special GUID tag. The last page is used so that large amounts of data
+        do not interfere with showing the first page on a load.*/
+        if(p->ExtraData.n() && i == cl.n() - 1)
         {
           String MetadataPayload;
           MetadataPayload >> "BT /DefaultFont 1 Tf 0 0 Td 3 Tr (";

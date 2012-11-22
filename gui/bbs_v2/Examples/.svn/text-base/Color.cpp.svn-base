@@ -91,7 +91,7 @@ int main()
     (byte*)ExtraMetadata.Merge(), ExtraMetadata.n());
   
   //Look for the sRGB color profile on the system and use it if it is available.
-  PDFSpecificProperties.ICCProfile = sRGB::LookForProfile();
+  PDFSpecificProperties.ICCProfile = ColorModels::sRGB::LookForProfile();
   
   //Write the score to PDF.
   MyScore.Create<PDF>(PDFSpecificProperties);

@@ -855,6 +855,7 @@ namespace bellebonnesage
       return Words[WordIndex][CharIndex].Code;
     }
     
+#if 0 //Unstable code. Word::Bounds() is not const and typesets.
     ///Gets the bounds of the typeset text.
     prim::planar::Rectangle Bounds()
     {
@@ -870,6 +871,7 @@ namespace bellebonnesage
         r = r + Words[i].Bounds(FontToUse, LineHeight);
       return r;
     }
+#endif
   };
 }
 #endif

@@ -105,6 +105,9 @@ namespace bellebonnesage
     ///Initializes the image with a given resource ID.
     Image(const Resource& ResourceID) : Resource(ResourceID) {}
     
+    ///Virtual destructor.
+    virtual ~Image() {}
+    
     ///Returns the size of the image in pixels.
     virtual prim::planar::VectorInt GetSize() const = 0;
   };

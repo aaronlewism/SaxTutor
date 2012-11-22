@@ -1,13 +1,13 @@
 K 25
 svn:wc:ra_dav:version-url
 V 56
-/svnroot/bellebonnesage/!svn/ver/595/trunk/Source/Modern
+/svnroot/bellebonnesage/!svn/ver/609/trunk/Source/Modern
 END
 Chord.h
 K 25
 svn:wc:ra_dav:version-url
 V 64
-/svnroot/bellebonnesage/!svn/ver/594/trunk/Source/Modern/Chord.h
+/svnroot/bellebonnesage/!svn/ver/609/trunk/Source/Modern/Chord.h
 END
 Spring.h
 K 25
@@ -39,12 +39,6 @@ svn:wc:ra_dav:version-url
 V 68
 /svnroot/bellebonnesage/!svn/ver/510/trunk/Source/Modern/Directory.h
 END
-Piece2.h
-K 25
-svn:wc:ra_dav:version-url
-V 65
-/svnroot/bellebonnesage/!svn/ver/595/trunk/Source/Modern/Piece2.h
-END
 Stem.h
 K 25
 svn:wc:ra_dav:version-url
@@ -67,7 +61,7 @@ Island.h
 K 25
 svn:wc:ra_dav:version-url
 V 65
-/svnroot/bellebonnesage/!svn/ver/588/trunk/Source/Modern/Island.h
+/svnroot/bellebonnesage/!svn/ver/606/trunk/Source/Modern/Island.h
 END
 Custom.h
 K 25
@@ -85,7 +79,7 @@ Barline.h
 K 25
 svn:wc:ra_dav:version-url
 V 66
-/svnroot/bellebonnesage/!svn/ver/548/trunk/Source/Modern/Barline.h
+/svnroot/bellebonnesage/!svn/ver/600/trunk/Source/Modern/Barline.h
 END
 State.h
 K 25
@@ -97,19 +91,25 @@ House.h
 K 25
 svn:wc:ra_dav:version-url
 V 64
-/svnroot/bellebonnesage/!svn/ver/591/trunk/Source/Modern/House.h
-END
-Modern.h
-K 25
-svn:wc:ra_dav:version-url
-V 65
-/svnroot/bellebonnesage/!svn/ver/564/trunk/Source/Modern/Modern.h
+/svnroot/bellebonnesage/!svn/ver/606/trunk/Source/Modern/House.h
 END
 Stamp.h
 K 25
 svn:wc:ra_dav:version-url
 V 64
-/svnroot/bellebonnesage/!svn/ver/589/trunk/Source/Modern/Stamp.h
+/svnroot/bellebonnesage/!svn/ver/607/trunk/Source/Modern/Stamp.h
+END
+Modern.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/bellebonnesage/!svn/ver/602/trunk/Source/Modern/Modern.h
+END
+System.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/bellebonnesage/!svn/ver/608/trunk/Source/Modern/System.h
 END
 Selection.h
 K 25
@@ -121,5 +121,5 @@ Piece.h
 K 25
 svn:wc:ra_dav:version-url
 V 64
-/svnroot/bellebonnesage/!svn/ver/586/trunk/Source/Modern/Piece.h
+/svnroot/bellebonnesage/!svn/ver/604/trunk/Source/Modern/Piece.h
 END

@@ -168,18 +168,9 @@ namespace bellebonnesage { namespace graph
       return mica::M(ID(GetType())).Name();
     }
     
-    ///Pass the serialization method on to its subclasses.
-    virtual void Serialize(prim::Serial &s, prim::Serial::Modes Mode,
-      prim::UUID &VersionOrID)
+    ///Serializes attribute and property tables.
+    void SerializeProperties(prim::Serial &s, prim::Serial::Modes Mode)
     {
-      if(Mode == prim::Serial::CheckVersion) return;
-      else if(Mode == prim::Serial::CheckID)
-      {
-        VersionOrID = GetType();
-        return;
-      }
-      
-      //Serialize the attribute and property tables.
       if(Mode == prim::Serial::Writing)
       {
         s.Write(Attributes.n());
@@ -219,6 +210,20 @@ namespace bellebonnesage { namespace graph
           Properties[k] = v;
         }
       }
+    }
+    
+    ///Pass the serialization method on to its subclasses.
+    virtual void Serialize(prim::Serial &s, prim::Serial::Modes Mode,
+      prim::UUID &VersionOrID)
+    {
+      if(Mode == prim::Serial::CheckVersion) return;
+      else if(Mode == prim::Serial::CheckID)
+      {
+        VersionOrID = GetType();
+        return;
+      }
+      
+      SerializeProperties(s, Mode);
     }
   };
 

@@ -79,6 +79,9 @@ namespace bellebonnesage { namespace painters
       Image(Resource& ResourceID, const juce::Image& Handle) : 
         bellebonnesage::Image(ResourceID), Handle(Handle) {}
 
+      ///Virtual destructor
+      virtual ~Image() {}
+      
       ///Returns the image size.
       prim::planar::VectorInt GetSize() const
       {

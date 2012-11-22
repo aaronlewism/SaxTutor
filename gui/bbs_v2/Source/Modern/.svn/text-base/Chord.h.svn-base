@@ -133,7 +133,8 @@ namespace bellebonnesage { namespace modern
     }
     
     ///Engraves the chord onto the stamp.
-    void Engrave(Stamp& s, const House& h, const Cache& c, const Typeface& t)
+    void Engrave(Stamp& s, const House& h, const Cache& c, const Typeface& t,
+      const Font& f)
     {
       //If the structure is empty, then do not add anything to the stamp.
       if(!StaffNotes.n() && !IsRest) return;
@@ -141,7 +142,7 @@ namespace bellebonnesage { namespace modern
       CreateClusters();
       EngraveLedgerLines(s, h, c);
       Path ChordBounds;
-      EngraveNoteheads(s, ChordBounds, h, c);
+      EngraveNoteheads(s, ChordBounds, h, c, f);
       EngraveRest(s, ChordBounds, h, t);
       EngraveDots(s, ChordBounds, h, c);
       
@@ -162,7 +163,10 @@ namespace bellebonnesage { namespace modern
         //Add the flag to the stamp.
         s.Add().p2 = t.LookupGlyph(87);
         s.z().a = Affine::Translate(f) * Affine::Scale(4.0);
-        s.z().n = OriginalNode;
+        if(StaffNotes.n() == 1)
+          s.z().n = StaffNotes.a().OriginalNode;
+        else
+          s.z().n = OriginalNode;
         
         //Flip the stem direction for stem down (flag up).
         if(!StemUp)
@@ -251,7 +255,7 @@ namespace bellebonnesage { namespace modern
     
     ///Engraves the noteheads onto the stamp and returns their bounds.
     void EngraveNoteheads(Stamp& s, Path& Bounds, const House& h,
-      const Cache& c)
+      const Cache& c, const Font& f)
     {
       //If the chord is a rest, then noteheads do not pertain.
       if(IsRest) return;
@@ -261,21 +265,26 @@ namespace bellebonnesage { namespace modern
       {
         prim::number VerticalPosition =
           Utility::GetLineSpacePosition(StaffNotes[i].LineSpace, StaffLines, h);
+        prim::number VerticalPositionRounded =
+          Utility::GetLineSpacePosition(((StaffNotes[i].LineSpace % 2) ?
+          StaffNotes[i].LineSpace - 1 : StaffNotes[i].LineSpace - 2),
+          StaffLines, h);
         prim::number StaffNoteColumn = (prim::number)GetStaffNoteColumn(i);
         prim::planar::Vector NoteheadPosition(
           StaffNoteColumn * h.NoteheadWidthPrecise, VerticalPosition);
+        prim::planar::Vector TextPosition(
+          StaffNoteColumn * h.NoteheadWidthPrecise, VerticalPositionRounded);
         
         //Account for the fact that noteheads overlap in stem space.
         if(StaffNoteColumn)
           NoteheadPosition.x -= (prim::number)StaffNoteColumn * h.StemWidth;
         
         prim::planar::Rectangle b;
-        
+
         if(i || Duration >= prim::Ratio(1, 1))
         {
           s.Add().p2 = c[Utility::GetNotehead(Duration)];
           s.z().a = Affine::Translate(NoteheadPosition);
-          s.z().n = StaffNotes[i].OriginalNode;
           b = s.z().p2->Bounds();
 
           //Force the y coordinates to occupy no more than a space.
@@ -302,9 +311,21 @@ namespace bellebonnesage { namespace modern
             1.0, true, FlagY - VerticalPosition, &FlagPosition, h.NoteheadAngle,
             h.NoteheadWidth, h.StemWidth, h.StemCapHeight,
             (Base == prim::Ratio(1, 2)));
-          s.z().n = StaffNotes[i].OriginalNode;
           
           b = s.z().p.Bounds();
+        }
+        s.z().n = StaffNotes[i].OriginalNode;
+        
+        //If the annotation property is set, display the text next to the note.
+        if(prim::String t = StaffNotes[i].OriginalNode->Get("Annotation"))
+        {
+          Painter::Draw(s.Add().p, t, f, 72.0 * 1.2, Font::Regular,
+            Text::Justifications::Left, 20.0);
+          prim::planar::Vector Adjust(1.0, 0.11);
+          if(Utility::CountDots(Duration, h.MaxDotsToConsider) > 0)
+            Adjust.x += h.RhythmicDotNoteheadDistance;
+          s.z().a = Affine::Translate(TextPosition + Adjust);
+          s.z().c = Colors::orangered;
         }
         
         //Add the note bounds.
@@ -474,7 +495,8 @@ namespace bellebonnesage { namespace modern
       for(prim::count i = 0; i < AccidentalPlacement.n(); i++)
       {
         s.Add().p2 = AccidentalPaths[i];
-        s.z().a = Affine::Translate(BestPlacement[i]);
+        s.z().a = Affine::Translate(BestPlacement[i] +
+          prim::planar::Vector(-0.2, 0.0));
         s.z().n = StaffNotes[i].OriginalNode;
       }
     }
