@@ -38,17 +38,12 @@ using namespace bbs;
 //Subclass Score from bellebonnesage::Portfolio
 struct Score : public bbs::Portfolio
 {
-	bbs::graph::MusicGraph* g;
+	//bbs::graph::MusicGraph* g = NULL;
+	bbs::String graphXML;
 	bbs::Font myFont;
 
 	~Score() {
-		delete g;
 		Canvases.RemoveAndDeleteAll();
-	}
-
-	void SerializeGraph() {
-		bbs::UUID Version(1, 0);
-		g->Serialize(s, bbs::Serial::Writing, Version);
 	}
 
   /*Subclass Page from bellebonnesage::Canvas. Note that Page is a class inside
@@ -82,29 +77,31 @@ struct Score : public bbs::Portfolio
 				c.Create(h, *t);
 			}
 
+			bbs::graph::MusicGraph* g = new bbs::graph::MusicGraph;
+			bbs::graph::XML::Read(g, score.graphXML);
 
-			bbs::graph::MusicSerial s2;
-			s2.CopyMemoryFrom(score.s);
-			bbs::UUID Version(1,0);
-			bbs::graph::MusicGraph* graph = new bbs::graph::MusicGraph;
-			graph->Serialize(s2, bbs::Serial::Reading, Version);
+			bbs::number SystemWidth = Dimensions.x * 0.85;
+			bbs::number SpaceHeight = 0.065;
+			bbs::number SystemWidthSpaces = SystemWidth / SpaceHeight;
 
 			//bbs::c >> "Outputting 1\n";
       bbs::modern::Piece p;
-			p.Initialize(graph, h, c, *t, score.myFont);
+			p.Initialize(g, h, c, *t, score.myFont);
+			p.Typeset(true);
       bbs::List<bbs::modern::System> Systems;
-      p.CreateSystems(Systems, Dimensions.x*0.85, Dimensions.x*0.85);
+      p.CreateSystems(Systems, SystemWidthSpaces, SystemWidthSpaces);
+			bbs::Vector BottomLeft = bbs::Vector(Dimensions.x * 0.075, Dimensions.y * 0.925);
       for(bbs::count i = 0; i < Systems.n(); i++)
       {
-        Painter.Translate(bbs::Vector(Dimensions.x*0.075, 
-																			Dimensions.y - (bbs::number)(i + 2) * 1.5)); 
-        Systems[i].Paint(Painter);
-        Painter.Revert();
+				Systems[i].CalculateSpacing(10,
+					(i < Systems.n() - 1 ? SystemWidthSpaces : 0.0));
+        BottomLeft -= bbs::Vector(0.0, Systems[i].Bounds.Height() * SpaceHeight);
+				Systems[i].Paint(Painter, BottomLeft, SpaceHeight);
       }
 		
 			p.ClearTypesetting();
 			//Systems.Clear();
-			s2.Clear();
+			//s2.Clear();
     }
   };
 

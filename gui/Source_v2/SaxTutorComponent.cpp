@@ -99,12 +99,13 @@ void LoadResources(Score* myScore)
   myScore->myFont.Add(bbs::Font::Special1)->ImportFromArray((bbs::byte*)Resources::joie_bellefont);
 
   //Load a graph.
-  myScore->g = new bbs::graph::MusicGraph;
-  bbs::graph::XML::Read(myScore->g, bbs::String((bbs::byte*)Resources::chopin_xml,
-		Resources::chopin_xmlSize));
-	bbs::c >> "Loaded graph\n";
-	myScore->SerializeGraph();
-  bbs::c >> "Serialized graph\n";
+  //myScore->g = new bbs::graph::MusicGraph;
+	myScore->graphXML = bbs::String((bbs::byte*)Resources::chopin_xml,
+		Resources::chopin_xmlSize);
+  //bbs::graph::XML::Read(myScore->g, );
+	//bbs::c >> "Loaded graph\n";
+	//myScore->SerializeGraph();
+  //bbs::c >> "Serialized graph\n";
 }
 //[/MiscUserCode]
 

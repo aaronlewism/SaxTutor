@@ -59,11 +59,11 @@ public:
     }
 
     //==============================================================================
-    void initialise (const String& commandLine)
+    void initialise (const juce::String& commandLine)
     {
     	// Do your application's initialisation code here..
-	//Step 1: Create a score, add some pages, and give it some information.
-	saxTutorWindow = new SaxTutorWindow();
+			//Step 1: Create a score, add some pages, and give it some information.
+			saxTutorWindow = new SaxTutorWindow();
     }
 
     void shutdown()
@@ -79,12 +79,12 @@ public:
     }
 
     //==============================================================================
-    const String getApplicationName()
+    const juce::String getApplicationName()
     {
         return "SaxTutor";
     }
 
-    const String getApplicationVersion()
+    const juce::String getApplicationVersion()
     {
         return ProjectInfo::versionString;
     }
@@ -94,7 +94,7 @@ public:
         return true;
     }
 
-    void anotherInstanceStarted (const String& commandLine)
+    void anotherInstanceStarted (const juce::String& commandLine)
     {
         
     }
