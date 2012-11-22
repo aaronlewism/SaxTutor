@@ -20,13 +20,13 @@
 */
 
 //[Headers] You can add your own extra header files here...
+#define BELLEBONNESAGE_COMPILE_INLINE
+#include "../bbs/Examples/Resources.h"
 //[/Headers]
 
-#define BELLEBONNESAGE_COMPILE_INLINE
 #include "SaxTutorComponent.h"
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
-bbs::String DetermineResourcePath();
 void LoadResources(Score*);
 
 //[/MiscUserDefs]
@@ -92,44 +92,16 @@ void SaxTutorComponent::resized()
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
-bbs::String DetermineResourcePath()
-{
-  bbs::String dummy;
-  if(bbs::File::Read("./GentiumBasicRegular.bellefont", dummy))
-    return "./";
-  else if(bbs::File::Read("../Resources/GentiumBasicRegular.bellefont", dummy))
-    return "../Resources/";
-  else if(bbs::File::Read("./Resources/GentiumBasicRegular.bellefont", dummy))
-    return "./Resources/";
-	else if(bbs::File::Read("/home/amlewis/SaxTutor/gui/Resources/GentiumBasicRegular.bellefont", dummy))
-		return "/home/amlewis/SaxTutor/gui/Resources/";
-  else
-    prim::c >> "Path to resources could not be determined. (SaxTutorComponent.cpp::DetermineResourcePath()";
-  return "";
-}
-
 void LoadResources(Score* myScore)
-{
-  //Find the font path.
-  bbs::String Path = DetermineResourcePath();
-  if(!Path)
-    return;
-    
+{   
   //Load some typefaces into the font.
-  bbs::String Joie = Path; Joie << "Joie.bellefont";
-  bbs::Array<bbs::byte> a;
-  if(bbs::File::Read(Joie, a))
-    myScore->myFont.Add(bbs::Font::Special1)->ImportFromArray(&a.a());
+  myScore->myFont.Add(bbs::Font::Special1)->ImportFromArray((bbs::byte*)Resources::joie_bellefont);
 
   //Load a graph.
-  bbs::String Doc = Path; Doc << "ChopinPreludeOp28No20.mgf";
-  bbs::graph::MusicSerial s;
-  bbs::File::Read(Doc, s);
-  bbs::UUID Version(1, 0);
-  if(!s.ChecksumValid()) return;
-  bbs::c >> "Loaded graph\n";
   myScore->g = new bbs::graph::MusicGraph;
-  myScore->g->Serialize(s, bbs::Serial::Reading, Version);
+  bbs::graph::XML::Read(myScore->g, bbs::String((bbs::byte*)Resources::chopin_xml,
+		Resources::chopin_xmlSize));
+	bbs::c >> "Loaded graph\n";
 	myScore->SerializeGraph();
   bbs::c >> "Serialized graph\n";
 }

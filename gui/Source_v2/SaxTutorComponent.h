@@ -88,19 +88,20 @@ struct Score : public bbs::Portfolio
 			graph->Serialize(s2, bbs::Serial::Reading, Version);
 
 			//bbs::c >> "Outputting 1\n";
-      bbs::modern::Piece p(graph, h, c, *t, score.myFont);
-      bbs::Array<bbs::modern::Piece::System> Systems;
-      p.Prepare(Systems, Dimensions.x*0.85, Dimensions.x*0.85);
+      bbs::modern::Piece p;
+			p.Initialize(graph, h, c, *t, score.myFont);
+      bbs::List<bbs::modern::System> Systems;
+      p.CreateSystems(Systems, Dimensions.x*0.85, Dimensions.x*0.85);
       for(bbs::count i = 0; i < Systems.n(); i++)
       {
         Painter.Translate(bbs::Vector(Dimensions.x*0.075, 
 																			Dimensions.y - (bbs::number)(i + 2) * 1.5)); 
-        p.Paint(&Painter, Systems[i]);
+        Systems[i].Paint(Painter);
         Painter.Revert();
       }
 		
 			p.ClearTypesetting();
-			Systems.Clear();
+			//Systems.Clear();
 			s2.Clear();
     }
   };

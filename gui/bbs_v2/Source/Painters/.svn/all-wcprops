@@ -3,6 +3,12 @@ svn:wc:ra_dav:version-url
 V 58
 /svnroot/bellebonnesage/!svn/ver/610/trunk/Source/Painters
 END
+JUCE.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/bellebonnesage/!svn/ver/596/trunk/Source/Painters/JUCE.h
+END
 PDF.h
 K 25
 svn:wc:ra_dav:version-url
@@ -14,10 +20,4 @@ K 25
 svn:wc:ra_dav:version-url
 V 64
 /svnroot/bellebonnesage/!svn/ver/560/trunk/Source/Painters/SVG.h
-END
-JUCE.h
-K 25
-svn:wc:ra_dav:version-url
-V 65
-/svnroot/bellebonnesage/!svn/ver/596/trunk/Source/Painters/JUCE.h
 END

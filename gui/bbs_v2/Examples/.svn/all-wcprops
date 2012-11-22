@@ -3,30 +3,6 @@ svn:wc:ra_dav:version-url
 V 51
 /svnroot/bellebonnesage/!svn/ver/602/trunk/Examples
 END
-Graph.cpp
-K 25
-svn:wc:ra_dav:version-url
-V 61
-/svnroot/bellebonnesage/!svn/ver/537/trunk/Examples/Graph.cpp
-END
-Beaming.cpp
-K 25
-svn:wc:ra_dav:version-url
-V 63
-/svnroot/bellebonnesage/!svn/ver/558/trunk/Examples/Beaming.cpp
-END
-Springs2.cpp
-K 25
-svn:wc:ra_dav:version-url
-V 64
-/svnroot/bellebonnesage/!svn/ver/537/trunk/Examples/Springs2.cpp
-END
-ConvertFont.cpp
-K 25
-svn:wc:ra_dav:version-url
-V 67
-/svnroot/bellebonnesage/!svn/ver/558/trunk/Examples/ConvertFont.cpp
-END
 Color.cpp
 K 25
 svn:wc:ra_dav:version-url
@@ -98,4 +74,28 @@ K 25
 svn:wc:ra_dav:version-url
 V 62
 /svnroot/bellebonnesage/!svn/ver/558/trunk/Examples/Spiral.cpp
+END
+Graph.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/bellebonnesage/!svn/ver/537/trunk/Examples/Graph.cpp
+END
+Beaming.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/bellebonnesage/!svn/ver/558/trunk/Examples/Beaming.cpp
+END
+Springs2.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/bellebonnesage/!svn/ver/537/trunk/Examples/Springs2.cpp
+END
+ConvertFont.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/bellebonnesage/!svn/ver/558/trunk/Examples/ConvertFont.cpp
 END

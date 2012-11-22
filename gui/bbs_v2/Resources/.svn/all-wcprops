@@ -3,6 +3,12 @@ svn:wc:ra_dav:version-url
 V 52
 /svnroot/bellebonnesage/!svn/ver/589/trunk/Resources
 END
+GentiumBasicRegular.bellefont
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/bellebonnesage/!svn/ver/427/trunk/Resources/GentiumBasicRegular.bellefont
+END
 ChopinPreludeOp28No20.xml
 K 25
 svn:wc:ra_dav:version-url
@@ -62,10 +68,4 @@ K 25
 svn:wc:ra_dav:version-url
 V 66
 /svnroot/bellebonnesage/!svn/ver/427/trunk/Resources/Redirect.html
-END
-GentiumBasicRegular.bellefont
-K 25
-svn:wc:ra_dav:version-url
-V 82
-/svnroot/bellebonnesage/!svn/ver/427/trunk/Resources/GentiumBasicRegular.bellefont
 END

@@ -3,18 +3,6 @@ svn:wc:ra_dav:version-url
 V 55
 /svnroot/bellebonnesage/!svn/ver/605/trunk/Source/Graph
 END
-Transitive.h
-K 25
-svn:wc:ra_dav:version-url
-V 68
-/svnroot/bellebonnesage/!svn/ver/518/trunk/Source/Graph/Transitive.h
-END
-API.h
-K 25
-svn:wc:ra_dav:version-url
-V 61
-/svnroot/bellebonnesage/!svn/ver/578/trunk/Source/Graph/API.h
-END
 Base.h
 K 25
 svn:wc:ra_dav:version-url
@@ -62,4 +50,16 @@ K 25
 svn:wc:ra_dav:version-url
 V 72
 /svnroot/bellebonnesage/!svn/ver/545/trunk/Source/Graph/Transformation.h
+END
+Transitive.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/bellebonnesage/!svn/ver/518/trunk/Source/Graph/Transitive.h
+END
+API.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/bellebonnesage/!svn/ver/578/trunk/Source/Graph/API.h
 END
