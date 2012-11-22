@@ -116,10 +116,10 @@ namespace bellebonnesage
       {
         number t1 = i / Segmentation;
         number t2 = (i + 1.0) / Segmentation;
-        Line TestLine(b1_out.Value(t1), b1_out.Value(t2));
+        prim::planar::Line TestLine(b1_out.Value(t1), b1_out.Value(t2));
         number t2_intersect = b2_out.FindLineIntersection(TestLine);
         Vector p1 = b2_out.Value(t2_intersect);
-        Rectangle r(TestLine.a, TestLine.b);
+        prim::planar::Rectangle r(TestLine.a, TestLine.b);
         if(r.Contains(p1))
         {
           Vector p0 = TestLine.a;
@@ -156,7 +156,7 @@ namespace bellebonnesage
 
       Vector p0, p1, p2, p3;
       b_in.GetControlPoints(p0, p1, p2, p3);
-      Line b_tangent(p0, p1);
+      prim::planar::Line b_tangent(p0, p1);
       number JoinAngle = l_in.Angle() - b_tangent.Angle();
       if(JoinAngle < -Pi)
         JoinAngle += TwoPi;
@@ -196,7 +196,7 @@ namespace bellebonnesage
       Vector p0, p1, p2, p3;
       b_in.GetControlPoints(p0, p1, p2, p3);
 
-      Line l_swap(l_in.b, l_in.a);
+      prim::planar::Line l_swap(l_in.b, l_in.a);
       Bezier b_swap; b_swap.SetControlPoints(p3, p2, p1, p0);
       bool UseLineExtension = DisplaceLineMeetsCurve(
         -Displacement, l_swap, b_swap, l_out, l_ext_out, b_out);
@@ -252,8 +252,8 @@ namespace bellebonnesage
       b1_in.GetControlPoints(p0, p1, p2, p3);
       b2_in.GetControlPoints(p4, p5, p6, p7);
 
-      Line b1_tangent(p2, p3);
-      Line b2_tangent(p4, p5);
+      prim::planar::Line b1_tangent(p2, p3);
+      prim::planar::Line b2_tangent(p4, p5);
       number JoinAngle = b1_tangent.Angle() - b2_tangent.Angle();
       if(JoinAngle < -Pi)
         JoinAngle += TwoPi;
@@ -281,8 +281,8 @@ namespace bellebonnesage
         //Have to fill gap with two line extensions.
         b1_out.GetControlPoints(p0, p1, p2, p3);
         b2_out.GetControlPoints(p4, p5, p6, p7);
-        Line b1_out_tangent(p2, p3);
-        Line b2_out_tangent(p4, p5);
+        prim::planar::Line b1_out_tangent(p2, p3);
+        prim::planar::Line b2_out_tangent(p4, p5);
         Vector Intersection = 
           b1_out_tangent.GetLineIntersection(b2_out_tangent);
         l1_ext_out.a = p3;

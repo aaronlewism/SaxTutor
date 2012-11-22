@@ -53,8 +53,8 @@ namespace bellebonnesage
       using namespace prim;
       using namespace prim::planar;
 
-      Rectangle r = p.Bounds();
-      Rectangle s = q.Bounds();
+      prim::planar::Rectangle r = p.Bounds();
+      prim::planar::Rectangle s = q.Bounds();
       
       return (Vector(r.Width(), r.Height()).Mag() +
         Vector(s.Width(), s.Height()).Mag()) / 2.0;

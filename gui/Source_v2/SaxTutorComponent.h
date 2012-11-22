@@ -33,6 +33,8 @@ namespace bbs {
 	using namespace bellebonnesage::painters;
 }
 
+using namespace bbs;
+
 //Subclass Score from bellebonnesage::Portfolio
 struct Score : public bbs::Portfolio
 {

@@ -264,10 +264,10 @@ namespace bellebonnesage { namespace painters
     {
       //Open up the file.
       using namespace prim;
-      String WholeFileString;
-      File::Read(Filename.Merge(), WholeFileString);
-      String Code = "DF62391C36D34DFD83EE5B61177426FE ";
-      String Result;
+      prim::String WholeFileString;
+      prim::File::Read(Filename.Merge(), WholeFileString);
+      prim::String Code = "DF62391C36D34DFD83EE5B61177426FE ";
+      prim::String Result;
       WholeFileString.FindBetween(Code, ")", Result);
       
 #ifdef BELLEBONNESAGE_WITH_ZLIB
@@ -586,8 +586,8 @@ namespace bellebonnesage { namespace painters
         }
 
         //Was AppendInteger(CurrentObject->XRefOffset,10);
-        String Integer; Integer << CurrentObject->XRefOffset;
-        String PaddedInteger;
+        prim::String Integer; Integer << CurrentObject->XRefOffset;
+        prim::String PaddedInteger;
         for(count i = 0; i < 10 - Integer.n(); i++)
           PaddedInteger << "0";
         PaddedInteger << Integer;
@@ -667,10 +667,10 @@ namespace bellebonnesage { namespace painters
       //Set up the ICC profile.
       if(ICCProfile)
       {
-        Array<byte> ICCProfileString;
+        prim::Array<byte> ICCProfileString;
         ICCProfileString.CopyMemoryFrom((const byte*)p->ICCProfile.Merge(),
           p->ICCProfile.n());
-        Array<byte> ICCString;
+        prim::Array<byte> ICCString;
         ICCProfileString.EncodeAsASCIIHex(ICCString);
         ICCProfile->Content.Append(&ICCString[0], ICCString.n());
         ICCProfile->Content << ">";
@@ -776,7 +776,7 @@ namespace bellebonnesage { namespace painters
         do not interfere with showing the first page on a load.*/
         if(p->ExtraData.n() && i == cl.n() - 1)
         {
-          String MetadataPayload;
+          prim::String MetadataPayload;
           MetadataPayload >> "BT /DefaultFont 1 Tf 0 0 Td 3 Tr (";
 
           /*Write the tag that contains a GUID identifying to a data importer
@@ -784,7 +784,7 @@ namespace bellebonnesage { namespace painters
           MetadataPayload << "DF62391C36D34DFD83EE5B61177426FE ";
           
           //Write the data as hex in case some of it is binary.
-          Array<byte> HexByteString;
+          prim::Array<byte> HexByteString;
           p->ExtraData.EncodeAsASCIIHex(HexByteString);
           MetadataPayload.Append(&HexByteString[0], HexByteString.n());
           MetadataPayload << ") Tj ET";
@@ -862,7 +862,7 @@ namespace bellebonnesage { namespace painters
 
       //If applicable send the output to file.
       if(p->Filename != "")
-        File::Write(p->Filename.Merge(), p->Output.Merge());
+        prim::File::Write(p->Filename.Merge(), p->Output.Merge());
       
       //Clear the cached portfolio.
       CachedPortfolio = 0;
@@ -942,7 +942,7 @@ namespace bellebonnesage { namespace painters
     virtual void Draw(const Path& p, const Affine& a)
     {
       using namespace prim;
-      String t;
+      prim::String t;
       number CTMMultiplier = PDFProperties->CTMMultiplier;
 
       if(State.StrokeWidth != 0.f)

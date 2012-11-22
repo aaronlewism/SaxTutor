@@ -27,6 +27,7 @@
 #include "SaxTutorComponent.h"
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
+using namespace bbs;
 void LoadResources(Score*);
 
 //[/MiscUserDefs]
