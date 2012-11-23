@@ -116,7 +116,7 @@ void LoadResources(Score* myScore)
   myScore->myFont.Add(bbs::Font::Special1)->ImportFromArray((bbs::byte*)Resources::joie_bellefont);
 
   //Load a graph.
-	bbs::c >> bbs::File::Read(DetermineResourcePath() << "ChopinPreludeOp28No20.xml", myScore->graphXML);
+	bbs::File::Read(DetermineResourcePath() << "ChopinPreludeOp28No20.xml", myScore->graphXML);
 
 	myScore->LoadTypeface();
 }

@@ -101,12 +101,11 @@ struct Score : public bbs::Portfolio
     
     //Custom paint method with score.
     void Paint(bbs::Painter& Painter, Score& score)
-    {
-			bbs::uint8 red, green, blue;
-			red = 255;
-			green = 0;
-			blue = 0;
-			//bbs::c >> score.Systems[0].Instants.n() >> "\t" >> score.Systems[0].Instants[0].n() >> "\n";
+    {				
+			bbs::c >> score.Systems[0].Instants.n() << "\n";		
+			//Apply coloring based on instants 
+			//End barline = 61, Start of next line is always 3? 1 for bar, 1 for clef, 1 for key.
+			//Can map from basae xml to node like this!
 			bbs::Pointer<bbs::modern::Stamp> stamp = score.Systems[0].Instants[5][0];
 			for (bbs::count k = 0; k < stamp->Graphics.n(); k++) 
 				stamp->Graphics[k]->c = bbs::Colors::red;
