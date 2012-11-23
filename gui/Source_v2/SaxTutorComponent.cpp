@@ -28,6 +28,7 @@
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 using namespace bbs;
+bbs::String DetermineResourcePath();
 void LoadResources(Score*);
 
 //[/MiscUserDefs]
@@ -42,12 +43,11 @@ SaxTutorComponent::SaxTutorComponent ()
     setSize (800, 600);
 
     //[Constructor] You can add your own custom stuff here..
-		//Add a page to the score
-		myScore.Canvases.Add() = new Score::Page;
-    myScore.Canvases.z()->Dimensions = bbs::Measurement<bbs::Units::Point>(getWidth(), getHeight());
-
 		//Load fonts and graphs
 		LoadResources(&myScore);
+
+		myScore.Canvases.z()->Dimensions = bbs::Measurement<bbs::Units::Point>(800,600);
+		myScore.UpdatePiece();
     //[/Constructor]
 }
 
@@ -93,19 +93,32 @@ void SaxTutorComponent::resized()
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
+bbs::String DetermineResourcePath()
+{
+  bbs::String dummy;
+  if(bbs::File::Read("./GentiumBasicRegular.bellefont", dummy))
+    return "./";
+  else if(bbs::File::Read("../Resources/GentiumBasicRegular.bellefont", dummy))
+    return "../Resources/";
+  else if(bbs::File::Read("./Resources/GentiumBasicRegular.bellefont", dummy))
+    return "./Resources/";
+	else if(bbs::File::Read("/home/amlewis/SaxTutor/gui/Resources/GentiumBasicRegular.bellefont", dummy))
+		return "/home/amlewis/SaxTutor/gui/Resources/";
+  else
+    prim::c >> "Path to resources could not be determined. (SaxTutorComponent.cpp::DetermineResourcePath()";
+  return "";
+}
+
+
 void LoadResources(Score* myScore)
 {   
   //Load some typefaces into the font.
   myScore->myFont.Add(bbs::Font::Special1)->ImportFromArray((bbs::byte*)Resources::joie_bellefont);
 
   //Load a graph.
-  //myScore->g = new bbs::graph::MusicGraph;
-	myScore->graphXML = bbs::String((bbs::byte*)Resources::chopin_xml,
-		Resources::chopin_xmlSize);
-  //bbs::graph::XML::Read(myScore->g, );
-	//bbs::c >> "Loaded graph\n";
-	//myScore->SerializeGraph();
-  //bbs::c >> "Serialized graph\n";
+	bbs::c >> bbs::File::Read(DetermineResourcePath() << "ChopinPreludeOp28No20.xml", myScore->graphXML);
+
+	myScore->LoadTypeface();
 }
 //[/MiscUserCode]
 

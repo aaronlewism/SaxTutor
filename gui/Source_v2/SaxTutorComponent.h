@@ -38,12 +38,50 @@ using namespace bbs;
 //Subclass Score from bellebonnesage::Portfolio
 struct Score : public bbs::Portfolio
 {
-	//bbs::graph::MusicGraph* g = NULL;
 	bbs::String graphXML;
 	bbs::Font myFont;
+	bbs::List<bbs::modern::System> Systems;
+	
+	Score() {
+		t = NULL;
+		g = NULL;
+
+		Canvases.Add() = new Page;
+		Canvases.z()->Dimensions = bbs::Measurement<bbs::Units::Point>(800,600);
+	}
 
 	~Score() {
 		Canvases.RemoveAndDeleteAll();
+		p.ClearTypesetting();
+		Systems.RemoveAll();
+	}
+
+	void LoadTypeface() {
+		t = myFont.GetTypeface(bbs::Font::Special1);
+		c.Create(h, *t);
+	}
+
+	void UpdatePiece() {
+		if (g != NULL) {
+			delete g;
+		}
+		g = new bbs::graph::MusicGraph;
+		bbs::graph::XML::Read(g, graphXML);
+
+		p.Initialize(g, h, c, *t, myFont);
+		p.Typeset(true);
+
+		bbs::number SystemWidth = Canvases.z()->Dimensions.x * 0.85;
+		bbs::number SystemWidthSpaces = SystemWidth / SpaceHeight;
+
+		Systems.RemoveAll();
+    p.CreateSystems(Systems, SystemWidthSpaces, SystemWidthSpaces);
+		bbs::Vector BottomLeft = bbs::Vector(Canvases.z()->Dimensions.x * 0.075, 
+																				 Canvases.z()->Dimensions.y * 0.925);
+    for(bbs::count i = 0; i < Systems.n(); i++)
+    {
+			Systems[i].CalculateSpacing(10, (i < Systems.n() - 1 ? SystemWidthSpaces : 0.0));
+		}
 	}
 
   /*Subclass Page from bellebonnesage::Canvas. Note that Page is a class inside
@@ -52,14 +90,6 @@ struct Score : public bbs::Portfolio
   which it pertains.*/
   struct Page : public bbs::Canvas
   {
-		bbs::modern::House h;
-    bbs::modern::Cache c;
-		const bbs::Typeface* t;
-
-		Page() {
-			t = NULL;
-		}
-
     //This method gets called once per canvas.
     void Paint(bbs::Painter& Painter, bbs::Portfolio& Portfolio)
     {
@@ -72,41 +102,23 @@ struct Score : public bbs::Portfolio
     //Custom paint method with score.
     void Paint(bbs::Painter& Painter, Score& score)
     {
-			if (t == NULL) {
-				t = score.myFont.GetTypeface(bbs::Font::Special1);
-				c.Create(h, *t);
-			}
-
-			bbs::graph::MusicGraph* g = new bbs::graph::MusicGraph;
-			bbs::graph::XML::Read(g, score.graphXML);
-
-			bbs::number SystemWidth = Dimensions.x * 0.85;
-			bbs::number SpaceHeight = 0.065;
-			bbs::number SystemWidthSpaces = SystemWidth / SpaceHeight;
-
-			//bbs::c >> "Outputting 1\n";
-      bbs::modern::Piece p;
-			p.Initialize(g, h, c, *t, score.myFont);
-			p.Typeset(true);
-      bbs::List<bbs::modern::System> Systems;
-      p.CreateSystems(Systems, SystemWidthSpaces, SystemWidthSpaces);
 			bbs::Vector BottomLeft = bbs::Vector(Dimensions.x * 0.075, Dimensions.y * 0.925);
-      for(bbs::count i = 0; i < Systems.n(); i++)
+      for(bbs::count i = 0; i < score.Systems.n(); i++)
       {
-				Systems[i].CalculateSpacing(10,
-					(i < Systems.n() - 1 ? SystemWidthSpaces : 0.0));
-        BottomLeft -= bbs::Vector(0.0, Systems[i].Bounds.Height() * SpaceHeight);
-				Systems[i].Paint(Painter, BottomLeft, SpaceHeight);
+        BottomLeft -= bbs::Vector(0.0, score.Systems[i].Bounds.Height() * SpaceHeight);
+				score.Systems[i].Paint(Painter, BottomLeft, SpaceHeight);
       }
-		
-			p.ClearTypesetting();
-			//Systems.Clear();
-			//s2.Clear();
     }
   };
 
 	private:
-		bbs::graph::MusicSerial s;
+		bbs::graph::MusicGraph* g;
+		bbs::modern::House h;
+		bbs::modern::Cache c;
+		const bbs::Typeface* t;
+		bbs::modern::Piece p;
+
+		static const bbs::number SpaceHeight = 0.065;
 };
 
 
