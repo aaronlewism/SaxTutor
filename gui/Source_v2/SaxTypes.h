@@ -1,7 +1,9 @@
-#ifndef __SAX_TUTOR_CONSTANTS
-#define __SAX_TUTOR_CONSTANTS
+#ifndef __SAX_TUTOR_TYPES
+#define __SAX_TUTOR_TYPES
 
 namespace sax {
+
+	//New Enums
 	enum NOTES { //Values are linked to location on staff
 		G3 = -9,
 		A3 = -8,
@@ -36,23 +38,26 @@ namespace sax {
 		FLAT
 	};
 
-	struct Note {
-		NOTES pitch;
+	//New structures and classes
+	struct NotePitch {
+		NOTES basePitch;
 		double alter; //True alter, for the sound (i.e. uses the key)
 		ACCIDENTALS accidental; //Accidental for display
 
-		Note() {
-			pitch = C5;
+		NotePitch() {
+			basePitch = C5;
 			alter = 0;
 			accidental = EMPTY;
 		}
 	};
 
-	double pitchValue(Note note) { //For comparing notes
+
+	//New functions
+	double pitchValue(NotePitch note) { //For comparing notes
 		//Assumes B4 = 0;
-		int base = (note.pitch / 7) * 12;
-		base = (note.pitch < 0) ? base - 12 : base;
-		switch (note.pitch % 7) {
+		int base = (note.basePitch / 7) * 12;
+		base = (note.basePitch < 0) ? base - 12 : base;
+		switch (note.basePitch % 7) {
 			case 6:
 				base += 4;
 				break;

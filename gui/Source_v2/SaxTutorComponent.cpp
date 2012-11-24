@@ -23,7 +23,7 @@
 #define BELLEBONNESAGE_COMPILE_INLINE
 #include "../bbs/Examples/Resources.h"
 #include "tinyxml2.h"
-#include "SaxConstants.h"
+#include "SaxTypes.h"
 //[/Headers]
 
 #include "SaxTutorComponent.h"
@@ -159,7 +159,7 @@ bool LoadSong()
 	for (XMLElement* curMeasure = partRoot->FirstChildElement("measure");
 			 curMeasure != NULL;
 			 curMeasure = curMeasure->NextSiblingElement("measure")) {
-		bbs::c >> curMeasure->IntAttribute("number") << "\n";
+		bbs::c >> "Measure #: " << curMeasure->IntAttribute("number") << "\n";
 	}
 
 	return true;
