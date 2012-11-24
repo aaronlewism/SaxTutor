@@ -207,6 +207,10 @@ namespace sax {
 			return -1;
 		}
 	}
+
+	int fracTo64(double frac) {
+		return ((int)(frac*128) + 1) / 2;
+	}
 };
 
 #endif
