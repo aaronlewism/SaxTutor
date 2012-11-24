@@ -22,14 +22,17 @@
 //[Headers] You can add your own extra header files here...
 #define BELLEBONNESAGE_COMPILE_INLINE
 #include "../bbs/Examples/Resources.h"
+#include "tinyxml2.h"
 //[/Headers]
 
 #include "SaxTutorComponent.h"
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 using namespace bbs;
+using namespace tinyxml2;
 bbs::String DetermineResourcePath();
 void LoadResources(Score*);
+bool LoadSong();
 
 //[/MiscUserDefs]
 
@@ -48,6 +51,9 @@ SaxTutorComponent::SaxTutorComponent ()
 
 		myScore.Canvases.z()->Dimensions = bbs::Measurement<bbs::Units::Point>(800,600);
 		myScore.UpdatePiece();
+
+		//TODO: Clean this shit up, for testing only
+		LoadSong();
     //[/Constructor]
 }
 
@@ -105,7 +111,7 @@ bbs::String DetermineResourcePath()
 	else if(bbs::File::Read("/home/amlewis/SaxTutor/gui/Resources/GentiumBasicRegular.bellefont", dummy))
 		return "/home/amlewis/SaxTutor/gui/Resources/";
   else
-    prim::c >> "Path to resources could not be determined. (SaxTutorComponent.cpp::DetermineResourcePath()";
+    bbs::c >> "Path to resources could not be determined. (SaxTutorComponent.cpp::DetermineResourcePath()";
   return "";
 }
 
@@ -119,6 +125,43 @@ void LoadResources(Score* myScore)
 	bbs::File::Read(DetermineResourcePath() << "ChopinPreludeOp28No20.xml", myScore->graphXML);
 
 	myScore->LoadTypeface();
+}
+
+bool LoadSong()
+{
+	XMLDocument doc;
+	//TODO: Choose what song to load
+	if (doc.LoadFile(DetermineResourcePath() << "Songs/DrunkenLullabies.xml")) {
+		//TODO: Error
+		//Some XML file reading error occured.
+		return false;
+	}
+
+	//Find the tenr part for the song
+	//TODO: Confirm it's P4 for all songs
+	XMLElement* partRoot = NULL;
+	for (XMLElement* cur = doc.FirstChildElement("score-partwise")->FirstChildElement("part");
+			 cur != NULL; cur = cur->NextSiblingElement("part")) {
+		if (cur->Attribute("id", "P4")) {
+			partRoot = cur;
+			break; //found Tenrz
+		}
+	}
+
+	//Tenr part not found
+	if (partRoot == NULL) {
+		//TODO: error
+		return false;
+	}
+
+  //Parse part;
+	for (XMLElement* curMeasure = partRoot->FirstChildElement("measure");
+			 curMeasure != NULL;
+			 curMeasure = curMeasure->NextSiblingElement("measure")) {
+		bbs::c >> curMeasure->IntAttribute("number") << "\n";
+	}
+
+	return true;
 }
 //[/MiscUserCode]
 
