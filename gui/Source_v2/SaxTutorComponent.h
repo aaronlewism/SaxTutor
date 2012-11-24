@@ -66,7 +66,9 @@ struct Score : public bbs::Portfolio
 			delete g;
 		}
 		g = new bbs::graph::MusicGraph;
-		bbs::graph::XML::Read(g, graphXML);
+		if (!bbs::graph::XML::Read(g, graphXML)) {
+			bbs::c >> "Failed to read xml into a graph!\n";
+		}
 
 		p.Initialize(g, h, c, *t, myFont);
 		p.Typeset(true);

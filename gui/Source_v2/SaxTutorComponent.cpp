@@ -47,14 +47,14 @@ SaxTutorComponent::SaxTutorComponent ()
     setSize (800, 600);
 
     //[Constructor] You can add your own custom stuff here..
+		//TODO: Clean this shit up, for testing only
+		LoadSong();
+
 		//Load fonts and graphs
 		LoadResources(&myScore);
 
 		myScore.Canvases.z()->Dimensions = bbs::Measurement<bbs::Units::Point>(800,600);
 		myScore.UpdatePiece();
-
-		//TODO: Clean this shit up, for testing only
-		LoadSong();
     //[/Constructor]
 }
 
@@ -123,7 +123,7 @@ void LoadResources(Score* myScore)
   myScore->myFont.Add(bbs::Font::Special1)->ImportFromArray((bbs::byte*)Resources::joie_bellefont);
 
   //Load a graph.
-	bbs::File::Read(DetermineResourcePath() << "ChopinPreludeOp28No20.xml", myScore->graphXML);
+	bbs::File::Read(DetermineResourcePath() << "tempBBS.xml", myScore->graphXML);
 
 	myScore->LoadTypeface();
 }
@@ -322,6 +322,7 @@ bool LoadSong()
 	char buffer[128];
 	XMLDocument bbsDoc;
 	XMLElement* bbsScore = bbsDoc.NewElement("score");
+	XMLElement* prevChord = NULL;
 	bbsDoc.InsertFirstChild(bbsScore);
 	int item_id = 1;
 	int island_id = 0;
@@ -333,6 +334,8 @@ bool LoadSong()
 			curIsland->SetAttribute("id", buffer);
 			sprintf(buffer, "island:0,%d", island_id);
 			curIsland->SetAttribute("across", buffer);
+			sprintf(buffer, "island:1,%d", island_id-1);
+			curIsland->SetAttribute("down", buffer);
 			XMLElement* curBarline = bbsDoc.NewElement("barline");
 			sprintf(buffer, "barline:%d", item_id++);
 			curBarline->SetAttribute("id", buffer);
@@ -345,6 +348,8 @@ bool LoadSong()
 			curIsland->SetAttribute("id", buffer);
 			sprintf(buffer, "island:0,%d", island_id);
 			curIsland->SetAttribute("across", buffer);
+			sprintf(buffer, "island:1,%d", island_id-1);
+			curIsland->SetAttribute("down", buffer);
 			XMLElement* curClef = bbsDoc.NewElement("clef");
 			sprintf(buffer, "clef:%d", item_id++);
 			curClef->SetAttribute("id", buffer);
@@ -357,6 +362,8 @@ bool LoadSong()
 			curIsland->SetAttribute("id", buffer);
 			sprintf(buffer, "island:0,%d", island_id);
 			curIsland->SetAttribute("across", buffer);
+			sprintf(buffer, "island:1,%d", island_id-1);
+			curIsland->SetAttribute("down", buffer);
 			XMLElement* curKey = bbsDoc.NewElement("key");
 			sprintf(buffer, "key:%d", item_id++);
 			curKey->SetAttribute("id", buffer);
@@ -369,6 +376,8 @@ bool LoadSong()
 			curIsland->SetAttribute("id", buffer);
 			sprintf(buffer, "island:0,%d", island_id);
 			curIsland->SetAttribute("across", buffer);
+			sprintf(buffer, "island:1,%d", island_id-1);
+			curIsland->SetAttribute("down", buffer);
 			XMLElement* curMeter = bbsDoc.NewElement("meter");
 			sprintf(buffer, "meter:%d", item_id++);
 			curMeter->SetAttribute("id", buffer);
@@ -384,6 +393,8 @@ bool LoadSong()
 				curIsland->SetAttribute("id", buffer);
 				sprintf(buffer, "island:0,%d", island_id);
 				curIsland->SetAttribute("across", buffer);
+				sprintf(buffer, "island:1,%d", island_id-1);
+				curIsland->SetAttribute("down", buffer);
 				XMLElement* curKey = bbsDoc.NewElement("key");
 				sprintf(buffer, "key:%d", item_id++);
 				curKey->SetAttribute("id", buffer);
@@ -399,6 +410,8 @@ bool LoadSong()
 				curIsland->SetAttribute("id", buffer);
 				sprintf(buffer, "island:0,%d", island_id);
 				curIsland->SetAttribute("across", buffer);
+				sprintf(buffer, "island:1,%d", island_id-1);
+				curIsland->SetAttribute("down", buffer);
 				XMLElement* curMeter = bbsDoc.NewElement("meter");
 				sprintf(buffer, "meter:%d", item_id++);
 				curMeter->SetAttribute("id", buffer);
@@ -411,7 +424,6 @@ bool LoadSong()
 
 		//Add notes
 		double netDuration = 0;
-		XMLElement* prevChord = NULL;
 		for (int j = 0; j < measures[i].notes.size(); ++j) {
 			sax::Note note = measures[i].notes[j];
 			double md = 4 * measures[i].quarterDuration;
@@ -422,13 +434,15 @@ bool LoadSong()
 			curIsland->SetAttribute("id", buffer);
 			sprintf(buffer, "island:0,%d", island_id);
 			curIsland->SetAttribute("across", buffer);
+			sprintf(buffer, "island:1,%d", island_id-1);
+			curIsland->SetAttribute("down", buffer);
 
 			//Base chord
 			XMLElement* curChord = bbsDoc.NewElement("chord");
 			sprintf(buffer, "chord:%d", item_id++);
 			curChord->SetAttribute("id", buffer);
 			if (prevChord != NULL) {
-				prevChord->SetAttribute("next", buffer);
+				prevChord->SetAttribute("next-in-voice", buffer);
 			}
 			sprintf(buffer, "%d/64", sax::fracTo64(note.duration/md));
 			curChord->SetAttribute("duration", buffer);
@@ -471,6 +485,8 @@ bool LoadSong()
 			curIsland = bbsDoc.NewElement("island");
 			sprintf(buffer, "island:0,%d", island_id++);
 			curIsland->SetAttribute("id", buffer);
+			sprintf(buffer, "island:1,%d", island_id-1);
+			curIsland->SetAttribute("down", buffer);
 			XMLElement* curBarline = bbsDoc.NewElement("barline");
 			sprintf(buffer, "barline:%d", item_id++);
 			curBarline->SetAttribute("id", buffer);
@@ -483,6 +499,8 @@ bool LoadSong()
 			curIsland->SetAttribute("id", buffer);
 			sprintf(buffer, "island:0,%d", island_id);
 			curIsland->SetAttribute("across", buffer);
+			sprintf(buffer, "island:1,%d", island_id-1);
+			curIsland->SetAttribute("down", buffer);
 			XMLElement* curBarline = bbsDoc.NewElement("barline");
 			sprintf(buffer, "barline:%d", item_id++);
 			curBarline->SetAttribute("id", buffer);
@@ -492,8 +510,19 @@ bool LoadSong()
 		}
 	}
 
+	for (int i = 0; i < island_id; ++i) {
+		XMLElement* curIsland = bbsDoc.NewElement("island");
+		sprintf(buffer, "island:1,%d", i);
+		curIsland->SetAttribute("id", buffer);
+		if (i < island_id - 1) {
+			sprintf(buffer, "island:1,%d", i+1);
+			curIsland->SetAttribute("across", buffer);
+		}
+		bbsScore->InsertEndChild(curIsland);
+	}
+
 	//TODO: Fine actual output file.
-	bbsDoc.SaveFile((DetermineResourcePath() << "Songs/DrunkenLullabiesBBS.xml"));
+	bbsDoc.SaveFile((DetermineResourcePath() << "tempBBS.xml"));
 
 	return true;
 }
