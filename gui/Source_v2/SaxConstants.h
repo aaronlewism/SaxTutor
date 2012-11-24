@@ -30,7 +30,7 @@ namespace sax {
 	};
 
 	enum ACCIDENTALS {
-		EMPTY,
+		EMPTY = 0,
 		NATURAL,
 		SHARP,
 		FLAT
@@ -40,6 +40,12 @@ namespace sax {
 		NOTES pitch;
 		double alter; //True alter, for the sound (i.e. uses the key)
 		ACCIDENTALS accidental; //Accidental for display
+
+		Note() {
+			pitch = C5;
+			alter = 0;
+			accidental = EMPTY;
+		}
 	};
 
 	double pitchValue(Note note) { //For comparing notes
