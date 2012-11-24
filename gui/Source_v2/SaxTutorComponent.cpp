@@ -23,6 +23,7 @@
 #define BELLEBONNESAGE_COMPILE_INLINE
 #include "../bbs/Examples/Resources.h"
 #include "tinyxml2.h"
+#include "SaxConstants.h"
 //[/Headers]
 
 #include "SaxTutorComponent.h"
