@@ -164,8 +164,6 @@ bool LoadSong()
 	for (XMLElement* curMeasure = partRoot->FirstChildElement("measure");
 			 curMeasure != NULL;
 			 curMeasure = curMeasure->NextSiblingElement("measure")) {
-		bbs::c >> "Measure #: " << curMeasure->IntAttribute("number") << "\n";
-
 		//Parse Measure
 		//Check for attributes.
 		XMLElement* attributes = curMeasure->FirstChildElement("attributes");
