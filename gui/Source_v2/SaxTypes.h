@@ -75,10 +75,12 @@ namespace sax {
 	struct Note{
 		NotePitch pitch;
 		double duration;
+		int island_id;
 
 		Note(NotePitch p, double d) 
 			:pitch(p),
 			duration(d) {
+			island_id = 0;
 		}
 	};
 

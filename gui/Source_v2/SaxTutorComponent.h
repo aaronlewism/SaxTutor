@@ -77,12 +77,12 @@ struct Score : public bbs::Portfolio
 		bbs::number SystemWidthSpaces = SystemWidth / SpaceHeight;
 
 		Systems.RemoveAll();
-    p.CreateSystems(Systems, SystemWidthSpaces, SystemWidthSpaces);
+    p.CreateSystems(Systems, 0.65 * SystemWidthSpaces, 0.65 * SystemWidthSpaces);
 		bbs::Vector BottomLeft = bbs::Vector(Canvases.z()->Dimensions.x * 0.075, 
 																				 Canvases.z()->Dimensions.y * 0.925);
     for(bbs::count i = 0; i < Systems.n(); i++)
     {
-			Systems[i].CalculateSpacing(10, (i < Systems.n() - 1 ? SystemWidthSpaces : 0.0));
+			Systems[i].CalculateSpacing(0.5, SystemWidthSpaces);
 		}
 	}
 
@@ -127,7 +127,7 @@ struct Score : public bbs::Portfolio
 		const bbs::Typeface* t;
 		bbs::modern::Piece p;
 
-		static const bbs::number SpaceHeight = 0.065;
+		static const bbs::number SpaceHeight = 0.08;
 };
 
 

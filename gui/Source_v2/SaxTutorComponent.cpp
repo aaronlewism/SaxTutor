@@ -318,6 +318,28 @@ bool LoadSong()
 		measures.push_back(meas);
 	}
 
+	//Fill first measure with rests
+	double usedDur = 0;
+	double restDur = (measures[0].quarterDuration * 4) / measures[0].beatType; 
+	for (int i = 0; i < measures[0].notes.size(); ++i) {
+		usedDur += measures[0].notes[i].duration;
+	}
+	usedDur = measures[0].quarterDuration * 4 - usedDur;
+	while (usedDur != 0) {
+		double curRest = usedDur > restDur ? restDur : usedDur;
+		measures[0].notes.insert(measures[0].notes.begin(), 
+														 sax::Note(sax::NotePitch(sax::REST, 0),curRest));
+		usedDur -= curRest;
+	}
+
+	//Add a measure of metronome rests
+	sax::Measure metro = measures[0];
+	metro.notes.clear();
+	for (int i = 0; i < metro.beat; ++i) {
+		metro.notes.push_back(sax::Note(sax::NotePitch(sax::REST, 0), restDur));
+	}
+	measures.insert(measures.begin(), metro);
+
 	//Woooo! Now time to write music out in bbs format.
 	char buffer[128];
 	XMLDocument bbsDoc;
@@ -367,7 +389,7 @@ bool LoadSong()
 			XMLElement* curKey = bbsDoc.NewElement("key");
 			sprintf(buffer, "key:%d", item_id++);
 			curKey->SetAttribute("id", buffer);
-			curKey->SetAttribute("value", measures[i].key.c_str());
+			curKey->SetAttribute("key", measures[i].key.c_str());
 			curIsland->InsertFirstChild(curKey);
 			bbsScore->InsertEndChild(curIsland);
 
@@ -442,7 +464,7 @@ bool LoadSong()
 			sprintf(buffer, "chord:%d", item_id++);
 			curChord->SetAttribute("id", buffer);
 			if (prevChord != NULL) {
-				prevChord->SetAttribute("next-in-voice", buffer);
+				prevChord->SetAttribute("next", buffer);
 			}
 			sprintf(buffer, "%d/64", sax::fracTo64(note.duration/md));
 			curChord->SetAttribute("duration", buffer);
@@ -469,6 +491,7 @@ bool LoadSong()
 					curNote->SetAttribute("modifier", "Natural");
 				}
 			}
+			measures[i].notes[j].island_id = island_id - 1;
 
 			//Add elements to each other.
 			curChord->InsertFirstChild(curNote);
