@@ -33,7 +33,8 @@ using namespace bbs;
 using namespace tinyxml2;
 bbs::String DetermineResourcePath();
 void LoadResources(Score*);
-bool LoadSong();
+bool LoadSong(std::vector<sax::Measure>&, bbs::String path);
+bool writeSongToBBSXml(std::vector<sax::Measure>&, bbs::String path);
 
 //[/MiscUserDefs]
 
@@ -48,7 +49,11 @@ SaxTutorComponent::SaxTutorComponent ()
 
     //[Constructor] You can add your own custom stuff here..
 		//TODO: Clean this shit up, for testing only
-		LoadSong();
+		//TODO: Choose what song to load.
+		//TODO: Error handling
+		std::vector<sax::Measure> song;
+		LoadSong(song, DetermineResourcePath() << "Songs/DrunkenLullabies.xml");
+		writeSongToBBSXml(song, DetermineResourcePath() << "tempBBS.xml");
 
 		//Load fonts and graphs
 		LoadResources(&myScore);
@@ -128,11 +133,10 @@ void LoadResources(Score* myScore)
 	myScore->LoadTypeface();
 }
 
-bool LoadSong()
+bool LoadSong(std::vector<sax::Measure>& measures, bbs::String path)
 {
 	XMLDocument doc;
-	//TODO: Choose what song to load
-	if (doc.LoadFile(DetermineResourcePath() << "Songs/DrunkenLullabies.xml")) {
+	if (doc.LoadFile(path)) {
 		//TODO: Error
 		//Some XML file reading error occured.
 		return false;
@@ -156,7 +160,6 @@ bool LoadSong()
 	}
 
   //Parse part;
-	std::vector<sax::Measure> measures;
 	double quarterDuration = 256;
 	int beat = 4;
 	int beatType = 4;
@@ -338,6 +341,12 @@ bool LoadSong()
 	}
 	measures.insert(measures.begin(), metro);
 
+	return true;
+}
+
+bool writeSongToBBSXml(std::vector<sax::Measure>& measures, bbs::String path)
+{
+	//TODO Error handling
 	//Woooo! Now time to write music out in bbs format.
 	char buffer[128];
 	XMLDocument bbsDoc;
@@ -543,7 +552,7 @@ bool LoadSong()
 	}
 
 	//TODO: Fine actual output file.
-	bbsDoc.SaveFile((DetermineResourcePath() << "tempBBS.xml"));
+	bbsDoc.SaveFile(path);
 
 	return true;
 }
