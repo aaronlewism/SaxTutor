@@ -46,7 +46,7 @@ namespace sax {
 		}
 
 		//Returns a comparable value for the pitch (so A# equals Bb)
-		double pitchValue() {
+		inline double pitchValue() {
 			//Assumes B4 = 0;
 			int base = (basePitch / 7) * 12;
 			base = (basePitch < 0) ? base - 12 : base;
@@ -102,7 +102,7 @@ namespace sax {
 	};
 
 	//New functions
-	std::string numToWord(int num) {
+	inline std::string numToWord(int num) {
 		switch (num) {
 			case 1:
 				return "One";
@@ -141,11 +141,11 @@ namespace sax {
 		return "";
 	}
 
-	std::string timeFromBeat(int beat, int beatType) {
+	inline std::string timeFromBeat(int beat, int beatType) {
 		return numToWord(beat) + numToWord(beatType);
 	}
 
-	std::string fifthToMajorString(int fifth) {
+	inline std::string fifthToMajorString(int fifth) {
 		switch (fifth) {
 			case -7:
 				return "BMajor"; //TODO: Doesn't Really Work
@@ -182,7 +182,7 @@ namespace sax {
 		return "";
 	}
 
-	double typeToFraction(std::string text) {
+	inline double typeToFraction(std::string text) {
 		if (text.compare("1024th") == 0) {
 			return 1.0/1024.0;
 		} else if (text.compare("512th") == 0) {
@@ -210,7 +210,7 @@ namespace sax {
 		}
 	}
 
-	int fracTo64(double frac) {
+	inline int fracTo64(double frac) {
 		return ((int)(frac*128) + 1) / 2;
 	}
 };

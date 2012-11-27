@@ -25,6 +25,9 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 #include "../bbs/BelleBonneSage.h"
+#include "SaxTypes.h"
+#include <vector>
+#include <pthread.h>
 
 namespace bbs {
 	using namespace prim;
@@ -41,10 +44,12 @@ struct Score : public bbs::Portfolio
 	bbs::String graphXML;
 	bbs::Font myFont;
 	bbs::List<bbs::modern::System> Systems;
+	pthread_mutex_t systemsLock;
 
 	Score() {
 		t = NULL;
 		g = NULL;
+		systemsLock = PTHREAD_MUTEX_INITIALIZER;
 
 		Canvases.Add() = new Page;
 		Canvases.z()->Dimensions = bbs::Measurement<bbs::Units::Point>(800,600);
@@ -107,15 +112,17 @@ struct Score : public bbs::Portfolio
 			//Apply coloring based on instants
 			//End barline = 61, Start of next line is always 3? 1 for bar, 1 for clef, 1 for key.
 			//Can map from basae xml to node like this!
-			bbs::Pointer<bbs::modern::Stamp> stamp = score.Systems[0].Instants[5][0];
+			/*bbs::Pointer<bbs::modern::Stamp> stamp = score.Systems[0].Instants[5][0];
 			for (bbs::count k = 0; k < stamp->Graphics.n(); k++)
-				stamp->Graphics[k]->c = bbs::Colors::red;
+				stamp->Graphics[k]->c = bbs::Colors::red;*/
 
 			bbs::Vector BottomLeft = bbs::Vector(Dimensions.x * 0.075, Dimensions.y * 0.925);
       for(bbs::count i = 0; i < score.Systems.n(); i++)
       {
         BottomLeft -= bbs::Vector(0.0, score.Systems[i].Bounds.Height() * SpaceHeight);
+				pthread_mutex_lock(&(score.systemsLock));
 				score.Systems[i].Paint(Painter, BottomLeft, SpaceHeight);
+				pthread_mutex_unlock(&(score.systemsLock));
       }
     }
   };
@@ -154,6 +161,11 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+		const std::vector<sax::Measure> getSong();
+		double getTempo();
+		void donePlaying();
+		bool getIsQuit();
+		void colorNote(sax::Note n, bbs::Color c);
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -168,6 +180,11 @@ private:
     Score myScore;
 		bbs::JUCE bbsJuce;
 		bbs::JUCE::Properties bbsJuceProperties;
+		std::vector<sax::Measure> song;
+		bool isPlaying;
+		bool isQuit;
+		pthread_t playThread;
+		pthread_mutex_t boolLock;
     //[/UserVariables]
 
     //==============================================================================

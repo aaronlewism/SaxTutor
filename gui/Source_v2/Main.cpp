@@ -68,7 +68,7 @@ public:
 
     void shutdown()
     {
-      // Do your application's shutdown code here..
+      // Do your application's shutdown code here.
     	saxTutorWindow = 0;    
     }
 

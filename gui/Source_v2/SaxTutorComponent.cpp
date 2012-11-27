@@ -24,6 +24,7 @@
 #include "../bbs/Examples/Resources.h"
 #include "tinyxml2.h"
 #include "SaxTypes.h"
+#include <pthread.h>
 //[/Headers]
 
 #include "SaxTutorComponent.h"
@@ -36,7 +37,7 @@ bbs::String DetermineResourcePath();
 void LoadResources(Score*);
 bool LoadSong(std::vector<sax::Measure>&, bbs::String path);
 bool writeSongToBBSXml(std::vector<sax::Measure>&, bbs::String path);
-
+void* playSong(void* ptr);
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -46,7 +47,7 @@ SaxTutorComponent::SaxTutorComponent ()
       tempoLabel (0)
 {
     addAndMakeVisible (tempoSlider = new Slider ("Tempo Slider"));
-    tempoSlider->setRange (40, 160, 1);
+    tempoSlider->setRange (40, 300, 1);
     tempoSlider->setSliderStyle (Slider::LinearHorizontal);
     tempoSlider->setTextBoxStyle (Slider::TextBoxLeft, false, 80, 20);
     tempoSlider->addListener (this);
@@ -71,10 +72,16 @@ SaxTutorComponent::SaxTutorComponent ()
 
 
     //[Constructor] You can add your own custom stuff here..
+		isPlaying = false;
+		isQuit = false;
+		boolLock  = PTHREAD_MUTEX_INITIALIZER;
+	
+		//Default tempo
+		tempoSlider->setValue(88);
+
 		//TODO: Clean this shit up, for testing only
 		//TODO: Choose what song to load.
 		//TODO: Error handling
-		std::vector<sax::Measure> song;
 		LoadSong(song, DetermineResourcePath() << "Songs/DrunkenLullabies.xml");
 		writeSongToBBSXml(song, DetermineResourcePath() << "tempBBS.xml");
 
@@ -89,6 +96,12 @@ SaxTutorComponent::SaxTutorComponent ()
 SaxTutorComponent::~SaxTutorComponent()
 {
     //[Destructor_pre]. You can add your own custom destruction code here..
+		pthread_mutex_lock(&boolLock);
+		if (isPlaying) {
+			isQuit = true;
+			pthread_mutex_unlock(&boolLock);
+			pthread_join(playThread, NULL);
+		}
     //[/Destructor_pre]
 
     deleteAndZero (tempoSlider);
@@ -152,7 +165,13 @@ void SaxTutorComponent::buttonClicked (Button* buttonThatWasClicked)
     if (buttonThatWasClicked == playButton)
     {
         //[UserButtonCode_playButton] -- add your button handler code here..
-        //[/UserButtonCode_playButton]
+				pthread_mutex_lock(&boolLock);
+				if (!isPlaying) {
+					isPlaying = true;
+					pthread_mutex_unlock(&boolLock);
+					int iret = pthread_create(&playThread, NULL, playSong, (void*)this);
+				}
+				//[/UserButtonCode_playButton]
     }
 
     //[UserbuttonClicked_Post]
@@ -162,6 +181,109 @@ void SaxTutorComponent::buttonClicked (Button* buttonThatWasClicked)
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
+const std::vector<sax::Measure> SaxTutorComponent::getSong() {
+	return song;
+} 
+
+double SaxTutorComponent::getTempo() {
+	return tempoSlider->getValue();
+}
+
+void SaxTutorComponent::donePlaying() {
+	pthread_mutex_lock(&boolLock);
+	isPlaying = false;
+	pthread_mutex_unlock(&boolLock);
+}
+
+bool SaxTutorComponent::getIsQuit() {
+	bool ret;
+	pthread_mutex_lock(&boolLock);
+	ret = isQuit;
+	pthread_mutex_unlock(&boolLock);
+	return ret;
+}	
+
+void SaxTutorComponent::colorNote(sax::Note n, bbs::Color c) {
+	//Find islandId
+	int id = n.island_id;
+	int sysInd = 0;
+	while (id >= myScore.Systems[sysInd].Instants.n()) {
+		id -= myScore.Systems[sysInd].Instants.n();
+		id += 3; //barline, clef, key
+		sysInd++;
+	}
+	
+	pthread_mutex_lock(&(myScore.systemsLock));
+	bbs::Pointer<bbs::modern::Stamp> stamp = myScore.Systems[sysInd].Instants[id][0];
+	for (bbs::count k = 0; k < stamp->Graphics.n(); k++)
+		stamp->Graphics[k]->c = c;
+	pthread_mutex_unlock(&(myScore.systemsLock));
+
+	repaint();
+}
+
+void* playSong(void* ptr) {
+	SaxTutorComponent* comp = (SaxTutorComponent*) ptr;
+	const std::vector<sax::Measure> song = comp->getSong();
+	double tempo = comp->getTempo();
+	double beat = 1000 * (60 / tempo); //Milliseconds per beat;
+	int mIndex = 0;
+	int nIndex = 0;
+	int netBeats = 0;
+	double nextNoteBeat = 0;
+	
+	comp->colorNote(song[mIndex].notes[nIndex], bbs::Colors::blue);
+	nextNoteBeat += (song[0].notes[0].duration / song[0].quarterDuration);
+	double startTime = juce::Time::getMillisecondCounterHiRes();
+	while(true) {
+		if (comp->getIsQuit()) { //Check for exit
+			//TODO FIX
+			return NULL;
+		}
+		if (comp->getTempo() != tempo) {//Check for new tempo
+			tempo = comp->getTempo();
+			beat = 1000 * (60 / tempo); //Milliseconds per beat;
+		}
+
+		double curTime = juce::Time::getMillisecondCounterHiRes();
+		double curBeat = (curTime-startTime)/ beat;
+		if (curBeat >= nextNoteBeat) {
+			//TODO Undo this coloring.
+			//Color current note black
+			comp->colorNote(song[mIndex].notes[nIndex], bbs::Colors::black);
+
+			while (curBeat >= nextNoteBeat) {
+				//Increment note (checking for end of song
+				nIndex++;
+				if (nIndex >= song[mIndex].notes.size()) {
+					//Measure has ended
+					nIndex = 0;
+					mIndex++;
+					if (mIndex >= song.size()) {
+						//Song has ended
+						break;
+					}
+				}
+
+				//Find when this beat ends.
+				nextNoteBeat += (song[mIndex].notes[nIndex].duration / 
+					song[mIndex].quarterDuration);
+			}
+			if (mIndex >= song.size()) {
+				break;
+			}
+	
+			//Color current note blue
+			comp->colorNote(song[mIndex].notes[nIndex], bbs::Colors::blue);
+		}
+
+		//TODO: Color note based on correctness
+	}
+
+	comp->donePlaying();
+}
+
+
 bbs::String DetermineResourcePath()
 {
   bbs::String dummy;
