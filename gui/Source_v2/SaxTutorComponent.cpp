@@ -72,9 +72,8 @@ SaxTutorComponent::SaxTutorComponent ()
 
 
     //[Constructor] You can add your own custom stuff here..
-		isPlaying = false;
-		isQuit = false;
 		boolLock  = PTHREAD_MUTEX_INITIALIZER;
+		playThread.comp = this;
 	
 		//Default tempo
 		tempoSlider->setValue(88);
@@ -96,12 +95,9 @@ SaxTutorComponent::SaxTutorComponent ()
 SaxTutorComponent::~SaxTutorComponent()
 {
     //[Destructor_pre]. You can add your own custom destruction code here..
-		pthread_mutex_lock(&boolLock);
-		if (isPlaying) {
-			isQuit = true;
-			pthread_mutex_unlock(&boolLock);
-			pthread_join(playThread, NULL);
-		}
+		playThread.signalThreadShouldExit();
+		playThread.waitForThreadToExit(2000);
+		playThread.stopThread(2000);
     //[/Destructor_pre]
 
     deleteAndZero (tempoSlider);
@@ -165,11 +161,8 @@ void SaxTutorComponent::buttonClicked (Button* buttonThatWasClicked)
     if (buttonThatWasClicked == playButton)
     {
         //[UserButtonCode_playButton] -- add your button handler code here..
-				pthread_mutex_lock(&boolLock);
-				if (!isPlaying) {
-					isPlaying = true;
-					pthread_mutex_unlock(&boolLock);
-					int iret = pthread_create(&playThread, NULL, playSong, (void*)this);
+				if (!playThread.isThreadRunning()) {
+					playThread.startThread();
 				}
 				//[/UserButtonCode_playButton]
     }
@@ -189,69 +182,106 @@ double SaxTutorComponent::getTempo() {
 	return tempoSlider->getValue();
 }
 
-void SaxTutorComponent::donePlaying() {
-	pthread_mutex_lock(&boolLock);
-	isPlaying = false;
-	pthread_mutex_unlock(&boolLock);
-}
-
-bool SaxTutorComponent::getIsQuit() {
-	bool ret;
-	pthread_mutex_lock(&boolLock);
-	ret = isQuit;
-	pthread_mutex_unlock(&boolLock);
-	return ret;
-}	
-
 void SaxTutorComponent::colorNote(sax::Note n, bbs::Color c) {
 	//Find islandId
-	int id = n.island_id;
-	int sysInd = 0;
-	while (id >= myScore.Systems[sysInd].Instants.n()) {
-		id -= myScore.Systems[sysInd].Instants.n();
-		id += 3; //barline, clef, key
-		sysInd++;
+	static int island_id = -1;
+	static int id = 0;
+	static int sysInd = 0;
+
+	if (island_id != n.island_id) {
+		id = n.island_id;
+		sysInd = 0;
+		while (id >= myScore.Systems[sysInd].Instants.n()) {
+			id -= myScore.Systems[sysInd].Instants.n();
+			id += 3; //barline, clef, key
+			sysInd++;
+		}
 	}
 	
-	pthread_mutex_lock(&(myScore.systemsLock));
+	//TODO Race risk?
+	//pthread_mutex_lock(&(myScore.systemsLock));
 	bbs::Pointer<bbs::modern::Stamp> stamp = myScore.Systems[sysInd].Instants[id][0];
 	for (bbs::count k = 0; k < stamp->Graphics.n(); k++)
 		stamp->Graphics[k]->c = c;
-	pthread_mutex_unlock(&(myScore.systemsLock));
-
-	repaint();
+	//pthread_mutex_unlock(&(myScore.systemsLock));
 }
 
-void* playSong(void* ptr) {
-	SaxTutorComponent* comp = (SaxTutorComponent*) ptr;
+void PlaySongThread::run() {
 	const std::vector<sax::Measure> song = comp->getSong();
 	double tempo = comp->getTempo();
 	double beat = 1000 * (60 / tempo); //Milliseconds per beat;
+	double beatBase = 0;
 	int mIndex = 0;
 	int nIndex = 0;
 	int netBeats = 0;
 	double nextNoteBeat = 0;
+	double lastNoteBeat = 0;
+	int curBeatCorrectTicks = 0;
+	int curBeatTotalTicks = 0;
+
+	//Black out the entire song;
+	for (int i = 0; i < song.size(); ++i)
+		for (int j = 0; j < song[i].notes.size(); ++j)
+			comp->colorNote(song[i].notes[j], bbs::Colors::black);
 	
+	//Start playing the song
 	comp->colorNote(song[mIndex].notes[nIndex], bbs::Colors::blue);
+	{
+		const MessageManagerLock mmLock;
+		comp->repaint();
+	}
 	nextNoteBeat += (song[0].notes[0].duration / song[0].quarterDuration);
 	double startTime = juce::Time::getMillisecondCounterHiRes();
 	while(true) {
-		if (comp->getIsQuit()) { //Check for exit
-			//TODO FIX
-			return NULL;
+		if (threadShouldExit()) { //Check for exit
+			break;
 		}
-		if (comp->getTempo() != tempo) {//Check for new tempo
-			tempo = comp->getTempo();
-			beat = 1000 * (60 / tempo); //Milliseconds per beat;
+
+		{		
+			const MessageManagerLock mmLock;
+			double curTime = juce::Time::getMillisecondCounterHiRes();
+
+			if (comp->getTempo() != tempo) {//Check for new tempo
+				//TODO: Error with how beat is calculated (based on last time sample);
+				beatBase += (curTime - startTime) / beat;
+				startTime = curTime;
+				tempo = comp->getTempo();
+				beat = 1000 * (60 / tempo); //Milliseconds per beat;
+			}
 		}
 
 		double curTime = juce::Time::getMillisecondCounterHiRes();
-		double curBeat = (curTime-startTime)/ beat;
+		double curBeat = beatBase + (curTime-startTime)/ beat;
 		if (curBeat >= nextNoteBeat) {
-			//TODO Undo this coloring.
-			//Color current note black
-			comp->colorNote(song[mIndex].notes[nIndex], bbs::Colors::black);
-
+			//Color note based on correctness
+			bbs::float64 fred = 0.0;
+			bbs::float64 fblue = 0.0;
+			bbs::float64 fgreen = 0.0;;
+			if (curBeatCorrectTicks > curBeatTotalTicks/2.0) {
+				double diff = (2.0*(curBeatCorrectTicks - (curBeatTotalTicks/2.0)) / curBeatTotalTicks);
+				fblue = diff;
+				fgreen = (1 - diff);
+				if (fgreen > fblue) {
+					fblue /= fgreen;
+					fgreen = 1;
+				} else {
+					fgreen /= fblue;
+					fblue = 1;
+				}
+			} else {
+				double diff = (-2.0*(curBeatCorrectTicks - (curBeatTotalTicks/2.0)) / curBeatTotalTicks);
+				fred = diff;
+				fgreen = (1 - diff);
+				if (fgreen > fred) {
+					fred /= fgreen;
+					fgreen = 1;
+				} else {
+					fgreen /= fred;
+					fred = 1;
+				}
+			}
+			comp->colorNote(song[mIndex].notes[nIndex], bbs::Color(fred, fgreen, fblue));
+	
 			while (curBeat >= nextNoteBeat) {
 				//Increment note (checking for end of song
 				nIndex++;
@@ -261,28 +291,73 @@ void* playSong(void* ptr) {
 					mIndex++;
 					if (mIndex >= song.size()) {
 						//Song has ended
+						comp->repaint();
 						break;
 					}
 				}
-
+	
 				//Find when this beat ends.
+				lastNoteBeat = nextNoteBeat;
 				nextNoteBeat += (song[mIndex].notes[nIndex].duration / 
-					song[mIndex].quarterDuration);
-			}
+				song[mIndex].quarterDuration);
+			}	
+
 			if (mIndex >= song.size()) {
 				break;
 			}
-	
-			//Color current note blue
+
+			curBeatCorrectTicks = 0;
+			curBeatTotalTicks = 0;
+
 			comp->colorNote(song[mIndex].notes[nIndex], bbs::Colors::blue);
+			{
+				const MessageManagerLock mmLock;
+				comp->repaint();
+			}
 		}
 
-		//TODO: Color note based on correctness
+		//TODO Find correctness
+		curBeatCorrectTicks += song[mIndex].notes[nIndex].pitch.pitchValue() == 0;
+		curBeatTotalTicks++;
+
+		//Color note based on correctness
+		if (curBeatTotalTicks % 5 == 0) {
+			bbs::float64 fred = 0.0;
+			bbs::float64 fblue = 0.0;
+			bbs::float64 fgreen = 0.0;
+			double fracPlayed = (curBeat - lastNoteBeat) / (nextNoteBeat - lastNoteBeat);
+			fgreen += (1 - fracPlayed);
+			if (curBeatCorrectTicks > curBeatTotalTicks/2.0) {
+				double diff = (2.0*(curBeatCorrectTicks - (curBeatTotalTicks/2.0)) / curBeatTotalTicks);
+				fblue += fracPlayed * diff;
+				fgreen += fracPlayed * (1 - diff);
+				if (fgreen > fblue) {
+					fblue /= fgreen;
+					fgreen = 1;
+				} else {
+					fgreen /= fblue;
+					fblue = 1;
+				}
+			} else {
+				double diff = (-2.0*(curBeatCorrectTicks - (curBeatTotalTicks/2.0)) / curBeatTotalTicks);
+				fred += fracPlayed * diff;
+				fgreen += fracPlayed * (1 - diff);
+				if (fgreen > fred) {
+					fred /= fgreen;
+					fgreen = 1;
+				} else {
+					fgreen /= fred;
+					fred = 1;
+				}
+			}
+			comp->colorNote(song[mIndex].notes[nIndex], bbs::Color(fred, fgreen, fblue));
+			{
+				const MessageManagerLock mmLock;
+				comp->repaint();
+			}
+		}
 	}
-
-	comp->donePlaying();
 }
-
 
 bbs::String DetermineResourcePath()
 {

@@ -38,6 +38,16 @@ namespace bbs {
 
 using namespace bbs;
 
+class SaxTutorComponent;
+
+class PlaySongThread : public juce::Thread {
+	public:
+		SaxTutorComponent* comp;
+	PlaySongThread() : juce::Thread("Play Song Thread") {}
+
+	void run();
+};
+
 //Subclass Score from bellebonnesage::Portfolio
 struct Score : public bbs::Portfolio
 {
@@ -163,8 +173,6 @@ public:
     //[UserMethods]     -- You can add your own custom methods in this section.
 		const std::vector<sax::Measure> getSong();
 		double getTempo();
-		void donePlaying();
-		bool getIsQuit();
 		void colorNote(sax::Note n, bbs::Color c);
     //[/UserMethods]
 
@@ -181,9 +189,7 @@ private:
 		bbs::JUCE bbsJuce;
 		bbs::JUCE::Properties bbsJuceProperties;
 		std::vector<sax::Measure> song;
-		bool isPlaying;
-		bool isQuit;
-		pthread_t playThread;
+		PlaySongThread playThread;
 		pthread_mutex_t boolLock;
     //[/UserVariables]
 

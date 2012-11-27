@@ -15,6 +15,8 @@
   </EXPORTFORMATS>
   <MAINGROUP id="WKiFLj" name="SaxTutor">
     <GROUP id="{739CB47C-279A-89F8-1A10-3F9B8ED24861}" name="Source">
+      <FILE id="N88nJU" name="SaxTypes.cpp" compile="1" resource="0" file="Source/SaxTypes.cpp"/>
+      <FILE id="cGRQPO" name="SaxTypes.h" compile="0" resource="0" file="Source/SaxTypes.h"/>
       <FILE id="nVR38F" name="tinyxml2.cpp" compile="1" resource="0" file="Source/tinyxml2.cpp"/>
       <FILE id="K4EBBt" name="tinyxml2.h" compile="0" resource="0" file="Source/tinyxml2.h"/>
       <FILE id="Fif4pD" name="SaxTutorComponent.cpp" compile="1" resource="0"
