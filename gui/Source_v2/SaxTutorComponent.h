@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  4 Nov 2012 6:00:38pm
+  Creation date:  26 Nov 2012 9:27:23pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -19,8 +19,8 @@
   ==============================================================================
 */
 
-#ifndef __JUCER_HEADER_SAXTUTORCOMPONENT_SAXTUTORCOMPONENT_9EB00C00__
-#define __JUCER_HEADER_SAXTUTORCOMPONENT_SAXTUTORCOMPONENT_9EB00C00__
+#ifndef __JUCER_HEADER_SAXTUTORCOMPONENT_SAXTUTORCOMPONENT_60A4B398__
+#define __JUCER_HEADER_SAXTUTORCOMPONENT_SAXTUTORCOMPONENT_60A4B398__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
@@ -41,7 +41,7 @@ struct Score : public bbs::Portfolio
 	bbs::String graphXML;
 	bbs::Font myFont;
 	bbs::List<bbs::modern::System> Systems;
-	
+
 	Score() {
 		t = NULL;
 		g = NULL;
@@ -78,7 +78,7 @@ struct Score : public bbs::Portfolio
 
 		Systems.RemoveAll();
     p.CreateSystems(Systems, 0.65 * SystemWidthSpaces, 0.65 * SystemWidthSpaces);
-		bbs::Vector BottomLeft = bbs::Vector(Canvases.z()->Dimensions.x * 0.075, 
+		bbs::Vector BottomLeft = bbs::Vector(Canvases.z()->Dimensions.x * 0.075,
 																				 Canvases.z()->Dimensions.y * 0.925);
     for(bbs::count i = 0; i < Systems.n(); i++)
     {
@@ -100,17 +100,17 @@ struct Score : public bbs::Portfolio
       paint method which uses a Score& instead of a Portfolio&.*/
       Paint(Painter, dynamic_cast<Score&>(Portfolio));
     }
-    
+
     //Custom paint method with score.
     void Paint(bbs::Painter& Painter, Score& score)
-    {					
-			//Apply coloring based on instants 
+    {
+			//Apply coloring based on instants
 			//End barline = 61, Start of next line is always 3? 1 for bar, 1 for clef, 1 for key.
 			//Can map from basae xml to node like this!
 			bbs::Pointer<bbs::modern::Stamp> stamp = score.Systems[0].Instants[5][0];
-			for (bbs::count k = 0; k < stamp->Graphics.n(); k++) 
+			for (bbs::count k = 0; k < stamp->Graphics.n(); k++)
 				stamp->Graphics[k]->c = bbs::Colors::red;
-			
+
 			bbs::Vector BottomLeft = bbs::Vector(Dimensions.x * 0.075, Dimensions.y * 0.925);
       for(bbs::count i = 0; i < score.Systems.n(); i++)
       {
@@ -133,6 +133,8 @@ struct Score : public bbs::Portfolio
 
 //[/Headers]
 
+
+
 //==============================================================================
 /**
                                                                     //[Comments]
@@ -141,7 +143,9 @@ struct Score : public bbs::Portfolio
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class SaxTutorComponent  : public Component
+class SaxTutorComponent  : public Component,
+                           public SliderListener,
+                           public ButtonListener
 {
 public:
     //==============================================================================
@@ -154,6 +158,8 @@ public:
 
     void paint (Graphics& g);
     void resized();
+    void sliderValueChanged (Slider* sliderThatWasMoved);
+    void buttonClicked (Button* buttonThatWasClicked);
 
 
 
@@ -162,9 +168,12 @@ private:
     Score myScore;
 		bbs::JUCE bbsJuce;
 		bbs::JUCE::Properties bbsJuceProperties;
-		//[/UserVariables]
+    //[/UserVariables]
 
     //==============================================================================
+    Slider* tempoSlider;
+    TextButton* playButton;
+    Label* tempoLabel;
 
 
     //==============================================================================
@@ -172,4 +181,4 @@ private:
 };
 
 
-#endif   // __JUCER_HEADER_SAXTUTORCOMPONENT_SAXTUTORCOMPONENT_9EB00C00__
+#endif   // __JUCER_HEADER_SAXTUTORCOMPONENT_SAXTUTORCOMPONENT_60A4B398__

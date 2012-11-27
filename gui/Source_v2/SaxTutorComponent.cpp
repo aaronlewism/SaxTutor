@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  4 Nov 2012 6:00:38pm
+  Creation date:  26 Nov 2012 9:27:23pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -28,6 +28,7 @@
 
 #include "SaxTutorComponent.h"
 
+
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 using namespace bbs;
 using namespace tinyxml2;
@@ -40,12 +41,34 @@ bool writeSongToBBSXml(std::vector<sax::Measure>&, bbs::String path);
 
 //==============================================================================
 SaxTutorComponent::SaxTutorComponent ()
+    : tempoSlider (0),
+      playButton (0),
+      tempoLabel (0)
 {
+    addAndMakeVisible (tempoSlider = new Slider ("Tempo Slider"));
+    tempoSlider->setRange (40, 160, 1);
+    tempoSlider->setSliderStyle (Slider::LinearHorizontal);
+    tempoSlider->setTextBoxStyle (Slider::TextBoxLeft, false, 80, 20);
+    tempoSlider->addListener (this);
+
+    addAndMakeVisible (playButton = new TextButton ("Play Button"));
+    playButton->setButtonText ("Play");
+    playButton->addListener (this);
+
+    addAndMakeVisible (tempoLabel = new Label ("Tempo  Label",
+                                               "Tempo:"));
+    tempoLabel->setFont (juce::Font (15.0000f, juce::Font::plain));
+    tempoLabel->setJustificationType (Justification::centredRight);
+    tempoLabel->setEditable (false, false, false);
+    tempoLabel->setColour (TextEditor::textColourId, Colours::black);
+    tempoLabel->setColour (TextEditor::backgroundColourId, Colour (0x0));
+
 
     //[UserPreSize]
     //[/UserPreSize]
 
     setSize (800, 600);
+
 
     //[Constructor] You can add your own custom stuff here..
 		//TODO: Clean this shit up, for testing only
@@ -68,6 +91,9 @@ SaxTutorComponent::~SaxTutorComponent()
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
 
+    deleteAndZero (tempoSlider);
+    deleteAndZero (playButton);
+    deleteAndZero (tempoLabel);
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -79,11 +105,9 @@ void SaxTutorComponent::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
-    
+
     g.fillAll (Colours::white);
 
-    //bbsJuce.paint(&myScore, &bbsJuceProperties);
-    
     //[UserPaint] Add your own custom painting code here..
 		bbsJuceProperties.PageArea = bbs::RectangleInt(0,0,getWidth(),getHeight());
     bbsJuceProperties.PageVisibility = bbs::RectangleInt(0,0,getWidth(), getHeight());
@@ -98,8 +122,41 @@ void SaxTutorComponent::paint (Graphics& g)
 
 void SaxTutorComponent::resized()
 {
+    tempoSlider->setBounds (proportionOfWidth (0.1270f), proportionOfHeight (0.0105f), proportionOfWidth (0.2290f), proportionOfHeight (0.0395f));
+    playButton->setBounds (proportionOfWidth (0.3991f), proportionOfHeight (0.0105f), proportionOfWidth (0.1996f), proportionOfHeight (0.0395f));
+    tempoLabel->setBounds (proportionOfWidth (0.0045f), proportionOfHeight (0.0105f), proportionOfWidth (0.1202f), proportionOfHeight (0.0395f));
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
+}
+
+void SaxTutorComponent::sliderValueChanged (Slider* sliderThatWasMoved)
+{
+    //[UsersliderValueChanged_Pre]
+    //[/UsersliderValueChanged_Pre]
+
+    if (sliderThatWasMoved == tempoSlider)
+    {
+        //[UserSliderCode_tempoSlider] -- add your slider handling code here..
+        //[/UserSliderCode_tempoSlider]
+    }
+
+    //[UsersliderValueChanged_Post]
+    //[/UsersliderValueChanged_Post]
+}
+
+void SaxTutorComponent::buttonClicked (Button* buttonThatWasClicked)
+{
+    //[UserbuttonClicked_Pre]
+    //[/UserbuttonClicked_Pre]
+
+    if (buttonThatWasClicked == playButton)
+    {
+        //[UserButtonCode_playButton] -- add your button handler code here..
+        //[/UserButtonCode_playButton]
+    }
+
+    //[UserbuttonClicked_Post]
+    //[/UserbuttonClicked_Post]
 }
 
 
@@ -123,7 +180,7 @@ bbs::String DetermineResourcePath()
 
 
 void LoadResources(Score* myScore)
-{   
+{
   //Load some typefaces into the font.
   myScore->myFont.Add(bbs::Font::Special1)->ImportFromArray((bbs::byte*)Resources::joie_bellefont);
 
@@ -222,7 +279,7 @@ bool LoadSong(std::vector<sax::Measure>& measures, bbs::String path)
 			sax::NOTES pitch;
 			double duration;
 			int alter = 0;
-	
+
 			//Parse out the pitch
 			XMLElement* curRest = curNote->FirstChildElement("rest");
 			XMLElement* curPitch = curNote->FirstChildElement("pitch");
@@ -234,7 +291,7 @@ bool LoadSong(std::vector<sax::Measure>& measures, bbs::String path)
 				if (curStep != NULL && curOctave != NULL) {
 					char letter = curStep->GetText()[0];
 					int oct = atoi(curOctave->GetText());
-					
+
 					int val = 0;
 					switch (letter) {
 						case 'C':
@@ -261,7 +318,7 @@ bool LoadSong(std::vector<sax::Measure>& measures, bbs::String path)
 					};
 					val += 7 * (oct - 4);
 
-					if (letter >= 'A' && letter <= 'G' && oct >= 3 && oct <= 6 && 
+					if (letter >= 'A' && letter <= 'G' && oct >= 3 && oct <= 6 &&
 							val >= -9 && val <= 15) {
 						pitch = (sax::NOTES)val;
 					} else {
@@ -279,13 +336,13 @@ bool LoadSong(std::vector<sax::Measure>& measures, bbs::String path)
 			} else {
 				bbs::c >> "Parse error! Note needs either rest or pitch.\n";
 			}
-			
+
 			//Parse out the duration. Trust type over duration element
 			XMLElement* curType = curNote->FirstChildElement("type");
 			XMLElement* curDuration = curNote->FirstChildElement("duration");
 			if (curType != NULL) {
 				double baseVal = sax::typeToFraction(curType->GetText());
-				
+
 				if (baseVal <= 0) {
 					bbs::c >> "Parse error! Duration type not found.\n";
 					continue;
@@ -299,7 +356,7 @@ bool LoadSong(std::vector<sax::Measure>& measures, bbs::String path)
 					numDots++;
 					baseMultiplier += 1.0 / (1 << numDots);
 				}
-	
+
 				duration = baseMultiplier * baseVal * quarterDuration * 4;
 			} else if (curDuration != NULL) {
 				duration = atoi(curDuration->GetText());
@@ -321,14 +378,14 @@ bool LoadSong(std::vector<sax::Measure>& measures, bbs::String path)
 
 	//Fill first measure with rests
 	double usedDur = 0;
-	double restDur = (measures[0].quarterDuration * 4) / measures[0].beatType; 
+	double restDur = (measures[0].quarterDuration * 4) / measures[0].beatType;
 	for (int i = 0; i < measures[0].notes.size(); ++i) {
 		usedDur += measures[0].notes[i].duration;
 	}
 	usedDur = measures[0].quarterDuration * 4 - usedDur;
 	while (usedDur != 0) {
 		double curRest = usedDur > restDur ? restDur : usedDur;
-		measures[0].notes.insert(measures[0].notes.begin(), 
+		measures[0].notes.insert(measures[0].notes.begin(),
 														 sax::Note(sax::NotePitch(sax::REST, 0),curRest));
 		usedDur -= curRest;
 	}
@@ -410,7 +467,7 @@ bool writeSongToBBSXml(std::vector<sax::Measure>& measures, bbs::String path)
 			XMLElement* curMeter = bbsDoc.NewElement("meter");
 			sprintf(buffer, "meter:%d", item_id++);
 			curMeter->SetAttribute("id", buffer);
-			curMeter->SetAttribute("value", 
+			curMeter->SetAttribute("value",
 				sax::timeFromBeat(measures[i].beat, measures[i].beatType).c_str());
 			curIsland->InsertFirstChild(curMeter);
 			bbsScore->InsertEndChild(curIsland);
@@ -431,7 +488,7 @@ bool writeSongToBBSXml(std::vector<sax::Measure>& measures, bbs::String path)
 				curIsland->InsertFirstChild(curKey);
 				bbsScore->InsertEndChild(curIsland);
 			}
-		
+
 			if (measures[i].beat != measures[i-1].beat ||
 					measures[i].beatType != measures[i-1].beatType) {
 				curIsland = bbsDoc.NewElement("island");
@@ -444,7 +501,7 @@ bool writeSongToBBSXml(std::vector<sax::Measure>& measures, bbs::String path)
 				XMLElement* curMeter = bbsDoc.NewElement("meter");
 				sprintf(buffer, "meter:%d", item_id++);
 				curMeter->SetAttribute("id", buffer);
-				curMeter->SetAttribute("value", 
+				curMeter->SetAttribute("value",
 					sax::timeFromBeat(measures[i].beat, measures[i].beatType).c_str());
 				curIsland->InsertFirstChild(curMeter);
 				bbsScore->InsertEndChild(curIsland);
@@ -456,7 +513,7 @@ bool writeSongToBBSXml(std::vector<sax::Measure>& measures, bbs::String path)
 		for (int j = 0; j < measures[i].notes.size(); ++j) {
 			sax::Note note = measures[i].notes[j];
 			double md = 4 * measures[i].quarterDuration;
-	
+
 			//Base island
 			curIsland = bbsDoc.NewElement("island");
 			sprintf(buffer, "island:0,%d", island_id++);
@@ -572,6 +629,18 @@ BEGIN_JUCER_METADATA
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330000013"
                  fixedSize="0" initialWidth="800" initialHeight="600">
   <BACKGROUND backgroundColour="ffffffff"/>
+  <SLIDER name="Tempo Slider" id="3e0f570e11323395" memberName="tempoSlider"
+          virtualName="" explicitFocusOrder="0" pos="12.698% 1.053% 22.902% 3.947%"
+          min="40" max="160" int="1" style="LinearHorizontal" textBoxPos="TextBoxLeft"
+          textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <TEXTBUTTON name="Play Button" id="c5cdc5f1f4c52113" memberName="playButton"
+              virtualName="" explicitFocusOrder="0" pos="39.909% 1.053% 19.955% 3.947%"
+              buttonText="Play" connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <LABEL name="Tempo  Label" id="cf3337e4bb19765b" memberName="tempoLabel"
+         virtualName="" explicitFocusOrder="0" pos="0.454% 1.053% 12.018% 3.947%"
+         edTextCol="ff000000" edBkgCol="0" labelText="Tempo:" editableSingleClick="0"
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
+         fontsize="15" bold="0" italic="0" justification="34"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA
