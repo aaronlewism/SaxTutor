@@ -6,24 +6,26 @@ namespace sax {
 		//Assumes B4 = 0;
 		int base = (basePitch / 7) * 12;
 		base = (basePitch < 0) ? base - 12 : base;
-		switch (basePitch % 7) {
+		int note = basePitch % 7;
+		note = note < 0 ? note + 7 : note;
+		switch (note) {
 			case 6:
-				base += 4;
+				note += 4;
 				break;
 			case 5:
-				base += 3;
+				note += 3;
 				break;
 			case 4:
 			case 3:
-				base += 2;
+				note += 2;
 				break;
 			case 2:
-				base += 1;
+				note += 1;
 				break;
 				//Don't need anything for 0 or 1
 		};
 	
-		return base + alter;
+		return base + note + alter;
 	}
 
 	std::string numToWord(int num) {
