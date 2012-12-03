@@ -81,7 +81,7 @@ SaxTutorComponent::SaxTutorComponent ()
 		//TODO: Clean this shit up, for testing only
 		//TODO: Choose what song to load.
 		//TODO: Error handling
-		LoadSong(song, DetermineResourcePath() << "Songs/DrunkenLullabies.xml");
+		LoadSong(song, DetermineResourcePath() << "Songs/RubySoho.xml");
 		writeSongToBBSXml(song, DetermineResourcePath() << "tempBBS.xml");
 
 		//Load fonts and graphs
