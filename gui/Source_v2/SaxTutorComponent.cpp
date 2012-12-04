@@ -74,6 +74,7 @@ SaxTutorComponent::SaxTutorComponent ()
     //[Constructor] You can add your own custom stuff here..
 		boolLock  = PTHREAD_MUTEX_INITIALIZER;
 		playThread.comp = this;
+		saxThread.startThread();
 	
 		//Default tempo
 		tempoSlider->setValue(88);
@@ -98,6 +99,9 @@ SaxTutorComponent::~SaxTutorComponent()
 		playThread.signalThreadShouldExit();
 		playThread.waitForThreadToExit(2000);
 		playThread.stopThread(2000);
+		saxThread.signalThreadShouldExit();
+		saxThread.waitForThreadToExit(2000);
+		saxThread.stopThread(2000);
     //[/Destructor_pre]
 
     deleteAndZero (tempoSlider);

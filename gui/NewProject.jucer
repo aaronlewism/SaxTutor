@@ -4,7 +4,7 @@
               bundleIdentifier="com.alewis.SaxTutor" jucerVersion="3.0.0">
   <EXPORTFORMATS>
     <LINUX_MAKE targetFolder="Builds/Linux" juceFolder="../juce/modules" extraCompilerFlags="-pthread -DBELLEBONNESAGE_WITH_FREETYPE"
-                extraLinkerFlags="">
+                extraLinkerFlags="-lusb">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
                        targetName="SaxTutor"/>
@@ -15,6 +15,11 @@
   </EXPORTFORMATS>
   <MAINGROUP id="WKiFLj" name="SaxTutor">
     <GROUP id="{739CB47C-279A-89F8-1A10-3F9B8ED24861}" name="Source">
+      <FILE id="gV00Ft" name="hid.c" compile="1" resource="0" file="Source/hid.c"/>
+      <FILE id="aLxKg9" name="hid.h" compile="0" resource="0" file="Source/hid.h"/>
+      <FILE id="EgJE3a" name="SaxUSBThread.cpp" compile="1" resource="0"
+            file="Source/SaxUSBThread.cpp"/>
+      <FILE id="pRLIXx" name="SaxUSBThread.h" compile="0" resource="0" file="Source/SaxUSBThread.h"/>
       <FILE id="N88nJU" name="SaxTypes.cpp" compile="1" resource="0" file="Source/SaxTypes.cpp"/>
       <FILE id="cGRQPO" name="SaxTypes.h" compile="0" resource="0" file="Source/SaxTypes.h"/>
       <FILE id="nVR38F" name="tinyxml2.cpp" compile="1" resource="0" file="Source/tinyxml2.cpp"/>

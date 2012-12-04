@@ -26,6 +26,7 @@
 #include "JuceHeader.h"
 #include "../bbs/BelleBonneSage.h"
 #include "SaxTypes.h"
+#include "SaxUSBThread.h"
 #include <vector>
 #include <pthread.h>
 
@@ -190,6 +191,7 @@ private:
 		bbs::JUCE::Properties bbsJuceProperties;
 		std::vector<sax::Measure> song;
 		PlaySongThread playThread;
+		SaxUSBThread saxThread;
 		pthread_mutex_t boolLock;
     //[/UserVariables]
 
