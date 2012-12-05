@@ -48,8 +48,8 @@ void SaxUSBThread::run() {
 		}
 		memcpy(&note, buffer, sizeof(int32_t));
 	
-		count++;
-		if (0 == (count % 100))
+		//count++;
+		//if (0 == (count % 100))
 			bbs::c >> "Note: " << note << "\n";
 	}
 

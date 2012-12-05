@@ -69,18 +69,17 @@ int main(void)
 	while (1) {
 		if (!(PINC & (1<<0))) {
 			LED_ON;
-			//x = 1;
+			x = 1;
 		} else {
 			LED_OFF;
-			//x = -1;
+			x = -1;
 		}
 
 		r = usb_rawhid_recv(buffer, 0);
 		if (r > 0) { //Send a packet back
-			x++;
 			memcpy(buffer, &x, sizeof(int32_t));
 			usb_rawhid_send(buffer, 0);
 		}
-		_delay_ms(5);
+		_delay_ms(2);
 	}
 }
