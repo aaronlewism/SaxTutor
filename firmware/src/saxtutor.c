@@ -44,10 +44,12 @@
 
 int main(void)
 {
-	unsigned char i;
 	int8_t r;
-	int32_t x;
-	uint8_t* buffer = (uint8_t*)malloc(sizeof(int));
+	int32_t x = 0;
+	uint8_t buffer[64];
+	for (int i=0; i < 64; ++i) {
+		buffer[i] = 0;
+	}
 
 	// set for 16 MHz clock, and make sure the LED is off
 	CPU_PRESCALE(0);
@@ -65,18 +67,18 @@ int main(void)
 
 	// blink morse code messages!
 	while (1) {
-		if (PINC & (1<<0)) {
+		if (!(PINC & (1<<0))) {
 			LED_ON;
-			x = 0;
-			memcpy(buffer, &x, sizeof(int));
+			//x = 1;
 		} else {
 			LED_OFF;
-			x = -1;
-			memcpy(buffer, &x, sizeof(int));
+			//x = -1;
 		}
 
 		r = usb_rawhid_recv(buffer, 0);
 		if (r > 0) { //Send a packet back
+			x++;
+			memcpy(buffer, &x, sizeof(int32_t));
 			usb_rawhid_send(buffer, 0);
 		}
 		_delay_ms(5);
