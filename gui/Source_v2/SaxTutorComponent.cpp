@@ -491,6 +491,9 @@ bool LoadSong(std::vector<sax::Measure>& measures, bbs::String path)
 
   //Parse part;
 	measures.clear();
+	bool isRepeating = false;
+	int repeatStart = 0;
+	int repeatEnd = 0;
 	double quarterDuration = 256;
 	int beat = 4;
 	int beatType = 4;
@@ -543,107 +546,130 @@ bool LoadSong(std::vector<sax::Measure>& measures, bbs::String path)
 					bbs::c >> "Parse error! Time needs both beat and beatType.\n";
 				}
 			}
+
+			//Check for repeat
+			XMLElement* curStyle = attributes->FirstChildElement("measure-style");
+			if (curStyle != NULL) {
+				XMLElement* curRepeat = curStyle->FirstChildElement("measure-repeat");
+				if (curRepeat != NULL) {
+					if (curRepeat->Attribute("type", "start")) {
+						int val = atoi(curRepeat->GetText());
+						repeatEnd = measures.size();
+						repeatStart = repeatEnd - val;
+						isRepeating = true;
+					} else {
+						isRepeating = false;
+					}
+				}
+			}
 		}
 
 		sax::Measure meas(key, beat, beatType, quarterDuration);
 		//Parse notes of current measure
-		for (XMLElement* curNote = curMeasure->FirstChildElement("note");
-				 curNote != NULL;
-				 curNote = curNote->NextSiblingElement("note")) {
-			sax::NOTES pitch;
-			double duration;
-			int alter = 0;
+		if (isRepeating) {
+			int measNum = measures.size();
+			int repeatFrom = ((measNum - repeatEnd) % (repeatEnd - repeatStart)) +
+											 repeatStart;
+			meas.notes = measures[repeatFrom].notes;
+		} else {
+			for (XMLElement* curNote = curMeasure->FirstChildElement("note");
+					 curNote != NULL;
+					 curNote = curNote->NextSiblingElement("note")) {
+				sax::NOTES pitch;
+				double duration;
+				int alter = 0;
+	
+				//Parse out the pitch
+				XMLElement* curRest = curNote->FirstChildElement("rest");
+				XMLElement* curPitch = curNote->FirstChildElement("pitch");
+				if (curRest != NULL && curPitch == NULL) {
+					pitch = sax::REST;
+				} else if (curPitch != NULL) {
+					XMLElement* curStep = curPitch->FirstChildElement("step");
+					XMLElement* curOctave = curPitch->FirstChildElement("octave");
+					if (curStep != NULL && curOctave != NULL) {
+						char letter = curStep->GetText()[0];
+						int oct = atoi(curOctave->GetText());
+	
+						int val = 0;
+						switch (letter) {
+							case 'C':
+								val = -6;
+								break;
+							case 'D':
+								val = -5;
+								break;
+							case 'E':
+								val = -4;
+								break;
+							case 'F':
+								val = -3;
+								break;
+							case 'G':
+								val = -2;
+								break;
+							case 'A':
+								val = -1;
+								break;
+							case 'B':
+								val = 0;
+								break;
+						};
+						val += 7 * (oct - 4);
 
-			//Parse out the pitch
-			XMLElement* curRest = curNote->FirstChildElement("rest");
-			XMLElement* curPitch = curNote->FirstChildElement("pitch");
-			if (curRest != NULL && curPitch == NULL) {
-				pitch = sax::REST;
-			} else if (curPitch != NULL) {
-				XMLElement* curStep = curPitch->FirstChildElement("step");
-				XMLElement* curOctave = curPitch->FirstChildElement("octave");
-				if (curStep != NULL && curOctave != NULL) {
-					char letter = curStep->GetText()[0];
-					int oct = atoi(curOctave->GetText());
-
-					int val = 0;
-					switch (letter) {
-						case 'C':
-							val = -6;
-							break;
-						case 'D':
-							val = -5;
-							break;
-						case 'E':
-							val = -4;
-							break;
-						case 'F':
-							val = -3;
-							break;
-						case 'G':
-							val = -2;
-							break;
-						case 'A':
-							val = -1;
-							break;
-						case 'B':
-							val = 0;
-							break;
-					};
-					val += 7 * (oct - 4);
-
-					if (letter >= 'A' && letter <= 'G' && oct >= 3 && oct <= 6 &&
-							val >= -9 && val <= 15) {
-						pitch = (sax::NOTES)val;
+						if (letter >= 'A' && letter <= 'G' && oct >= 3 && oct <= 6 &&
+								val >= -9 && val <= 15) {
+							pitch = (sax::NOTES)val;
+						} else {
+							pitch = sax::REST;
+							bbs::c >> "Parse error! Step and octave are not within bounds.\n";
+						}
 					} else {
-						pitch = sax::REST;
-						bbs::c >> "Parse error! Step and octave are not within bounds.\n";
+						bbs::c >> "Parse error! Pitch needs both step and octave.\n";
+					}
+
+					XMLElement* curAlter = curPitch->FirstChildElement("alter");
+					if (curAlter != NULL) {
+						alter = atoi(curAlter->GetText());
 					}
 				} else {
-					bbs::c >> "Parse error! Pitch needs both step and octave.\n";
+					bbs::c >> "Parse error! Note needs either rest or pitch.\n";
 				}
 
-				XMLElement* curAlter = curPitch->FirstChildElement("alter");
-				if (curAlter != NULL) {
-					alter = atoi(curAlter->GetText());
-				}
-			} else {
-				bbs::c >> "Parse error! Note needs either rest or pitch.\n";
-			}
+				//Parse out the duration. Trust type over duration element
+				XMLElement* curType = curNote->FirstChildElement("type");
+				XMLElement* curDuration = curNote->FirstChildElement("duration");
+				if (curType != NULL) {
+					double baseVal = sax::typeToFraction(curType->GetText());
 
-			//Parse out the duration. Trust type over duration element
-			XMLElement* curType = curNote->FirstChildElement("type");
-			XMLElement* curDuration = curNote->FirstChildElement("duration");
-			if (curType != NULL) {
-				double baseVal = sax::typeToFraction(curType->GetText());
+					if (baseVal <= 0) {
+						bbs::c >> "Parse error! Duration type not found.\n";
+						continue;
+					}
 
-				if (baseVal <= 0) {
-					bbs::c >> "Parse error! Duration type not found.\n";
+					double baseMultiplier = 1.0;
+					int numDots = 0;
+					for (XMLElement* curDot = curNote->FirstChildElement("dot");
+							 curDot != NULL;
+							 curDot = curDot->NextSiblingElement("dot")) {
+						numDots++;
+						baseMultiplier += 1.0 / (1 << numDots);
+					}
+
+					duration = baseMultiplier * baseVal * quarterDuration * 4;
+				} else if (curDuration != NULL) {
+					duration = atoi(curDuration->GetText());
+					if (duration <= 0) {
+						continue;
+						bbs::c >> "Parse error! Duration needs positive value.\n";
+					}
+				} else {
+					bbs::c >> "Parse error! Note needs either type or duration!\n";
 					continue;
 				}
-
-				double baseMultiplier = 1.0;
-				int numDots = 0;
-				for (XMLElement* curDot = curNote->FirstChildElement("dot");
-						 curDot != NULL;
-						 curDot = curDot->NextSiblingElement("dot")) {
-					numDots++;
-					baseMultiplier += 1.0 / (1 << numDots);
-				}
-
-				duration = baseMultiplier * baseVal * quarterDuration * 4;
-			} else if (curDuration != NULL) {
-				duration = atoi(curDuration->GetText());
-				if (duration <= 0) {
-					continue;
-					bbs::c >> "Parse error! Duration needs positive value.\n";
-				}
-			} else {
-				bbs::c >> "Parse error! Note needs either type or duration!\n";
-				continue;
+	
+				meas.notes.push_back(sax::Note(sax::NotePitch(pitch, alter), duration));
 			}
-
-			meas.notes.push_back(sax::Note(sax::NotePitch(pitch, alter), duration));
 		}
 
 		//Check measure for accuracy?
