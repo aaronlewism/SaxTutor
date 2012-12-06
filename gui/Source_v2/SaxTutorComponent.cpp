@@ -177,7 +177,7 @@ void SaxTutorComponent::buttonClicked (Button* buttonThatWasClicked)
         //[UserButtonCode_playButton] -- add your button handler code here..
 				if (!playThread.isThreadRunning()) {
 					playButton->setButtonText("Stop Song");
-					playThread.startThread();
+					playThread.startThread(9);
 				} else {
 					playButton->setButtonText("Play Song");
 					playThread.signalThreadShouldExit();
