@@ -69,7 +69,7 @@ int main(void)
 	while (1) {
 		if (!(PINC & (1<<0))) {
 			LED_ON;
-			x = 1;
+			x = 0;
 		} else {
 			LED_OFF;
 			x = -1;

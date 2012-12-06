@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  26 Nov 2012 9:27:23pm
+  Creation date:  5 Dec 2012 8:04:44pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -34,7 +34,9 @@
 using namespace bbs;
 using namespace tinyxml2;
 bbs::String DetermineResourcePath();
+bbs::String convertString(juce::String);
 void LoadResources(Score*);
+void ReloadGraph(Score*);
 bool LoadSong(std::vector<sax::Measure>&, bbs::String path);
 bool writeSongToBBSXml(std::vector<sax::Measure>&, bbs::String path);
 void* playSong(void* ptr);
@@ -44,7 +46,8 @@ void* playSong(void* ptr);
 SaxTutorComponent::SaxTutorComponent ()
     : tempoSlider (0),
       playButton (0),
-      tempoLabel (0)
+      tempoLabel (0),
+      fileButton (0)
 {
     addAndMakeVisible (tempoSlider = new Slider ("Tempo Slider"));
     tempoSlider->setRange (40, 300, 1);
@@ -64,6 +67,10 @@ SaxTutorComponent::SaxTutorComponent ()
     tempoLabel->setColour (TextEditor::textColourId, Colours::black);
     tempoLabel->setColour (TextEditor::backgroundColourId, Colour (0x0));
 
+    addAndMakeVisible (fileButton = new TextButton ("file button"));
+    fileButton->setButtonText ("Load File");
+    fileButton->addListener (this);
+
 
     //[UserPreSize]
     //[/UserPreSize]
@@ -75,9 +82,9 @@ SaxTutorComponent::SaxTutorComponent ()
 		boolLock  = PTHREAD_MUTEX_INITIALIZER;
 		playThread.comp = this;
 		saxThread.startThread();
-	
+
 		//Default tempo
-		tempoSlider->setValue(88);
+		tempoSlider->setValue(132);
 
 		//TODO: Clean this shit up, for testing only
 		//TODO: Choose what song to load.
@@ -107,6 +114,7 @@ SaxTutorComponent::~SaxTutorComponent()
     deleteAndZero (tempoSlider);
     deleteAndZero (playButton);
     deleteAndZero (tempoLabel);
+    deleteAndZero (fileButton);
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -138,6 +146,7 @@ void SaxTutorComponent::resized()
     tempoSlider->setBounds (proportionOfWidth (0.1270f), proportionOfHeight (0.0105f), proportionOfWidth (0.2290f), proportionOfHeight (0.0395f));
     playButton->setBounds (proportionOfWidth (0.3991f), proportionOfHeight (0.0105f), proportionOfWidth (0.1996f), proportionOfHeight (0.0395f));
     tempoLabel->setBounds (proportionOfWidth (0.0045f), proportionOfHeight (0.0105f), proportionOfWidth (0.1202f), proportionOfHeight (0.0395f));
+    fileButton->setBounds (proportionOfWidth (0.6391f), proportionOfHeight (0.0105f), proportionOfWidth (0.1991f), proportionOfHeight (0.0394f));
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -166,21 +175,43 @@ void SaxTutorComponent::buttonClicked (Button* buttonThatWasClicked)
     {
         //[UserButtonCode_playButton] -- add your button handler code here..
 				if (!playThread.isThreadRunning()) {
+					playButton->setButtonText("Stop Song");
 					playThread.startThread();
+				} else {
+					playButton->setButtonText("Play Song");
+					playThread.signalThreadShouldExit();
 				}
-				//[/UserButtonCode_playButton]
+        //[/UserButtonCode_playButton]
+    }
+    else if (buttonThatWasClicked == fileButton)
+    {
+        //[UserButtonCode_fileButton] -- add your button handler code here..
+				juce::FileChooser chooser ("Please select the song you want to load...",
+																	 juce::File::getSpecialLocation (juce::File::userHomeDirectory),
+																	 "*.xml");
+				if (chooser.browseForFileToOpen()) {
+					bbs::String filePath = 
+						convertString(chooser.getResult().getFullPathName());
+					if (LoadSong(song, filePath)) {
+						writeSongToBBSXml(song, DetermineResourcePath() << "tempBBS.xml");
+						ReloadGraph(&myScore);
+						myScore.UpdatePiece();
+						repaint();
+					} else {
+						bbs::c >> "Couldn't load song: " << filePath << "\n";
+					}
+				}
+        //[/UserButtonCode_fileButton]
     }
 
     //[UserbuttonClicked_Post]
     //[/UserbuttonClicked_Post]
 }
 
-
-
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 const std::vector<sax::Measure> SaxTutorComponent::getSong() {
 	return song;
-} 
+}
 
 double SaxTutorComponent::getTempo() {
 	return tempoSlider->getValue();
@@ -188,26 +219,35 @@ double SaxTutorComponent::getTempo() {
 
 void SaxTutorComponent::colorNote(sax::Note n, bbs::Color c) {
 	//Find islandId
-	static int island_id = -1;
+	static int island_id = 0;
 	static int id = 0;
 	static int sysInd = 0;
 
 	if (island_id != n.island_id) {
-		id = n.island_id;
-		sysInd = 0;
+		if (island_id < n.island_id) {
+			id += n.island_id - island_id;
+		} else {
+			id = n.island_id;
+			sysInd = 0;
+		}
+		island_id = n.island_id;
 		while (id >= myScore.Systems[sysInd].Instants.n()) {
 			id -= myScore.Systems[sysInd].Instants.n();
 			id += 3; //barline, clef, key
 			sysInd++;
 		}
 	}
-	
+
 	//TODO Race risk?
 	//pthread_mutex_lock(&(myScore.systemsLock));
 	bbs::Pointer<bbs::modern::Stamp> stamp = myScore.Systems[sysInd].Instants[id][0];
 	for (bbs::count k = 0; k < stamp->Graphics.n(); k++)
 		stamp->Graphics[k]->c = c;
 	//pthread_mutex_unlock(&(myScore.systemsLock));
+}
+
+int SaxTutorComponent::getCurrentSaxPitchValue() {
+	return saxThread.note;
 }
 
 void PlaySongThread::run() {
@@ -227,7 +267,7 @@ void PlaySongThread::run() {
 	for (int i = 0; i < song.size(); ++i)
 		for (int j = 0; j < song[i].notes.size(); ++j)
 			comp->colorNote(song[i].notes[j], bbs::Colors::black);
-	
+
 	//Start playing the song
 	comp->colorNote(song[mIndex].notes[nIndex], bbs::Colors::blue);
 	{
@@ -238,10 +278,10 @@ void PlaySongThread::run() {
 	double startTime = juce::Time::getMillisecondCounterHiRes();
 	while(true) {
 		if (threadShouldExit()) { //Check for exit
-			break;
+			return;
 		}
 
-		{		
+		{
 			const MessageManagerLock mmLock;
 			double curTime = juce::Time::getMillisecondCounterHiRes();
 
@@ -285,7 +325,7 @@ void PlaySongThread::run() {
 				}
 			}
 			comp->colorNote(song[mIndex].notes[nIndex], bbs::Color(fred, fgreen, fblue));
-	
+
 			while (curBeat >= nextNoteBeat) {
 				//Increment note (checking for end of song
 				nIndex++;
@@ -295,20 +335,27 @@ void PlaySongThread::run() {
 					mIndex++;
 					if (mIndex >= song.size()) {
 						//Song has ended
-						comp->repaint();
+						{
+							const MessageManagerLock mmLock;
+							comp->repaint();
+						}
 						break;
 					}
 				}
-	
+
 				//Find when this beat ends.
 				lastNoteBeat = nextNoteBeat;
-				nextNoteBeat += (song[mIndex].notes[nIndex].duration / 
+				nextNoteBeat += (song[mIndex].notes[nIndex].duration /
 				song[mIndex].quarterDuration);
-			}	
+			}
 
 			if (mIndex >= song.size()) {
 				break;
 			}
+			if (threadShouldExit()) { //Check for exit
+				return;
+			}
+
 
 			curBeatCorrectTicks = 0;
 			curBeatTotalTicks = 0;
@@ -321,7 +368,7 @@ void PlaySongThread::run() {
 		}
 
 		//TODO Find correctness
-		curBeatCorrectTicks += song[mIndex].notes[nIndex].pitch.pitchValue() == 0;
+		curBeatCorrectTicks += comp->getCurrentSaxPitchValue() == 0;
 		curBeatTotalTicks++;
 
 		//Color note based on correctness
@@ -354,6 +401,9 @@ void PlaySongThread::run() {
 					fred = 1;
 				}
 			}
+			if (threadShouldExit()) { //Check for exit
+				return;
+			}
 			comp->colorNote(song[mIndex].notes[nIndex], bbs::Color(fred, fgreen, fblue));
 			{
 				const MessageManagerLock mmLock;
@@ -361,6 +411,7 @@ void PlaySongThread::run() {
 			}
 		}
 	}
+	return;
 }
 
 bbs::String DetermineResourcePath()
@@ -379,6 +430,13 @@ bbs::String DetermineResourcePath()
   return "";
 }
 
+bbs::String convertString(juce::String str) {
+	bbs::String ret = "";
+	for (int i = 0; i < str.length(); ++i) {
+		ret = ret << prim::unicode(str[i]);
+	}
+	return ret;
+}
 
 void LoadResources(Score* myScore)
 {
@@ -389,6 +447,10 @@ void LoadResources(Score* myScore)
 	bbs::File::Read(DetermineResourcePath() << "tempBBS.xml", myScore->graphXML);
 
 	myScore->LoadTypeface();
+}
+
+void ReloadGraph(Score* myScore) {
+	bbs::File::Read(DetermineResourcePath() << "tempBBS.xml", myScore->graphXML);
 }
 
 bool LoadSong(std::vector<sax::Measure>& measures, bbs::String path)
@@ -418,6 +480,7 @@ bool LoadSong(std::vector<sax::Measure>& measures, bbs::String path)
 	}
 
   //Parse part;
+	measures.clear();
 	double quarterDuration = 256;
 	int beat = 4;
 	int beatType = 4;
@@ -831,17 +894,20 @@ BEGIN_JUCER_METADATA
                  fixedSize="0" initialWidth="800" initialHeight="600">
   <BACKGROUND backgroundColour="ffffffff"/>
   <SLIDER name="Tempo Slider" id="3e0f570e11323395" memberName="tempoSlider"
-          virtualName="" explicitFocusOrder="0" pos="12.698% 1.053% 22.902% 3.947%"
+          virtualName="" explicitFocusOrder="0" pos="12.771% 1.127% 22.944% 3.944%"
           min="40" max="160" int="1" style="LinearHorizontal" textBoxPos="TextBoxLeft"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <TEXTBUTTON name="Play Button" id="c5cdc5f1f4c52113" memberName="playButton"
-              virtualName="" explicitFocusOrder="0" pos="39.909% 1.053% 19.955% 3.947%"
+              virtualName="" explicitFocusOrder="0" pos="39.827% 1.127% 19.913% 3.944%"
               buttonText="Play" connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <LABEL name="Tempo  Label" id="cf3337e4bb19765b" memberName="tempoLabel"
-         virtualName="" explicitFocusOrder="0" pos="0.454% 1.053% 12.018% 3.947%"
+         virtualName="" explicitFocusOrder="0" pos="0.433% 1.127% 12.121% 3.944%"
          edTextCol="ff000000" edBkgCol="0" labelText="Tempo:" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
          fontsize="15" bold="0" italic="0" justification="34"/>
+  <TEXTBUTTON name="file button" id="9414e03ce07246a0" memberName="fileButton"
+              virtualName="" explicitFocusOrder="0" pos="63.853% 1.127% 19.913% 3.944%"
+              buttonText="Load File" connectedEdges="0" needsCallback="1" radioGroupId="0"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

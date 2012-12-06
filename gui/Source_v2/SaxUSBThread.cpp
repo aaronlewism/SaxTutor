@@ -19,7 +19,7 @@ namespace bbs {
 void SaxUSBThread::run() {
 	int count = 0;
 	int t;
-	int32_t note;
+	int32_t _note;
 	uint8_t buffer[64];
 
 	bbs::c >> "Sax USB Thread started\n";
@@ -46,11 +46,11 @@ void SaxUSBThread::run() {
 			bbs::c >> "Recv timeout " << t << "\n";
 			continue;
 		}
-		memcpy(&note, buffer, sizeof(int32_t));
-	
+		memcpy(&_note, buffer, sizeof(int32_t));
+		note = _note;
 		//count++;
 		//if (0 == (count % 100))
-			bbs::c >> "Note: " << note << "\n";
+		//	bbs::c >> "Note: " << note << "\n";
 	}
 
 	hid::rawhid_close(0);

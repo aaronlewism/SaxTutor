@@ -6,6 +6,7 @@
 class SaxUSBThread : public juce::Thread {
 	public:
 		SaxUSBThread() : juce::Thread("Sax USB Thread") {}
+		int note;
 
 	private:
 		void run();

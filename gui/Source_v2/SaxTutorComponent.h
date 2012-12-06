@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  26 Nov 2012 9:27:23pm
+  Creation date:  5 Dec 2012 8:04:44pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -19,8 +19,8 @@
   ==============================================================================
 */
 
-#ifndef __JUCER_HEADER_SAXTUTORCOMPONENT_SAXTUTORCOMPONENT_60A4B398__
-#define __JUCER_HEADER_SAXTUTORCOMPONENT_SAXTUTORCOMPONENT_60A4B398__
+#ifndef __JUCER_HEADER_SAXTUTORCOMPONENT_SAXTUTORCOMPONENT_8E7ECE__
+#define __JUCER_HEADER_SAXTUTORCOMPONENT_SAXTUTORCOMPONENT_8E7ECE__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
@@ -175,6 +175,7 @@ public:
 		const std::vector<sax::Measure> getSong();
 		double getTempo();
 		void colorNote(sax::Note n, bbs::Color c);
+		int getCurrentSaxPitchValue();
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -199,6 +200,7 @@ private:
     Slider* tempoSlider;
     TextButton* playButton;
     Label* tempoLabel;
+    TextButton* fileButton;
 
 
     //==============================================================================
@@ -206,4 +208,4 @@ private:
 };
 
 
-#endif   // __JUCER_HEADER_SAXTUTORCOMPONENT_SAXTUTORCOMPONENT_60A4B398__
+#endif   // __JUCER_HEADER_SAXTUTORCOMPONENT_SAXTUTORCOMPONENT_8E7ECE__
