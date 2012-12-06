@@ -35,6 +35,7 @@ using namespace bbs;
 using namespace tinyxml2;
 bbs::String DetermineResourcePath();
 bbs::String convertString(juce::String);
+juce::String convertString(bbs::String);
 void LoadResources(Score*);
 void ReloadGraph(Score*);
 bool LoadSong(std::vector<sax::Measure>&, bbs::String path);
@@ -186,9 +187,9 @@ void SaxTutorComponent::buttonClicked (Button* buttonThatWasClicked)
     else if (buttonThatWasClicked == fileButton)
     {
         //[UserButtonCode_fileButton] -- add your button handler code here..
-				juce::FileChooser chooser ("Please select the song you want to load...",
-																	 juce::File::getSpecialLocation (juce::File::userHomeDirectory),
-																	 "*.xml");
+				juce::FileChooser chooser("Please select the song you want to load...",
+					juce::File(convertString(DetermineResourcePath() << "Songs/")),
+					"*.xml");
 				if (chooser.browseForFileToOpen()) {
 					bbs::String filePath = 
 						convertString(chooser.getResult().getFullPathName());
@@ -437,6 +438,15 @@ bbs::String convertString(juce::String str) {
 	}
 	return ret;
 }
+
+juce::String convertString(bbs::String str) {
+	juce::String ret = "";
+	for (bbs::count i = 0; i < str.c(); ++i) {
+		ret += wchar_t(str[i]);
+	}
+	return ret;
+}
+
 
 void LoadResources(Score* myScore)
 {
