@@ -48,9 +48,9 @@ void SaxUSBThread::run() {
 		}
 		memcpy(&_note, buffer, sizeof(int32_t));
 		note = _note;
-		//count++;
-		//if (0 == (count % 100))
-		//	bbs::c >> "Note: " << note << "\n";
+		count++;
+		if (0 == (count % 50))
+			bbs::c >> "Note: " << note << "\n";
 	}
 
 	hid::rawhid_close(0);

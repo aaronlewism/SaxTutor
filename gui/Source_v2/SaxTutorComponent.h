@@ -176,6 +176,7 @@ public:
 		double getTempo();
 		void colorNote(sax::Note n, bbs::Color c);
 		int getCurrentSaxPitchValue();
+		void donePlaying();
     //[/UserMethods]
 
     void paint (Graphics& g);

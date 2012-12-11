@@ -33,6 +33,7 @@
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 using namespace bbs;
 using namespace tinyxml2;
+bool compareNote(int musicNote, int saxNote);
 bbs::String DetermineResourcePath();
 bbs::String convertString(juce::String);
 juce::String convertString(bbs::String);
@@ -251,6 +252,10 @@ int SaxTutorComponent::getCurrentSaxPitchValue() {
 	return saxThread.note;
 }
 
+void SaxTutorComponent::donePlaying() {
+	playButton->setButtonText("Play Song");
+}
+
 void PlaySongThread::run() {
 	const std::vector<sax::Measure> song = comp->getSong();
 	double tempo = comp->getTempo();
@@ -369,7 +374,9 @@ void PlaySongThread::run() {
 		}
 
 		//TODO Find correctness
-		curBeatCorrectTicks += comp->getCurrentSaxPitchValue() == 0;
+		curBeatCorrectTicks += song[mIndex].notes[nIndex].pitch.basePitch == sax::REST ||
+													 compareNote(song[mIndex].notes[nIndex].pitch.pitchValue(),
+																			 comp->getCurrentSaxPitchValue());
 		curBeatTotalTicks++;
 
 		//Color note based on correctness
@@ -412,7 +419,22 @@ void PlaySongThread::run() {
 			}
 		}
 	}
+	{
+		const MessageManagerLock mmLock;
+		comp->donePlaying();	
+	}
 	return;
+}
+
+bool compareNote(int musicNote, int saxNote) {
+	if (musicNote >= 15) return saxNote == 2;
+	else if (musicNote <= -9) return saxNote == -9;
+	else if (musicNote > 2) musicNote -= 12;
+
+	if (musicNote == -3) return saxNote == -4;
+	else if (musicNote == -8) return saxNote == -9;
+
+	return saxNote == musicNote;
 }
 
 bbs::String DetermineResourcePath()

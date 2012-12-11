@@ -25,6 +25,7 @@
 #include <avr/pgmspace.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <util/delay.h>
 #include "usb_rawhid.h"
 
@@ -57,8 +58,11 @@ int main(void)
 	LED_ON;
 	
 	// Configure inputs to be pull up
-	DDRC &= ~(1<<0);
-	PORTC |= (1<<0);
+	DDRB &= ~((1<<0) | (1<<1) | (1<<2) | (1<<3) | (1<<4));
+	PORTB |= ((1<<0) | (1<<1) | (1<<2) | (1<<3) | (1<<4));
+	DDRE &= ~((1<<6) | (1<<7));
+	PORTE |= ((1<<6) | (1<<7));
+
 
 	usb_init();
 
@@ -67,12 +71,62 @@ int main(void)
 
 	// blink morse code messages!
 	while (1) {
-		if (!(PINC & (1<<0))) {
+		bool t0 = !(PINB & (1<<3));
+		bool t1 = !(PINB & (1<<0));
+		bool t2 = !(PINE & (1<<6));
+		bool t3 = !(PINE & (1<<7));
+		
+		bool b0 = !(PINB & (1<<2));
+		bool b1 = !(PINB & (1<<4));
+		bool b2 = !(PINB & (1<<1));
+
+		if (t0) {
+			if (t2) {
+				if (t3) {
+					if (b0) {
+						if (b1) {
+							if (b2) {
+								x = -9; //D
+							} else {
+								x = -7; //E
+							}
+						} else {
+							x = -6; //F
+						}
+					} else {
+						if (b1) {
+							x = -5; //F#
+						} else {
+							x = -4; //G
+						}
+					}
+				} else {
+					x = -2; //A
+				}
+			} else {
+				if (t1) {
+					x = -1; //Bb
+				} else {
+					if (b0) {
+						x = -1; //Bb
+					} else {
+						x = 0; //B
+					}
+				}
+			}
+		} else {
+			if (t2) {
+				x = 1; // C 
+			} else {
+				x = 2; // C#
+			}
+		}
+
+		//Test shit
+		if (!(PINB & (1<<0))) {
 			LED_ON;
-			x = 0;
 		} else {
 			LED_OFF;
-			x = -1;
 		}
 
 		r = usb_rawhid_recv(buffer, 0);
